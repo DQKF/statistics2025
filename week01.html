@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week01 - R語言基礎</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", "Arial", sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+        }
+        .header p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .section h3 {
+            color: #764ba2;
+            margin-top: 25px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        code {
+            font-family: "Consolas", "Monaco", monospace;
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e83e8c;
+        }
+        .comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .output {
+            background-color: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .task {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .note {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>國立政治大學選研中心陳陸輝教授社會科學統計實作</h1>
+        <p><strong>Week01 - R語言基礎</strong></p>
+        <p>日期：2025年12月4日</p>
+        <p>講員：倪世傑 博士</p>
+        <p>E-Mail：georgenee0502@gmail.com</p>
+    </div>
+
+    <div class="section">
+        <h2>1. 建立 DataFrame（資料框）</h2>
+        <p>列聯表是我們進行分析的基礎。建議 column name 使用英文顯示較為便捷。</p>
+        
+<pre>df <- data.frame(
+  height      = c(167, 199, 212, 193, 175, 180, 172),
+  name        = c("陳一","王二","張三","趙四","廖五","孫六","洪七"),
+  position    = c("左外野手","中外野手","右外野手","游擊手","三壘手","二壘手","一壘手"),
+  edu         = c("二專","高中","大學","碩士","碩士","大學","高中"),
+  birth_place = c("新北市新莊區","台北市士林區","新北市五股區","雲林縣四湖鄉","嘉義市東區","桃園市大溪區","新竹市"),
+  birth_day   = c("2002-12-23","1998-07-02","2001-02-27","1999-03-23","1997-10-05", "1979-08-28","1999-12-23"),     
+  birth_year  = c(2002,1998,2001,1999,1997,1979,1999),
+  gender      = c("男","女","男","女","男","男","女")
+)
+
+View(df)  <span class="comment"># 檢視資料框</span></pre>
+        
+        <div class="note">
+            <strong>提示：</strong>"#" 符號後的文字為註解，不會被執行。
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. 檢查 Column 的屬性</h2>
+        
+        <h3>使用 class() 檢查變項屬性</h3>
+<pre>class(df)
+<span class="comment"># [1] "data.frame"</span>
+
+class(df$height)
+<span class="comment"># [1] "numeric"</span>
+
+class(df$gender)
+<span class="comment"># [1] "character"</span></pre>
+
+        <h3>一次檢查所有 column 的屬性</h3>
+<pre>sapply(df, typeof)
+<span class="comment"># 輸出結果：
+#      height        name    position         edu birth_place   birth_day  birth_year      gender 
+#    "double" "character" "character" "character" "character" "character"    "double" "character"</span></pre>
+
+        <div class="note">
+            <strong>說明：</strong>double 代表「雙精度浮點數（double-precision floating-point number）」，是一種用來儲存小數或連續數值的基本數值型資料。
+        </div>
+
+        <div class="task">
+            <h3>任務清單：</h3>
+            <ul>
+                <li>任務1：將 name 更改為 factor 格式</li>
+                <li>任務2：將 birth_year 更改為 integer 格式</li>
+                <li>任務3：將 gender 更改為 factor 格式</li>
+                <li>任務4：將 birth_day 更改為 date 格式</li>
+                <li>任務5：將 position 更改為 factor 格式</li>
+            </ul>
+        </div>
+
+<pre>df$name <- as.factor(df$name)
+df$birth_year <- as.integer(df$birth_year)
+df$gender <- as.factor(df$gender)
+df$birth_day <- as.Date(df$birth_day)
+df$position <- as.factor(df$position)
+
+<span class="comment"># 同理，如欲改為數值型資料，使用 as.numeric()
+# 字串型資料使用 as.character()</span></pre>
+
+        <h3>使用 summary() 查看資料摘要</h3>
+<pre>summary(df)</pre>
+
+        <div class="output">
+<pre>     height        name     position        
+ Min.   :167.0   孫六:1   Length:7          
+ 1st Qu.:173.5   廖五:1   Class :character  
+ Median :180.0   張三:1   Mode  :character  
+ Mean   :185.4   洪七:1                     
+ 3rd Qu.:196.0   王二:1                     
+ Max.   :212.0   趙四:1                     
+                 陳一:1                     
+
+   birth_day            birth_year   gender
+ Min.   :1979-08-28   Min.   :1979   女:3  
+ 1st Qu.:1998-02-17   1st Qu.:1998   男:4  
+ Median :1999-03-23   Median :1999         
+ Mean   :1997-01-13   Mean   :1996         
+ 3rd Qu.:2000-07-26   3rd Qu.:2000         
+ Max.   :2002-12-23   Max.   :2002</pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. 次數分配</h2>
+        
+        <h3>安裝並載入套件</h3>
+<pre>install.packages(c("sjmisc","dplyr","pacman"))
+pacman::p_load(sjmisc, dplyr, pacman)
+
+<span class="comment"># 或者使用 library() 載入</span>
+library(sjmisc)
+library(dplyr)
+library(pacman)</pre>
+
+        <h3>使用 frq() 查看次數分配</h3>
+<pre>frq(df$gender)</pre>
+
+        <div class="output">
+<pre>Value | N | Raw % | Valid % | Cum. %
+女    | 3 | 42.86 |   42.86 |  42.86
+男    | 4 | 57.14 |   57.14 | 100.00
+&lt;NA&gt;  | 0 |  0.00 |    &lt;NA&gt; |   &lt;NA&gt;</pre>
+        </div>
+
+<pre><span class="comment"># 轉換為 dataframe</span>
+df_gender <- data.frame(frq(df$gender))
+View(df_gender)</pre>
+
+        <h3>建立交叉表（contingency table）</h3>
+<pre>table(df$gender, df$birth_year)</pre>
+
+        <div class="output">
+<pre>    1979 1997 1998 1999 2001 2002
+女     0    0    1    2    0    0
+男     1    1    0    0    1    1</pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. 資料合併 rbind & cbind</h2>
+        
+        <h3>建立新的資料框 df1</h3>
+<pre>df1 <- data.frame(
+  height      = c(201, 189),
+  name        = c("洪八","廖九"),
+  position    = c("教練","總教練"),
+  edu         = c("大學","大學"),
+  birth_place = c("台東縣池上鄉","南投縣市信義鄉區"),
+  birth_day   = c("1986-01-32","1977-08-21"),     
+  birth_year  = c(1986,1977),
+  gender      = c("男","男")
+)</pre>
+
+        <h3>修改 cell value</h3>
+<pre><span class="comment"># 修正洪八的 birth_day</span>
+df1[1,"birth_day"] <- "1986-01-31"
+df1$birth_day <- as.Date(df1$birth_day)
+
+<span class="comment"># 修正廖九的 birth_place</span>
+df1[2,"birth_place"] <- "南投縣信義鄉"</pre>
+
+        <h3>使用 rbind() 合併資料（按列合併）</h3>
+<pre><span class="comment"># 先將 columns 的屬性一致化</span>
+df1$name <- as.factor(df1$name)
+df1$birth_year <- as.integer(df1$birth_year)
+df1$gender <- as.factor(df1$gender)
+df1$position <- as.factor(df1$position)
+
+df2 <- rbind(df, df1)
+<span class="comment"># 注意：每一個 column 的排列順序必須一致</span></pre>
+
+        <h3>使用 cbind() 加入新的 column（按欄合併）</h3>
+<pre><span class="comment"># 建立一個新的 "weight" column</span>
+df_weight <- data.frame(
+  weight = c(67, 99, 91, 73, 75, 80, 72, 87, 96)
+)
+
+df3 <- cbind(df2, df_weight)
+View(df3)</pre>
+
+        <h3>資料排序</h3>
+<pre><span class="comment"># 數字由少（上）到多（下）</span>
+df4 <- df3[order(df3$height),]
+View(df4)
+
+<span class="comment"># 數字由多（上）到少（下）</span>
+df5 <- df3[rev(order(df3$height)),]
+View(df5)</pre>
+    </div>
+
+    <div class="section">
+        <h2>5. 消除 rows & columns</h2>
+        
+<pre><span class="comment"># 消除 rows 1, 3, 4, 5</span>
+df6 <- df5[-c(1,3:5),]  <span class="comment"># "," 在後</span>
+
+<span class="comment"># 消除 column 5</span>
+df7 <- df5[,-c(5)]  <span class="comment"># "," 在前</span>
+
+<span class="comment"># 消除重複的 rows</span>
+df8 <- rbind(df5, df4)  <span class="comment"># 先製造一個具有重複檔案的暫存值</span>
+
+<span class="comment"># 以 name 為指標刪除重複</span>
+df9 <- df8[!duplicated(df8$name),]  <span class="comment"># "!" 代表刪除</span></pre>
+    </div>
+
+    <div class="section">
+        <h2>6. 擷取 grepl() 與取代 gsub()</h2>
+        
+        <h3>使用 grepl() 擷取資料</h3>
+<pre><span class="comment"># 擷取 gender 為女的 rows</span>
+df_女 <- df5[grepl("女", df5$gender),]
+
+<span class="comment"># 擷取 gender 為女，且身高在 190-200 之間</span>
+df_女_身高 <- df5[
+  grepl("女", df5$gender) & 
+  df5$height > 190 & 
+  df5$height < 200, 
+]</pre>
+
+        <h3>使用 gsub() 取代資料</h3>
+<pre><span class="comment"># 將 gender 為女的 rows 取代為男</span>
+df5$gender <- gsub("女", "男", df5$gender)
+<span class="comment"># gsub("替換掉的", "替換為")</span></pre>
+    </div>
+
+    <div class="section">
+        <h2>7. 工作階段結束</h2>
+        
+<pre><span class="comment"># 清理不需要的暫存檔</span>
+rm(df6, df7)
+
+<span class="comment"># 儲存需要的暫存檔為 CSV</span>
+write.csv(df5, "df5.csv")
+
+<span class="comment"># 儲存資料檔</span>
+save.image("社會科學統計2025.RData")
+
+<span class="comment"># 儲存先前 run 過的 syntax</span>
+savehistory("1103統計.Rhistory")  <span class="comment"># 可以在 RStudio & Sublime Text 開啟</span></pre>
+
+        <div class="note">
+            <strong>🌸 重要提醒：</strong>當你重新開啟 RStudio 後進行下一個階段作業前，務必先 loading 過去的資料。如未重新 loading 而以同一檔名儲存，將會覆蓋掉之前的資料。
+        </div>
+
+<pre><span class="comment"># 載入先前儲存的資料</span>
+load("~/Documents/社會科學統計2025/社會科學統計2025.RData")</pre>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+        <p style="color: #6c757d; margin: 0;">
+            © 倪世傑 George S. J. Nee
+        </p>
+    </div>
+</body>
+</html>
