@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week03 - 二元 Logit 羅吉斯回歸</strong></p>
+    <p>日期：2025年12月18日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>Logit羅吉斯回歸
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=======================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week03 - 推論統計:二元Logit羅吉斯回歸  
+Date:2025-12-18 
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=======================================
+<span class="toc-banner">目錄</span>
+1.資料簡述與研究主旨
+2.變項及其所在位置
+3.假設
+4.重新設定 reference group
+5.共線性檢測：測試所有的自變項之間是否具有共線性
+6.建立第一個Logit回歸模型 m_glm01
+7.模型一係數解讀-intercept
+8.模型一係數解讀-favor_Han_N
+9.模型一係數解讀- trust_Tsai_N
+10.模型一係數解讀-國族身份認同 identity
+11.模型一係數解讀-居住區域 region
+12.模型一係數解讀-學歷 edu
+13.模型一係數解讀-年齡 age
+14.建立第二個Logit回歸模型 m_glm02 前的變項改編前置作業
+15.建立第二個Logit回歸模型 m_glm02
+16.第二個模型解釋 m_glm02
+17.模型二係數解讀 intercept
+18.模型二係數解讀 對蔡英文總統的信任程度trust_Tsai_score
+19.模型二係數解讀 政黨認同因素 partisanship_N
+20.模型二係數解讀 國族身份認同 identity
+21.模型二係數解讀 居住區域因素 region
+22.模型二係數解讀 年齡區間 age_N
+23.不同年齡組別 對 蔡總統國防政策滿意狀況
+   的成對對比分析(Pairwise Contrast)
+24.建立第三個模型 m_age 重新估計 logit 模型（年齡當作類別變項）
+25.用 emmeans 做年齡區間的 pairwise contrast
+26.同場加映1 從機率轉化為勝算與勝算比
+27.在 log-odds 尺度上的成對對比 Tukey檢測
+28.同場加應2 建立第四個模型 m_cat
+29.存檔
+
+<span class="toc-banner">1.資料簡述與研究主旨</span>
+採用資料：TEDS2024-T_PAO3.sav
+        data manipulation後的檔案為 CX.csv
+研究主旨：對蔡英文總統國防政策支持程度，是否受到對韓國瑜的好感度、
+對蔡英文總統的信任程度、政黨認同傾向、國族身份認同、
+居住地點、學歷與年齡等因素的關係
+
+<span class="toc-banner">2.變項及其所在位置</span>
+      變項            變項內容            所在位置             變項類型
+1.對中國的信任程度A      0-10            CX$trust_CN          numeric
+2.對中國的信任程度B   不信任 普通 信任     CX$trust_CN_N        ordinal
+3.對韓國瑜的好感度       0-10             CX$favor_Han        numeric
+4.對韓國瑜的好感度    不喜歡 普通 喜歡      CX$favor_Han_N       ordinal
+5.對蔡英文的信任度       0-10             CX$trust_Tsai       numeric
+6.對蔡英文的信任度    不信任 普通 信任       CX$trust_Tsai_N      ordinal
+7.對蔡的國防政策滿意度  滿意、不滿意          CX$Natl_Defence   binary/category
+8.政黨認同        泛綠、泛藍、民眾黨、不偏   CX$partisanship_N   category
+9.國族身份認同     台灣人 雙重認同 中國人        CX$identity     category
+10.居住地點        北臺灣 中臺灣 雲嘉南 南臺灣    CX$region       category
+11.學歷           小學與未入學 中學 大專 研究所   CX#edu       ordinal/category
+12.年齡          20s,30s,40s,50s,60+        CX$age_N      ordinal/category
+
+<span class="toc-banner">3.假設</span>
+Warning：在研究中，假設需有強烈的理論支持，本教材僅供教學用，故略之。
+
+虛無假設01：對韓國瑜的好感度，與蔡的國防政策滿意度之間沒有關聯性。
+對立假設01：韓國瑜的好感度，與蔡的國防政策滿意度之間存在關聯性。
+方向性預期：對韓國瑜的好感度越高，對蔡的國防政策滿意度越低。
+
+虛無假設02：對蔡英文總統的信任度，與蔡的國防政策滿意度之間沒有關聯性。
+對立假設02：對蔡英文總統的信任度，與蔡的國防政策滿意度之間存在關聯性。
+方向性預期：對蔡英文總統的信任度越高，對蔡的國防政策滿意度越高。
+
+虛無假設03：政黨認同，與蔡的國防政策滿意度之間沒有關聯性。
+對立假設03：政黨認同，與蔡的國防政策滿意度之間存在關聯性。
+方向性預期：泛綠陣營支持者對蔡的國防政策滿意度，比泛藍陣營、台灣民眾黨與都不偏支持者為高。
+
+虛無假設04：國族身份認同，與蔡的國防政策滿意度之間沒有關聯性。
+對立假設04：國族身份認同，與蔡的國防政策滿意度之間存在關聯性。
+方向性預期：台灣人身份認同相較於雙重認同與中國人身份認同，對蔡的國防政策滿意度較高。
+
+虛無假設05：受訪者居住地點，與蔡的國防政策滿意度之間沒有關聯性。
+對立假設05：受訪者居住地點，與蔡的國防政策滿意度之間沒有關聯性。
+          居住在南臺灣與雲嘉南地區者，對蔡的國防政策滿意度較高。。
+
+虛無假設06：受訪者學歷，與對對蔡的國防政策滿意度之間沒有關聯性。
+對立假設06：受訪者學歷對蔡的國防政策滿意度之間存在關聯性。
+
+虛無假設07：受訪者的年齡，與對蔡的國防政策滿意度之間沒有關聯性
+對立假設07：受訪者的年齡對蔡的國防政策滿意度之間存在關聯性。
+
+<span class="toc-banner">4.重新設定 reference group</span>
+reference group的調整
+1. 在 categorical 變項中，應採取當中 n 最多的原則。
+2. baseline(reference) n 較大 → baseline 的平均數估計比較穩定 → 
+mean(觀察組別) - mean(baseline) 的標準誤通常會較小、比較穩定。
+3. 如 n 比較少，其 sampling variability 就比較大，表現出來就是 SE 較大、
+   CI 較寬，不僅估計較為不精確，對新樣本也較為敏感。
+4. 設定各category 變項的 reference group
+
+說明
+本次回歸是任意選擇的結果，reference應依循 n == 最多的原則。
+1) 處理 CX$partisanship_N (參照組: 泛綠陣營)
+<span class="ctoc-banner">CX$partisanship_N <- relevel(
+                             factor(CX$partisanship_N),
+                             ref = "泛綠陣營"
+                            )</span>
+
+2) 處理 CX$identity (參照組: 臺灣人)
+如果您不知道確切的 levels 順序，使用 relevel() 更方便
+<span class="ctoc-banner">CX$identity <- relevel(
+                       factor(CX$identity),
+                       ref = "臺灣人"
+                      )</span>
+
+3) 處理 CX$region (參照組: 北臺灣)
+<span class="ctoc-banner">CX$region <- relevel(
+                     factor(CX$region),
+                     ref = "北臺灣"
+                     )</span>
+
+4) 檢查 dep.variaible CX$Natl_Defence 
+<span class="ctoc-banner">levels(CX$Natl_Defence)</span>
+[1] "不滿意" "滿意"
+表示 不滿意 == 0, 滿意 == 1。
+
+<span class="toc-banner">5.共線性檢測：測試所有的自變項之間是否具有共線性</span>
+<span class="ctoc-banner">m_glm01 <- glm(
+  Natl_Defence ~ favor_Han_N + 
+    trust_Tsai_N +
+    partisanship_N +
+    identity +
+    region +
+    edu +
+    age_N,
+  data   = CX,
+  family = binomial  # 二元 dep.variable, YES or NO ...etc
+)</span>
+<span class="ctoc-banner">performance::check_collinearity(m_glm01)</span>
+Low Correlation
+
+          Term  VIF   VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+   favor_Han_N 1.40 [1.30, 1.53]     1.18      0.71     [0.65, 0.77]
+  trust_Tsai_N 1.46 [1.35, 1.59]     1.21      0.69     [0.63, 0.74]
+partisanship_N 1.90 [1.74, 2.08]     1.38      0.53     [0.48, 0.57]
+      identity 1.32 [1.24, 1.44]     1.15      0.76     [0.69, 0.81]
+        region 1.14 [1.08, 1.24]     1.07      0.88     [0.81, 0.93]
+           edu 1.43 [1.33, 1.56]     1.20      0.70     [0.64, 0.75]
+         age_N 1.71 [1.57, 1.87]     1.31      0.59     [0.53, 0.64]
+
+說明
+1) VIF
+VIF 值 (Variance Inflation Factor，變異膨脹因子(膨脹係數)。
+全部介於 1.14–1.90（常用門檻：>5 注意、>10 嚴重）→ 很安全。
+調整後的 VIF 值介於 1.07-1.38之間。→ 很安全。
+VIF 在 95%信賴區間也在安全範圍內。
+
+2) Tolerance (共線性容忍度)
+範圍介於 0-1之間。Tolerance值接近 0 表示幾乎被其餘變數線性重建 → 共線性高。
+接近1表示幾乎不被其他變數解釋 → 共線性低。
+如果一個變數的Tolerance值過低，表示它在模型中是一個「多餘」的變數，
+因為它的資訊已經被其他變數有效地捕捉到了。
+全部介於 0.53-0.88之間。
+Tolerance 在95%信賴區間有在安全範圍內。
+😍以上的自變項諸元不存在共線性問題。
+
+3) VIF + Tolerance
+臨界值             判斷依據               實質意義
+Tolerance < 0.20  VIF > 5   變數超過 80%的變異可以被其他自變數解釋，潛在的共線性問題
+Tolerance < 0.10  VIF > 10  變數超過 90%的變異是重複的。嚴重的多重共線性。
+VIF 或 Tolerance 任一指標判斷即可，不必同時都達成。
+
+<span class="toc-banner">6.建立第一個Logit回歸模型 m_glm01</span>
+虛無假設（H₀）：在所有自變項皆為其參考類別的「基準群體」中，
+對蔡英文總統國防政策「感到滿意」的機率等於 50%。(這也表示「不滿意」的機率也是50%。)
+
+對立假設（H₁）：在基準群體中，對國防政策「感到滿意」的機率不等於 50%。
+表示ind.variable會對蔡英文總統國防政策的滿意度產生影響。
+
+說明
+glm() = Generalized Linear Model
+在 R 中，glm() 函數用來估計 廣義線性模型（Generalized Linear Model），
+包括邏輯斯迴歸（logistic regression）、Poisson 迴歸等迴歸模型。
+<span class="ctoc-banner">m_glm01 <- glm(
+  Natl_Defence ~ favor_Han_N + 
+                 trust_Tsai_N +
+                 partisanship_N +
+                 identity +
+                 region +
+                 edu +
+                 age_N,
+                 data   = CX,
+                 family = binomial  # 二元 dep.variable, YES or NO ...etc
+)</span>
+說明
+這是任意選擇的結果，reference應依循 n == 最多的原則。
+<span class="ctoc-banner">summary(m_glm01)</span>
+
+Call:
+glm(formula = Natl_Defence ~ favor_Han_N + trust_Tsai_N + partisanship_N + 
+   identity + region + edu + age_N, family = binomial, data = CX)
+
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***
+favor_Han_N.L            -0.194864   0.208488  -0.935 0.349966    
+favor_Han_N.Q            -0.119846   0.161108  -0.744 0.456946    
+trust_Tsai_N.L            2.518038   0.230618  10.919  < 2e-16 ***
+trust_Tsai_N.Q            0.231266   0.162371   1.424 0.154357    
+partisanship_N泛藍陣營   -1.282176   0.349305  -3.671 0.000242 ***
+partisanship_N台灣民眾黨 -1.124202   0.321539  -3.496 0.000472 ***
+partisanship_N都不偏     -1.019830   0.301390  -3.384 0.000715 ***
+identity中國人           -1.387970   1.080765  -1.284 0.199056    
+identity雙重認同         -0.745549   0.223864  -3.330 0.000867 ***
+region中臺灣              0.225405   0.246103   0.916 0.359721    
+region南臺灣             -0.007951   0.278523  -0.029 0.977226    
+region雲嘉南              0.671973   0.306569   2.192 0.028386 *  
+edu.L                     0.097242   0.386343   0.252 0.801274    
+edu.Q                     0.053352   0.288225   0.185 0.853146    
+edu.C                    -0.140171   0.190647  -0.735 0.462195    
+age_N.L                   0.167219   0.264454   0.632 0.527178    
+age_N.Q                  -0.440694   0.225425  -1.955 0.050590 .  
+age_N.C                   0.116822   0.224187   0.521 0.602303    
+age_N^4                   0.133120   0.213988   0.622 0.533883    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+   Null deviance: 1310.65  on 980  degrees of freedom
+Residual deviance:  706.84  on 961  degrees of freedom
+ (221 observations deleted due to missingness)
+AIC: 746.84
+
+Number of Fisher Scoring iterations: 5
+
+<span class="toc-banner">7.模型一係數解讀-intercept</span>
+1)intercept的意義
+在 logit迴歸裡，截距就是當所有自變項都在基準值時，
+Y = 1 的 log-odds（對數勝算）」；
+把它轉回機率，就是「參考群體（reference group）」發生事件的預測機率。
+在本模型中，dep.variable 為 滿意(1) & 不滿意(0)的二分法。
+#「韓國瑜（不喜歡）+ 蔡英文（不信任） + 政黨(泛綠陣營) + 國族認同(臺灣人) + 
+基準地區(北臺灣) + 基準學歷（小學與未入學） + 基準年齡(20s)」
+這一群人在「滿意國防政策」這件事上的 log-odds (對數勝算)。
+
+Remind you again:
+這個基準群體是『所有自變項皆為參考類別』的那一組：
+   - 對韓國瑜好感度 = 參考組（不喜歡）
+   - 對蔡英文信任度 = 參考組（不信任）
+   - 政黨認同      = 參考組（泛綠陣營）
+   - 國族認同      = 參考組（臺灣人）
+   - 居住地區      = 參考地區（北臺灣）
+   - 學歷         = 最低學歷那組(小學與未入學)
+   - 年齡         = 最年輕那組(20s)
+
+   
+若將 β0 (estimate)取 exp(β0)，得到的是「勝算」(odds)：
+  odds = exp(β0) = p / (1 - p)
+若要得到「機率」p，必須用 logit 的反函數：
+  p = exp(β0) / (1 + exp(β0))  # 或使用 plogis(β0)
+
+2)intercept 係數解讀 
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***                         
+2.1) Estimate
+本模型的截距估計值為 1.160（SE = 0.286, z = 4.055, p < 0.001）。
+在 logit 模型中，截距代表：
+當所有自變項都處於各自的參考水準（baseline / reference group）時，
+受訪者「對國防政策感到滿意」（Y = 1）的 log-odds（對數勝算）為 1.160。
+
+1. 先將截距轉成『勝算』（odds）：
+<span class="ctoc-banner">exp(1.160)</span>
+[1] 3.189933
+
+   odds = exp(1.160) ≈ 3.19
+   這表示：在基準群體中，
+   對蔡英文總統國防政策『滿意』相對於『不滿意』的勝算約為 3.19 : 1，
+   也就是說，滿意的人數大約是不滿意的 3.19 倍。
+
+2. 再將截距轉成『機率』：
+   p = exp(1.160) / (1 + exp(1.160)) ≈ 3.19 / 4.19 ≈ 0.76
+   或者用 plogis() 換算預測機率:
+
+<span class="ctoc-banner">plogis(1.16)</span>
+[1] 0.7613327
+   換句話說，在基準群體中，預測「滿意國防政策」的機率約為 76%。
+
+🔥🔥提醒🔥🔥
+基準群體是 身份認同為臺灣人、泛綠陣營支持者、居住在北臺灣、
+         學歷為大專、年齡為60+的這一群體。
+
+1.2.2) 檢定結果：
+z = 4.055, p < 0.001，顯示我們可以拒絕「β0 = 0」這個虛無假設。WHY?
+z-value 這個係數表示 距離 0 「有幾個標準差」。
+在假設檢定中，在95%的置信區間(CI)落在2個標準差外(+- 1.96)，
+表示估計結果顯著偏離假設中的基準值，具有統計顯著性。
+4.055 > 1.96，表示距離2個標準差甚多，具有統計上的顯著性，表示該結果
+不太可能是由隨機變異偶然產生，因此，拒絕虛無假設（H₀）
+截距提供的是『基準群體』的參考機率（這裡約 76%，且顯著高於 50%），
+而各自變項的係數，則是在這個基準上「往上或往下」調整機率的效果。
+
+<span class="toc-banner">8.模型一模型一係數解讀-favor_Han_N</span>
+Coefficients:
+                          Estimate Std. Error    z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055  5.02e-05 ***                         
+favor_Han_N.L            -0.194864   0.208488  -0.935  0.349966    
+favor_Han_N.Q            -0.119846   0.161108  -0.744  0.456946 
+
+說明
+線性(L) 不顯著
+二項式（Q）不顯著
+在之後可以考慮刪除。
+
+<span class="toc-banner">9.模型一模型一係數解讀- trust_Tsai_N</span>
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***   
+trust_Tsai_N.L            2.518038   0.230618  10.919  < 2e-16 ***
+trust_Tsai_N.Q            0.231266   0.162371   1.424 0.154357 
+
+說明
+線性(L) 顯著。信任程度從「不信任 → 普通 → 信任」，滿意蔡英文國防政策的
+log-odds 大致呈線性上升。
+二項式（Q）不顯著。沒有明顯「彎曲」或 U 型，線性假設合理。
+保留 trust_Tsai_N 到下一個階段的logit model。
+
+
+<span class="toc-banner">10.模型一模型一係數解讀-政黨認同 partisanship_N</span>
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***  
+partisanship_N泛藍陣營   -1.282176   0.349305  -3.671 0.000242 ***
+partisanship_N台灣民眾黨 -1.124202   0.321539  -3.496 0.000472 ***
+partisanship_N都不偏     -1.019830   0.301390  -3.384 0.000715 ***
+
+reference group == 泛綠陣營
+說明
+泛藍陣營、台灣民眾黨的支持者與「都不偏」的受訪民眾，
+支持蔡英文總統的國防政策，都比泛綠陣營顯著地少。
+保留 partisanship_N 到下一個階段的logit model。
+
+<span class="toc-banner">10.模型一模型一係數解讀-國族身份認同 identity</span>
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***
+identity中國人            -1.387970   1.080765  -1.284 0.199056    
+identity雙重認同          -0.745549   0.223864  -3.330 0.000867 ***
+reference group == 臺灣人
+
+<span class="ctoc-banner">exp(-0.745549)</span>
+[1] 0.4744737
+
+說明
+在控制其他變項後，以「臺灣人」為參考組，雙重認同者對蔡英文國防政策感到滿意的勝算，
+約為臺灣人的47%左右（β = -0.75, p < 0.001）， 這是 雙重認同相對於臺灣人的「勝算比」（odds ratio）：
+雙重認同 的勝算 = 臺灣人勝算 × 0.474。
+顯示雙重認同者相對較不支持現行國防政策。至於自認「中國人」者，係數雖為負值，
+但未達統計顯著（p ≈ 0.20），可能與樣本數偏少、估計不穩定有關，
+因此暫時不作過度推論，但在後續模型中仍予以保留。
+保留 identity 到下一個階段的logit model。
+
+<span class="toc-banner">11.模型一模型一係數解讀-居住區域 region</span>
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***
+region中臺灣              0.225405   0.246103   0.916 0.359721    
+region南臺灣             -0.007951   0.278523  -0.029 0.977226    
+region雲嘉南              0.671973   0.306569   2.192 0.028386 * 
+reference group == 北臺灣 (這裡是否採用reference group較為適當？)
+
+說明
+居住區域為 雲嘉南 的受訪民眾，支持蔡英文總統的國防政策，
+要比 北臺灣 顯著地多。
+中臺灣與南臺灣不顯著。
+保留 region 到下一個階段的logit model。
+
+<span class="toc-banner">12.模型一模型一係數解讀-學歷 edu</span>
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***
+edu.L                     0.097242   0.386343   0.252 0.801274    
+edu.Q                     0.053352   0.288225   0.185 0.853146    
+edu.C                    -0.140171   0.190647  -0.735 0.462195       
+
+說明
+皆不顯著。
+（不）保留 edu 到下一個階段的logit model。要看理論上學歷的重要性何在。
+就暫先保留吧！
+
+<span class="toc-banner">13.模型一模型一係數解讀-年齡 age 係數解讀</span>
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               1.160156   0.286138   4.055 5.02e-05 ***   
+age_N.L                   0.167219   0.264454   0.632 0.527178    
+age_N.Q                  -0.440694   0.225425  -1.955 0.050590 .  
+age_N.C                   0.116822   0.224187   0.521 0.602303    
+age_N^4                   0.133120   0.213988   0.622 0.533883    
+
+說明
+除二項式以外皆不顯著。
+二項式 p == 0.050590 ，在顯著邊緣，納入下個階段的logit model繼續觀察。
+保留 age 到下一個階段的logit model。
+
+
+<span class="toc-banner">14.建立第二個Logit回歸模型 m_glm02 前的變項改編前置作業</span>
+目標
+改編對蔡英文總統的信任度。
+原因
+trust_Tsai_N 在model_glm01中呈現線性狀態，因此，可以將 不信任 普通 信任 
+視為三個「距離相等」的等級，測量對蔡總統的信任度每晉升一級：
+不信任 → 普通
+普通 → 信任
+對蔡英文總統國防政策信任度的變化。
+<span class="ctoc-banner">CX$trust_Tsai_score <- as.numeric(CX$trust_Tsai_N) - 1</span>
+不信任 → 0
+普通   → 1
+信任   → 2
+<span class="ctoc-banner">table(CX$trust_Tsai_N, CX$trust_Tsai_score)</span>         0   1   2
+ 不信任  285  0   0
+ 普通     0  353  0
+ 信任     0   0  536
+
+<span class="toc-banner">15.建立第二個Logit回歸模型 m_glm02</span>
+<span class="ctoc-banner">m_glm02 <- glm(Natl_Defence ~ trust_Tsai_score +
+                              partisanship_N +
+                              identity +
+                              region +
+                              edu+
+                              age_N,
+                              data   = CX,
+                              family = binomial 
+                 )</span>
+
+<span class="ctoc-banner">summary(m_glm02)</span>
+Call:
+glm(formula = Natl_Defence ~ trust_Tsai_score + partisanship_N + 
+    identity + region + edu + age_N, family = binomial, data = CX)
+
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792    
+trust_Tsai_score          1.78225    0.16273  10.952  < 2e-16 ***
+partisanship_N泛藍陣營    -1.45176    0.33258  -4.365 1.27e-05 ***
+partisanship_N台灣民眾黨  -1.20301    0.31652  -3.801 0.000144 ***
+partisanship_N都不偏     -1.09391    0.29254  -3.739 0.000185 ***
+identity中國人           -1.69102    1.08370  -1.560 0.118664    
+identity雙重認同         -0.80536    0.21662  -3.718 0.000201 ***
+region中臺灣              0.19130    0.24574   0.778 0.436302    
+region南臺灣             -0.03840    0.27507  -0.140 0.888968    
+region雲嘉南              0.62830    0.30247   2.077 0.037780 *  
+edu.L                     0.08598    0.37804   0.227 0.820080    
+edu.Q                     0.07584    0.28208   0.269 0.788052    
+edu.C                    -0.15614    0.18832  -0.829 0.407039    
+age_N.L                   0.18618    0.26125   0.713 0.476058    
+age_N.Q                  -0.44493    0.22484  -1.979 0.047833 *  
+age_N.C                   0.10727    0.22378   0.479 0.631672    
+age_N^4                   0.15741    0.21294   0.739 0.459756    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+   Null deviance: 1320.38  on 989  degrees of freedom
+Residual deviance:  712.26  on 973  degrees of freedom
+ (212 observations deleted due to missingness)
+AIC: 746.26
+
+Number of Fisher Scoring iterations: 5
+
+<span class="toc-banner">16.第二個模型解釋 m_glm02</span>
+說明
+   基準群體是『所有自變項皆為參考類別』的那一組：
+     - 對蔡英文信任度 = 參考組（不信任 0）
+     - 政黨認同      = 參考組（泛綠陣營）
+     - 國族認同      = 參考組（臺灣人）
+     - 居住地區      = 參考地區（北臺灣）
+     - 學歷         = 最低學歷那組(小學與未入學)
+     - 年齡         = 最年輕那組(20s)
+   這是任意選擇的結果，reference應依循 n == 最多的原則。
+
+
+<span class="toc-banner">17.模型二係數解讀 intercept</span>
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792 
+
+截距估計值為 -0.523（SE = 0.372, z = -1.41, p = 0.16）。
+在 logit 模型中，截距代表：
+「當所有自變項都處於各自的參考水準（baseline / reference group  = 0）時，
+   Natl_Defence = 1（對國防政策『滿意』）的對數勝算（log-odds）。」
+
+1. 轉成『勝算』（odds）：
+   odds = exp(-0.52267) ≈ 0.59
+     exp(-0.52267)
+     #[1] 0.5929353
+   → 在基準群體中，「滿意」相對於「不滿意」的勝算約為 0.59 : 1，
+     也就是說，不滿意的人略多於滿意的人。
+
+2. 轉成『機率』（probability）：
+   p = odds / (1 + odds) ≈ 0.59 / 1.59 ≈ 0.37.2 or
+     plogis(-0.52267)
+     #[1] 0.3722281
+   → 在基準群體中，預測「滿意國防政策」的機率約為 37%。
+
+3. 檢定虛無假設 H0: β0 = 0：
+   β0 = 0 在 logit 尺度上等同於 p0 = 0.5（機率為 50%）。
+   這裡 z = -1.41、p = 0.16 > 0.05，
+   → 無法拒絕 H0，表示基準群體的滿意機率在統計上
+     並沒有顯著偏離 50%。
+
+4. 實務上
+   截距提供的是「基準群體」的參考機率（約 37.2%，且不顯著偏離 50%），
+   模型解釋的重點仍在其他自變項係數與勝算比（OR），
+   即這些變項如何在此基準機率之上拉高或拉低滿意的機率。
+
+5. 結論
+   對於所有控制變數均處於基線水準 trust_Tsai_score=0、
+   認同臺灣人、泛綠陣營、北臺灣等等的受訪者，其對「國防感到滿意」的預測機率大約是
+   37.2%，且該截距項在統計上是不顯著的。這表明我們缺乏足夠的證據來拒絕虛無假設。
+   換句話說，受訪者對國防感到滿意的預測機率約為37.2%然而，由於截距項的 p-value 不顯著 
+   (0.16 > .05)，我們無法得出該基準群體的滿意機率在統計上顯著不同於50%的結論。
+   這並不奇怪，因為在Logit型中，預測機率 = 50% 是 Log-Odds 的零點。
+   這只是一個事實陳述，😀對模型的預測能力沒有負面影響。
+
+<span class="toc-banner">18.模型二係數解讀 對蔡英文總統的信任程度trust_Tsai_score</span>
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792    
+trust_Tsai_score          1.78225    0.16273  10.952  < 2e-16 ***
+
+回歸係數說明
+exp(coef(m_glm02)["trust_Tsai_score"]) or exp(1.78225)
+5.943242 
+
+在控制政黨認同、國族認同、地區、學歷與年齡後，
+對蔡英文總統信任度每上升一個等級（例如從不信任→普通、或普通→信任），
+對其國防政策「滿意」的勝算大約增加 5.94 倍。
+不信任 → 信任 == 5.94^2 == 35.2836倍。
+並在統計上具有顯著性。
+
+<span class="toc-banner">19.模型二係數解讀 政黨認同因素 partisanship_N</span>
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792    
+partisanship_N泛藍陣營    -1.45176    0.33258  -4.365 1.27e-05 ***
+partisanship_N台灣民眾黨  -1.20301    0.31652  -3.801 0.000144 ***
+partisanship_N都不偏     -1.09391    0.29254  -3.739 0.000185 ***
+
+reference group  == 泛綠陣營
+
+<span class="btoc-banner">####🎈🎈🎈解說部分，極重要！
+1) 泛藍陣營回歸係數說明
+
+泛藍陣營的 Estimates == -1.45176 → log(Odds Ratio)  勝算比的對數
+ log(OR) == -1.45176
+ 自然對數的底數為 e == 2.71828
+ 通過 exp()指數化轉化為 勝算比
+  2.71828^{-1.45176}  == exp(-1.45176) == 0.2341576
+  泛藍陣營相對泛綠陣營的 勝算比（odds ratio） ≈ 0.234
+  也就是說：
+  在控制其他變項的情況下，
+  A. 相較於泛綠陣營支持者，泛藍陣營支持者對蔡總統國防政策感到滿意的勝算比約為0.234。
+  或是
+  B. 泛藍支持者對蔡總統國防政策感到滿意的勝算是泛綠陣營支持者的0.234倍。
+  或是
+  C. 泛藍支持者對蔡總統國防政策感到滿意的勝算較泛綠支持者約低 76.6%。
+    （也就是只有泛綠的約 24%。勝算比 OR ≈ 0.234，代表勝算約減少 76.6%。)
+  或是
+  D. 泛綠陣營支持者對蔡總統國防政策感到滿意者約為泛藍陣營的4.273倍。(1/0.234 = 4.273)</span>
+
+
+轉化為「預測機率」
+plogis(Estimate) ==  是「把某個 log-odds 轉成機率」
+
+計算方式
+<span class="ctoc-banner">b0 <- -0.5226661</span> #(intercept) ≈ -0.52267
+
+基準：泛綠陣營
+<span class="ctoc-banner">p_green <- plogis(b0)</span>
+<span class="ctoc-banner">p_green</span>
+#(Intercept) 
+  0.372229  模型 m_glm02 "intercept"的預測機率。
+            在reference == 泛綠陣營 的設定下，
+            intercept 的預測機率，也是對泛綠陣營的預測機率。
+
+泛藍陣營的預測機率
+<span class="ctoc-banner">p_blue  <- plogis(b0 + b_blue)</span>
+<span class="ctoc-banner">plogis(-0.52267 + -1.45176) </span>plogis(截距的estimate + 泛藍的estimate)
+<span class="ctoc-banner">b_blue</span>  <-  -1.45176 #(泛藍的Estimates)
+p_green == 0.3722 #在其它變項都控制的情況下，
+                  #支持泛綠陣營民眾對蔡總統國防政策滿意度的預測機率。
+p_blue  == 0.1219 #在其它變項都控制的情況下，
+                  #支持泛藍陣營民眾對蔡總統國防政策滿意度的預測機率。
+
+🦀結論🦀
+在控制其它變項的情況下，泛藍陣營支持者「感到滿意」的勝算，
+只有泛綠支持者的 23.4%。
+也可以反過來說，泛綠陣營支持者對蔡總統國防政策「感到滿意」的勝算，
+約為泛藍陣營支持者的 1 / 0.234 ≈ 4.27 倍。
+這個勝算比反映在預測機率上，泛綠支持者對蔡總統國防政策滿意機率約為 37%，
+而泛藍支持者僅約 12%，兩者相差約 25 個百分點（絕對差距）。
+
+Holding other variables constant, 
+pan-Blue identifiers have 77% lower odds of approving 
+defense policy compared to pan-Green identifiers (OR = 0.234, p < 0.001)
+
+2) 台灣民眾黨支持者回歸係數說明
+勝算比計算
+<span class="ctoc-banner">exp(-1.20301)</span>
+[1] 0.300289
+預測機率計算
+<span class="ctoc-banner">plogis(-0.52267 + -1.20301)</span>
+[1] 0.151141
+
+🦀結論🦀
+在控制其它變項的情況下，台灣民眾黨支持者「感到滿意」的勝算，
+只有泛綠支持者的 30.0%。
+也可以反過來說，泛綠陣營支持者對蔡總統國防政策「感到滿意」的勝算，
+約為台灣民眾黨支持者的 1 / 0.3 ≈  3.3 倍。
+這個勝算比反映在預測機率上，泛綠支持者對蔡總統國防政策滿意機率約為 37%，
+而台灣民眾黨支持者僅約 15%，兩者相差約 22 個百分點。
+
+3) 「都不偏」回歸係數說明
+勝算比計算
+<span class="ctoc-banner">exp(-1.09391)</span>
+[1] 0.3349045
+
+預測機率計算
+<span class="ctoc-banner">plogis(-0.52267 + -1.09391)</span>
+#[1] 0.1656771
+
+🦀結論🦀
+在控制其它變項的情況下，「都不偏」者「感到滿意」的勝算，
+只有泛綠支持者的 33.49%。
+也可以反過來說，泛綠陣營支持者對蔡總統國防政策「感到滿意」的勝算，
+約為台灣民眾黨支持者的 1 / 0.3349 ≈  2.99 倍。
+這個勝算比反映在預測機率上，泛綠支持者對蔡總統國防政策滿意機率約為 37%，
+而「都不偏」的受訪者僅約 16.57%，兩者相差約 20.4 個百分點。
+
+<span class="toc-banner">20.模型二係數解讀 國族身份認同 identity</span>
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792    
+identity中國人           -1.69102    1.08370  -1.560 0.118664    
+identity雙重認同         -0.80536    0.21662  -3.718 0.000201 ***
+
+reference group  == 臺灣人
+
+1) 勝算比計算 雙重認同
+<span class="ctoc-banner">exp(-0.80536)</span>
+[1] 0.446927
+
+2) 預測機率計算
+<span class="ctoc-banner">plogis(-0.52267 + -0.80536)</span>
+[1] 0.2094854
+
+🦀結論🦀
+中國人身份：統計上並未具備顯著水準。
+在控制其它條件後，國族身份認同為「雙重認同」者「感到滿意」的勝算，
+只有泛綠支持者的 44.7%。
+也可以反過來說，「臺灣人」身份認同者對蔡總統國防政策「感到滿意」的勝算，
+約為雙重認同者的 1 / 0.447 ≈  2.24 倍。
+這個勝算比反映在預測機率上，臺灣人身份認同者對蔡總統國防政策滿意機率約為 37%，
+而「雙重身分認同」的受訪者僅約 20.95%，兩者相差約 16 個百分點。
+
+<span class="toc-banner">21.模型二係數解讀 居住區域因素 region</span>
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267   0.37180  -1.406 0.159792    
+region中臺灣              0.19130    0.24574   0.778 0.436302    
+region南臺灣             -0.03840    0.27507  -0.140 0.888968    
+region雲嘉南              0.62830    0.30247   2.077 0.037780 *  
+
+reference group  = 北臺灣
+
+勝算比計算 雲嘉南地區
+<span class="ctoc-banner">exp(0.62830)</span>
+[1] 1.874421
+
+預測機率計算
+<span class="ctoc-banner">plogis(-0.52267 + 0.62830)</span>
+#[1] 0.526383
+
+🦀結論🦀
+在控制其它條件後，居住區域為「雲嘉南地區」者相較於「北臺灣」者，
+其對蔡英文國防政策「感到滿意」的勝算約為 1.87倍（OR = 1.874421）。
+這個勝算比反映在預測機率上，居住在「北臺灣」對者蔡總統國防政策滿意機率約為 37%，
+而「居住在雲嘉南地區」的受訪者約為 52.68%，兩者相差約 15.7 個百分點。
+
+也就是說，在同樣的信任度、政黨認同、國族認同、學歷與年齡條件之下，
+雲嘉南地區的民眾，對蔡英文國防政策「感到滿意」的機率
+顯著高於北臺灣民眾，而中臺灣與南臺灣則不具統計上的顯著性。
+
+<span class="toc-banner">22.模型二係數解讀 年齡區間 age_N</span>
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.52267    0.37180  -1.406 0.159792      
+age_N.L                   0.18618    0.26125   0.713 0.476058    
+age_N.Q                  -0.44493    0.22484  -1.979 0.047833 *  
+age_N.C                   0.10727    0.22378   0.479 0.631672    
+age_N^4                   0.15741    0.21294   0.739 0.459756 
+
+1)視覺化觀察分佈趨勢
+年齡區間與是否支持蔡總統國防政策的關聯性，
+是一個二項式，先以圖的方式觀察轉折趨勢。
+
+<span class="ctoc-banner">library(dplyr)
+library(ggplot2)</span>
+Natl_Defence 是 factor，levels: "不滿意", "滿意"
+<span class="ctoc-banner">age_prob <- CX %>%
+  filter(!is.na(Natl_Defence), !is.na(age_N)) %>%
+  group_by(age_N) %>%
+  summarise(
+    n     = n(),
+    p     = mean(Natl_Defence == "滿意"),             各年齡組的滿意比例
+    se    = sqrt(p * (1 - p) / n),                    標準誤（近似）
+    lower = p - 1.96 * se,
+    upper = p + 1.96 * se
+  )</span>
+
+<span class="ctoc-banner">age_prob</span>
+A tibble: 5 × 6
+ age_N     n     p     se lower upper
+ <ord> <int> <dbl>  <dbl> <dbl> <dbl>
+1 20s     122 0.557 0.0450 0.469 0.646
+2 30s     171 0.620 0.0371 0.547 0.693
+3 40s     230 0.587 0.0325 0.523 0.651
+4 50s     208 0.606 0.0339 0.539 0.672
+5 60+     315 0.635 0.0271 0.582 0.688
+
+<span class="ctoc-banner">p_蔡國防政策年齡<- ggplot(age_prob, aes(x = age_N, y = p, group = 1)) +
+  geom_point(size = 3) +
+  geom_line() +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    x = "年齡區間",
+    y = "對蔡英文國防政策「滿意」的比例",
+    title = "不同年齡區間對蔡英文國防政策滿意度（描述性統計）"
+  ) +
+  theme_minimal(base_size = 14)</span>
+<span class="ctoc-banner">ggsave("p_蔡國防政策年齡.png", p_蔡國防政策年齡, 
+       width = 12, height = 8, dpi = 300, bg = "white")</span> 
+                               # bg == background color
+<span class="ctoc-banner">p_蔡國防政策年齡</span>
+
+說明
+圖 p_蔡國防政策年齡 呈現不同年齡區間對蔡英文國防政策的滿意比例。
+20s 族群的滿意比例約為 56%，其後在 30s上升至約 62%，
+40s 略為下降至 59%，50s 再回升至 61%，60+約為 64%。
+雖然各年齡組的 95% 信賴區間高度重疊，顯示差異並非極為懸殊，
+但整體趨勢顯示滿意度大致隨年齡略為上升，
+且中年族群（40s）略為偏低，與logit 模型中年齡二次項顯著、
+呈現輕微非線性關係的結果相互呼應。
+
+<span class="toc-banner">23.不同年齡組別 對 蔡總統國防政策滿意狀況
+      的成對對比分析(Pairwise Contrast)</span>
+
+1)確認年齡順序
+<span class="ctoc-banner">CX$age_N <- factor(
+  CX$age_N,
+  levels = c("20s", "30s", "40s", "50s", "60+"),
+  ordered = FALSE 因要進行成對檢測，需先打破ordinal 的設定。
+)</span>
+
+2)確認 reference group
+<span class="ctoc-banner">CX$Natl_Defence <- relevel(CX$Natl_Defence, ref = "不滿意")</span>
+
+<span class="toc-banner">24.建立第三個模型 m_age 重新估計 logit 模型（年齡當作類別變項）</span>
+<span class="ctoc-banner">m_age <- glm(
+  Natl_Defence ~ trust_Tsai_score + partisanship_N +
+    identity + region + edu + age_N,
+  family = binomial,
+  data   = CX
+)</span>
+<span class="ctoc-banner">summary(m_age)</span>
+
+Call:
+glm(formula = Natl_Defence ~ trust_Tsai_score + partisanship_N + 
+   identity + region + edu + age_N, family = binomial, data = CX)
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -0.89335    0.45502  -1.963 0.049607 *  
+trust_Tsai_score          1.78225    0.16273  10.952  < 2e-16 ***
+partisanship_N泛藍陣營   -1.45176    0.33258  -4.365 1.27e-05 ***
+partisanship_N台灣民眾黨 -1.20301    0.31652  -3.801 0.000144 ***
+partisanship_N都不偏     -1.09391    0.29254  -3.739 0.000185 ***
+identity中國人           -1.69102    1.08370  -1.560 0.118664    
+identity雙重認同         -0.80536    0.21662  -3.718 0.000201 ***
+region中臺灣              0.19130    0.24574   0.778 0.436302    
+region南臺灣             -0.03840    0.27507  -0.140 0.888968    
+region雲嘉南              0.62830    0.30247   2.077 0.037780 *  
+edu.L                     0.08598    0.37804   0.227 0.820080    
+edu.Q                     0.07584    0.28208   0.269 0.788052    
+edu.C                    -0.15614    0.18832  -0.829 0.407039    
+age_N30s                  0.42331    0.33237   1.274 0.202799    
+age_N40s                  0.72140    0.32401   2.226 0.025985 *  
+age_N50s                  0.40537    0.35114   1.154 0.248325    
+age_N60+                  0.30335    0.35761   0.848 0.396283    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+  Null deviance: 1320.38  on 989  degrees of freedom
+Residual deviance:  712.26  on 973  degrees of freedom
+ (212 observations deleted due to missingness)
+AIC: 746.26
+
+Number of Fisher Scoring iterations: 5
+
+
+<span class="toc-banner">25.用 emmeans 做年齡區間的 pairwise contrast</span>
+<span class="ctoc-banner">install.packages("emmeans")</span>
+<span class="ctoc-banner">library(emmeans)</span>
+
+1)先算出各年齡組的「邊際預測值」（在其他變項平均或參考值下）
+<span class="ctoc-banner">emm_age <- emmeans(m_age, ~ age_N, type = "response")</span>
+<span class="ctoc-banner">emm_age</span>
+age_N  prob    SE  df   asymp.LCL asymp.UCL
+ 20s   0.433 0.113 Inf     0.236     0.653
+ 30s   0.538 0.110 Inf     0.329     0.734
+ 40s   0.611 0.101 Inf     0.406     0.783
+ 50s   0.534 0.108 Inf     0.327     0.729
+ 60+   0.508 0.101 Inf     0.319     0.695
+
+Results are averaged over the levels of: partisanship_N, identity, region, edu 
+Confidence level used: 0.95 
+Intervals are back-transformed from the logit scale 
+
+說明
+在控制信任度、政黨認同、國族認同、地區、學歷等條件後，
+•20s：對蔡英文國防政策「滿意」的預測機率約 43%（95% CI 約 24%–65%）。
+•30s：預測滿意機率約 54%（95% CI 約 33%–73%）。
+•40s：預測滿意機率最高，約 61%（95% CI 約 41%–78%）。
+•50s：預測滿意機率約 53%（95% CI 約 33%–73%）。
+•60+：預測滿意機率約 51%（95% CI 約 32%–70%）。
+
+2) 整體圖像可以這樣總結：
+  A. 在控制其他政治與社會條件後，20 歲族群的滿意度明顯偏低（約 4 成出頭）；
+  B. 從 30s 到 60+，預測機率大致落在 0.5–0.6 左右，40 歲略高一些，30s、50s、60+ 差異不大；
+  C.各年齡組的信賴區間重疊相當多，表示「年齡之間的差距屬於溫和、不是非常劇烈的差異」。
+
+<span class="toc-banner">26.同場加映1 從機率轉化為勝算與勝算比</span>
+1) 從預測機率轉換為 log odds(estimates)
+qlogis(預測機率) == log odds == 線性預測值 η (eta)
+1.1) 20s 支持蔡總統國防政策的預測機率 0.433
+<span class="ctoc-banner">qlogis(0.433)</span>
+[1] -0.2696216 = log odds
+從 log odds to odds(勝算)
+<span class="ctoc-banner">exp(-0.2696216)</span>
+[1] 0.7636684 == odds(勝算)
+1.2) 30s 支持蔡總統國防政策的機率 0.538
+<span class="ctoc-banner">qlogis(0.538 )</span>
+[1] 0.1522937 = log odds
+從 log odds to odds(勝算)
+<span class="ctoc-banner">exp(0.1522937)</span>
+[1] 1.164502 == odds(勝算)
+
+20s/30s 勝算比 
+<span class="ctoc-banner">n <- 0.7636684/1.164502</span>
+<span class="ctoc-banner">n</span>
+[1] 0.6557897
+說明
+在控制其它變項後，
+20s 族群對蔡英文國防政策「感到滿意」的勝算，
+約為 30s 族群的 0.656 倍（OR ≈ 0.656）。
+
+<span class="toc-banner">27.在 log-odds 尺度上的成對對比 Tukey檢測</span>
+<span class="ctoc-banner">pairs(emm_age, adjust = "tukey")</span>
+contrast    odds.ratio    SE  df null z.ratio p.value
+20s / 30s        0.655 0.218 Inf    1  -1.274  0.7075
+20s / 40s        0.486 0.157 Inf    1  -2.226  0.1699
+20s / 50s        0.667 0.234 Inf    1  -1.154  0.7773
+20s / (60+)      0.738 0.264 Inf    1  -0.848  0.9154
+30s / 40s        0.742 0.224 Inf    1  -0.987  0.8612
+30s / 50s        1.018 0.336 Inf    1   0.054  1.0000
+30s / (60+)      1.127 0.382 Inf    1   0.354  0.9966
+40s / 50s        1.372 0.424 Inf    1   1.022  0.8453
+40s / (60+)      1.519 0.476 Inf    1   1.335  0.6694
+50s / (60+)      1.107 0.344 Inf    1   0.329  0.9975
+
+Results are averaged over the levels of: partisanship_N, identity, region, edu 
+P value adjustment: tukey method for comparing a family of 5 estimates 
+Tests are performed on the log odds ratio scale 
+<span class="btoc-banner">說明 🎈🎈🎈極重要
+1. 為檢驗不同年齡區間對蔡英文國防政策滿意度的影響，
+   本研究將年齡（20s、30s、40s、50s、60+）
+   視為類別變項納入二元羅吉斯迴歸模型（binary logit model)，
+   並以 20s 作為參考組。
+2. 為進一步比較各年齡組別之間的差異，我們使用R Package emmeans 套件
+   估計年齡的邊際預測機率，並進行成對對比（pairwise contrasts）。
+3. 分析中係數的顯著性採用傳統 0.05 (p-value < .05)的顯著水準；
+   探索性的成對對比中，則以 Tukey 多重比較校正控制整體第一類錯誤率。
+4. 控制其它條件之後，年齡對蔡英文總統國防政策滿意度的效果呈現中度且略具非線性的差異。
+   以 20s 族群為參考組，40s 的迴歸係數為 0.72（OR ≈ 2.06, p = .026），
+   顯示 40 歲受訪者對國防政策「感到滿意」的勝算約為 20 歲受訪者的兩倍左右；
+   其它年齡組別（30s、50s、60+）的係數則未達統計顯著。
+5. 🎈🎈🎈然而，當我們針對五個年齡區間進行 10 組成對比較，
+   並採用 Tukey 多重比較校正後，所有年齡組之間的差異均未達傳統顯著水準
+  （校正後 p 值皆 > .05）。
+6. 換言之，雖然在單一對比下可觀察到 40s 族群相較於 20s 族群的較高滿意度，
+   但在較嚴格的多重比較標準下，年齡效果應解讀為「方向明確但統計強度有限」的中等差異。</span>
+
+說明
+1)第一類錯誤
+虛無假設(沒有差別)是對的，但統計結果出來是有關聯性的（拒絕虛無假設）。
+說明
+   A.在本研究的第二個統計模型 m_glm02中的年齡組別，
+     在age_N 40s具有統計上的顯著性，表示其與參照組 20s 相較，
+     勝算 exp(0.72140) == 2.057311,表示 40s 的勝算是 20s 的2.06倍左右。 
+     預測機率約 plogis(-0.89335 + 0.72140) == 0.4571181，45.71%。
+     在「其他變項都在基準類別、且 trust_Tsai_score = 0」的情況下，
+     20s 的預測機率 plogis(-0.89335) ＝＝ 0.290419,29.04%。
+     40s 比 20s 約多了16個百分比。
+   B.age_N 40s 是有統計上顯著性的。但是，經過比較保守計算方法，
+     也就是 Tukey 多重比較校正的的成對分析後發現，
+     年齡組別並沒有統計上顯著的差異。
+2)第二類錯誤
+應拒絕虛無假設，但統計結果接受虛無假設。
+https://haosquare.com/type-i-error-and-type-ii-error/
+
+<span class="toc-banner">28.同場加應2 建立第四個模型 m_cat</span>
+
+問題
+ind.variable 蔡英文總統的滿意度 trust_Tsai_score，之前是採取「距離相等」
+的邏輯進行統計，但是 不信任 普通 信任之間的距離真的是等距的嗎？
+
+說明
+將 蔡英文總統的滿意度 trust_Tsai_N 調整為純粹的categorical variable。
+reference == "普通"，計算 「對蔡總統的滿意度」Vs.「對蔡英文總統國防政策滿意度」
+之間的勝算比與預測機率。
+
+<span class="ttoc-banner">Step 01 解除ordinary性質 + 重新調整順序</span>
+<span class="ctoc-banner">CX$trust_Tsai_3_cat <- factor(CX$trust_Tsai_3_cat,
+                              levels = c("普通","不信任","信任"),#第一個[普通]為參考組
+                              ordered = FALSE)</span> 解除order 
+
+<span class="ctoc-banner">m_cat <- glm(Natl_Defence ~  trust_Tsai_3_cat +
+                             partisanship_N +
+                             identity +
+                             region +
+                             edu +
+                             age_N,
+                             family = binomial,
+                             data = CX
+ )</span>
+
+<span class="ctoc-banner">summary(m_cat)</span>
+
+Call:
+glm(formula = Natl_Defence ~ trust_Tsai_3_cat + partisanship_N + 
+   identity + region + edu + age_N, family = binomial, data = CX)
+
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               0.71495    0.39677   1.802 0.071556 .  
+trust_Tsai_3_cat不信任   -1.51773    0.24780  -6.125 9.08e-10 ***
+trust_Tsai_3_cat信任      2.06227    0.26376   7.819 5.33e-15 ***
+partisanship_N泛藍陣營    -1.38141    0.33644  -4.106 4.03e-05 ***
+partisanship_N台灣民眾黨  -1.14001    0.31998  -3.563 0.000367 ***
+partisanship_N都不偏     -1.02320    0.29884  -3.424 0.000617 ***
+identity中國人           -1.68556    1.07583  -1.567 0.117171    
+identity雙重認同          -0.80857    0.21670  -3.731 0.000190 ***
+region中臺灣              0.20165    0.24525   0.822 0.410945    
+region南臺灣              -0.04021    0.27662  -0.145 0.884431    
+region雲嘉南               0.65139    0.30248   2.153 0.031281 *  
+edu.L                     0.08489    0.38222   0.222 0.824229    
+edu.Q                     0.06446    0.28509   0.226 0.821133    
+edu.C                    -0.16208    0.18936  -0.856 0.392026    
+age_N30s                  0.43391    0.33274   1.304 0.192220    
+age_N40s                  0.67755    0.32528   2.083 0.037256 *  
+age_N50s                  0.39587    0.35224   1.124 0.261071    
+age_N60+                  0.28086    0.36044   0.779 0.435860    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+   Null deviance: 1320.38  on 989  degrees of freedom
+Residual deviance:  710.36  on 972  degrees of freedom
+  (212 observations deleted due to missingness)
+AIC: 746.36
+
+Number of Fisher Scoring iterations: 5
+
+<span class="ctoc-banner">exp(coef(m_cat))</span>
+             (Intercept)   trust_Tsai_3_cat不信任     trust_Tsai_3_cat信任 
+               2.0440861                0.2192090                7.8638356 
+  partisanship_N泛藍陣營 partisanship_N台灣民眾黨     partisanship_N都不偏 
+               0.2512253                0.3198168                0.3594413 
+          identity中國人         identity雙重認同             region中臺灣 
+               0.1853408                0.4454952                1.2234186 
+            region南臺灣             region雲嘉南                    edu.L 
+               0.9605899                1.9182031                1.0886018 
+                   edu.Q                    edu.C                 age_N30s 
+               1.0665778                0.8503743                1.5432828 
+                age_N40s                 age_N50s                 age_N60+ 
+               1.9690400                1.4856816                1.3242665 
+
+<span class="ttoc-banner"> Step 02 再次計算non-ordinal 純粹類別變項的勝算、勝算比與預測機率</span>
+trust_Tsai_3_cat不信任 = OR_不信任 vs 普通
+trust_Tsai_3_cat信任   = OR_信任 vs 普通 
+
+說明
+1.在控制其它變項之後，對蔡英文總統「不信任」的受訪者，其對國防政策「感到滿意」的勝算比，
+  約為對其信任程度為「普通」受訪者的 0.22 倍（OR = 0.219）。
+2.在控制其它變項之後，對蔡英文總統「信任」的受訪者，其對國防政策「感到滿意」的勝算比，
+  約為對其信任程度為[普通」受訪者的 7.86 倍（OR = 7.86）。
+
+2.1) 計算勝算
+
+1. 「普通」為 reference group
+「普通」的勝算 就是 exp(intercept's estimate])
+<span class="ctoc-banner">exp(0.71495)</span>
+[1] 2.044084
+
+2.「不信任」的勝算是 exp(intercept's estimate + 
+    	                trust_Tsai_3_cat不信任's estimate])
+<span class="ctoc-banner">exp(0.71495 -1.51773)</span>
+[1] 0.4501025
+
+3.「信任」的勝算是 exp(intercept's estimate + 
+  	                 trust_Tsai_3_cat信任's estimate)
+ <span class="ctoc-banner">exp(0.71495 + 2.06227)</span>
+[1] 16.07427
+
+2.2) 勝算比
+普通/不信任的勝算比 2.044083/0.4501025 == 4.541372
+信任/普通的勝算比  16.07427/2.044084   == 7.863801
+信任/不信任的勝算比 16.07427/0.4501025 == 35.71247
+
+2.3) 計算預測機率
+<span class="ctoc-banner">plogis(0.71495 + -1.51773 )</span>  # 不信任
+#[1] 0.3094312
+
+<span class="ctoc-banner">plogis(0.71495)</span>              # 普通
+[1] 0.671494
+
+<span class="ctoc-banner">plogis(0.71495 + 2.06227)</span>    # 信任
+#[1] 0.9414324
+
+說明
+1. 對蔡英文信任程度為 不信任 的受訪者，約有 30.94% 的機率表示滿意其國防政策。
+2. 對蔡英文信任程度為 普通 的受訪者，約有 67.15% 的機率表示滿意其國防政策。
+3. 對蔡英文信任程度為 信任 的受訪者，約有 94.14% 的機率表示滿意其國防政策。
+
+<span class="ttoc-banner">Step 03 兩個模型中對ind.variable蔡英文信任度 測量方法的比較</span>
+                      m_glm2        m_cat
+OR 不滿意-普通         5.94         4.54
+OR 滿意-普通           5.94         7.86
+OR 滿意-不滿意        35.32         35.71
+
+說明：因計算方法不同，產生部分差異，對結果略有影響。
+
+<span class="toc-banner">29.存檔</span>
+write.csv(CX,"CX.csv")
+save.images("你的命名.RData")
+</code></pre>
+
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>
+

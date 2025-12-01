@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week03 推論統計：中介變項 </strong></p>
+    <p>日期：2025年12月18日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>中介變項
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=======================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week03 - 推論統計:中介變項  
+Date:2025-12-18 
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=======================================
+<span class="toc-banner">目錄</span>
+1.資料簡述與研究主旨
+2.變項及其所在位置
+3.假設
+4.中介效果估計前的樣本處理：建立完整案例（complete cases）子樣本
+5.前置作業 自然樣條處理(ns)
+6.建立中介變數模型 med_model
+7.說明中介變數模型 med_model
+8.建立「結果變數模型」out_model
+9.說明結果模型 out_model
+10.以「信任蔡英文」為中介，檢驗泛藍 vs 泛綠對「信任中國」的因果中介效果
+11.建立新變項 c_trust_Tsai
+12.建立第二個結果模型 out_modelR
+13.解讀第二個結果模型 out_modelR
+14.非線性控制下的第二次因果中介建模
+15.非線性控制下的第二次因果中介建模分析
+16.總結
+17.存檔
+
+<span class="toc-banner">1.資料簡述與研究主旨</span>
+採用資料：TEDS2024-T_PAO3.sav
+        data manipulation後的檔案為 CX.csv
+研究主旨：本課程旨在探討：民眾的黨派認同傾向，
+        是否會透過「對蔡英文的信任」（trust_Tsai）這個中介變項，
+        進一步影響其對中國信任的看法，並進一步檢驗政黨認同在此過程中的調節角色。</span>
+
+<span class="toc-banner">2.變項及其所在位置</span>
+      變項            變項內容            所在位置             變項類型
+1.對中國的信任程度A      0-10            CX$trust_CN          numeric
+2.對中國的信任程度B   不信任 普通 信任     CX$trust_CN_N        ordinal
+3.對韓國瑜的好感度       0-10             CX$favor_Han        numeric
+4.對韓國瑜的好感度    不喜歡 普通 喜歡      CX$favor_Han_N       ordinal
+5.對蔡英文的信任度       0-10             CX$trust_Tsai       numeric
+6.對蔡英文的信任度    不信任 普通 信任       CX$trust_Tsai_N      ordinal
+7.對蔡的國防政策滿意度  滿意、不滿意          CX$Natl_Defence   binary/category
+8.政黨認同        泛綠、泛藍、民眾黨、不偏   CX$partisanship_N   category
+9.國族身份認同     台灣人 雙重認同 中國人        CX$identity     category
+10.居住地點        北臺灣 中臺灣 雲嘉南 南臺灣    CX$region       category
+11.學歷           小學與未入學 中學 大專 研究所   CX#edu       ordinal/category
+12.年齡          20s,30s,40s,50s,60+        CX$age_N      ordinal/category</span>
+
+<span class="toc-banner">3.假設</span>
+虛無假設
+在控制韓國瑜好感度、國族認同、地區、教育與年齡（以及 trust_Tsai 的非線性樣條）之後，
+「泛藍 vs 泛綠」對「信任中國」的影響，完全不是透過「信任蔡英文」來傳遞的。
+換句話說，政黨認同只會直接影響對中國信任，不會透過改變對蔡英文的信任來影響對中國的信任。
+
+對立假設
+在控制韓國瑜好感度、國族認同、地區、教育與年齡（以及 trust_Tsai 的非線性樣條）之後，
+「泛藍 vs 泛綠」對「信任中國」的影響，會透過「信任蔡英文」來傳遞的。
+換句話說，政黨認同不是只直接影響對中國信任，而是透過改變對蔡英文的信任來影響對中國的信任。</span>
+
+<span class="toc-banner">4.中介效果估計前的樣本處理：建立完整案例（complete cases）子樣本</span>
+1)研究設計
+以泛藍陣營為例。
+在 X(ind/.variable) 固定為「泛藍」的情況下，如果只改變中介變數 M
+——讓它從「泛綠時的信任蔡程度」變成「泛藍時的信任蔡程度」——
+對 Y（dep.variable, 信任中國）的期望值會改變多少。
+2)建立完整資料
+為何要建立完整資料？
+在做中介分析(mediation)其實是同時估計兩個模型：
+trust_Tsai ~ partisanship_N + controls
+trust_CN ~ trust_Tsai + partisanship_N + controls
+這兩個模型必須用「完全同一批受訪者」來估計，否則算出來的中介效果會有偏誤。
+這樣是否會流失許多可以用的資料？是，但也只能如此。
+<span class="ctoc-banner">CX_complete <- CX[complete.cases(CX[, c("trust_CN",
+                                        "favor_Han", 
+                                        "trust_Tsai",
+                                         "partisanship_N",
+                                         "identity",
+                                         "region",
+                                         "edu",
+                                         "age_N")]),]</span>
+<span class="ctoc-banner">nrow(CX)</span>
+[1] 1202
+
+<span class="ctoc-banner">nrow(CX_complete)</span>
+[1] 1067
+
+<span class="toc-banner">5.前置作業 自然樣條處理(ns)</span>
+<span class="ctoc-banner">install.packages("spline")</span>
+<span class="ctoc-banner">library(spline)</span>
+<span class="ctoc-banner">ns_spline <- ns(CX_complete$trust_Tsai, df = 2)</span>
+<span class="ctoc-banner">CX_complete$trust_Tsai_sp1 <- ns_spline[,1]</span>
+<span class="ctoc-banner">CX_complete$trust_Tsai_sp2 <- ns_spline[,2] </span>
+ 
+說明
+為精確控制「對蔡英文信任度」（trust_Tsai）與「對中國信任度」（trust_CN）之間的非線性關係，
+本研究採用限制性立方自然樣條（restricted cubic spline, df = 2），
+將 trust_Tsai 轉換為兩個正交基底變數（trust_Tsai_sp1 與 trust_Tsai_sp2），
+並將其納入結果變數模型（Y 模型）中。
+此步驟之目的如下：
+
+1. 避免模型誤判（model misspecification） 
+   文獻顯示臺灣民眾對蔡英文信任度與對中國信任度呈現明顯的非線性關係（倒U型）。
+   若僅以線性項控制，會導致殘差與中介變數高度相關，嚴重低估或高估真實中介效果。
+2. 滿足中介分析的「無混淆假設」（no omitted variable bias）  
+   在 mediation 框架下，Y 模型必須控制所有「同時影響 M 與 Y」的變數（包括 M 的非線性形式）。
+   使用自然樣條（df = 2 相當於在 10% 與 90% 分位數放置兩個節點）。
+3. 保留原始 trust_Tsai 作為中介變數  
+   樣條項僅用於「控制非線性混淆」，真正中介變數仍為原始的 0–10 連續變數（trust_Tsai），
+   確保中介效果的理論解釋力（「對蔡信任每高一分」）不被樣條稀釋。
+4. 最終模型在控制非線性關係後，仍以原始 trust_Tsai 
+   作為中介變數，兼顧統計正確性與理論清晰性。
+5. 因為對蔡信任跟對中國信任並非是線性關係，如果只丟線性項進去，
+   會把這段彎曲的影響錯當成『對蔡信任的中介效果』，結果會整個歪掉。所以我先用 df=2
+   的自然樣條把彎曲部分吃掉當控制變數，但真正當中介的還是原本的 0–10 
+   分數，這樣才不會搶走真的中介變項，也不會漏掉非線性混淆。
+
+<span class="toc-banner">6.建立中介變數模型 med_model</span>
+<span class="ctoc-banner">med_model  <- lm(trust_Tsai ~ 
+	             partisanship_N + 
+	             favor_Han + 
+	             identity+ 
+	             region+ 
+	             edu+ 
+	             age_N, 
+	             data = CX_complete)</span>
+<span class="ctoc-banner">summary(med_model)</span>
+
+Call:
+lm(formula = trust_Tsai ~ partisanship_N + favor_Han + identity + 
+    region + edu + age_N, data = CX_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.8281 -1.2943  0.1271  1.4103  6.6702 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               8.56462    0.21473  39.886  < 2e-16 ***
+partisanship_N泛藍陣營   -4.39125    0.21596 -20.334  < 2e-16 ***
+partisanship_N台灣民眾黨 -3.57622    0.20651 -17.318  < 2e-16 ***
+partisanship_N都不偏     -2.50372    0.18704 -13.386  < 2e-16 ***
+favor_Han                -0.07735    0.02803  -2.760  0.00588 ** 
+identity中國人           -2.38210    0.50359  -4.730 2.55e-06 ***
+identity雙重認同         -0.83111    0.16693  -4.979 7.48e-07 ***
+region中臺灣              0.05073    0.16789   0.302  0.76259    
+region南臺灣              0.48297    0.18739   2.577  0.01009 *  
+region雲嘉南              0.40582    0.20271   2.002  0.04554 *  
+edu小學與未入學           0.54311    0.31666   1.715  0.08662 .  
+edu中學                   0.10399    0.15760   0.660  0.50949    
+edu碩博士                 0.39480    0.20390   1.936  0.05311 .  
+age_N20s                 -0.53703    0.25368  -2.117  0.03450 *  
+age_N30s                 -0.45789    0.22599  -2.026  0.04300 *  
+age_N40s                 -0.45375    0.20295  -2.236  0.02558 *  
+age_N50s                 -0.26358    0.19921  -1.323  0.18608    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.125 on 1050 degrees of freedom
+Multiple R-squared:  0.532,	Adjusted R-squared:  0.5248 
+F-statistic: 74.59 on 16 and 1050 DF,  p-value: < 2.2e-16
+
+<span class="toc-banner">7.說明中介變數模型 med_model</span>
+1)政黨認同（非常重要，統計上都顯著）
+	泛藍陣營 (estimate)  = -4.39
+	台灣民眾黨 (estimate) = -3.58
+	都不偏(estimate)     = -2.50
+    在其它條件相同下，泛藍的對蔡總統信任平均比泛綠低 4.39 分（0–10 分量尺）。
+    台灣民眾黨支持者與「都不偏」受訪者平均比泛綠陣營低 3.58 與 2.50 分
+    都顯著負向，而且效果量很大。
+
+2)身份認同（非常重要，統計上都顯著）
+  中國人   = -2.38210    
+  雙重認同 = -0.83111    
+  在其它條件相同下，中國人身份認同者的對蔡總統信任平均比
+  臺灣人低 2.38 分（0–10 分量尺）。
+  雙重身份認同受訪者平均比認同為臺灣人低 -0.83 分，都顯著負向。
+  判斷：也是另一個中介變項的參考項目。
+（3）其它變項：篇幅限制，故略。
+
+<span class="toc-banner">8.建立「結果變數模型」out_model</span>
+<span class="ctoc-banner">out_model <- lm(trust_CN ~ favor_Han + 
+                           trust_Tsai_sp1 + 
+                           trust_Tsai_sp2 + 
+                           trust_Tsai + # ← 這行一定要加！
+                           partisanship_N + 
+                           identity +
+                           region+ 
+                           edu + 
+                           age_N,
+                           data = CX_complete)</span>
+說明
+1. 在中介模型 med_model 中關心的是：不同政黨（X）會讓「信任蔡英文」的平均分數（M）怎麼變？
+   M 本身就是一個 0–10 的連續量表，直接用線性回歸建模就好。
+2. 在結果變數模型 out_model 裡，trust_Tsai 的角色改成了：解釋變數 / 中介變數 M，
+   用來解釋 Y = trust_CN。
+3. trust_Tsai_sp1  + trust_Tsai_sp2 + trust_Tsai 都要納入回歸模型的原因：
+   既能讓模型「畫出彎曲」，又保留一條「清楚的 0–10 尺度」來當中介，方便解釋：
+  「每多 1 分信任蔡，對中國信任怎麼變」。
+
+<span class="toc-banner">9.說明結果模型 out_model</span>
+<span class="ctoc-banner">summary(out_model)</span>
+Call:
+lm(formula = trust_CN ~ favor_Han + trust_Tsai_sp1 + trust_Tsai_sp2 + 
+    trust_Tsai + partisanship_N + identity + region + edu + age_N, 
+    data = CX_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.2644 -1.3691 -0.1591  1.1900  9.8733 
+
+Coefficients: (1 not defined because of singularities)
+                         Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               0.34571    0.33475   1.033 0.301955    
+favor_Han                 0.27774    0.02731  10.169  < 2e-16 ***
+trust_Tsai_sp1            0.68238    0.44490   1.534 0.125389    
+trust_Tsai_sp2           -0.83813    0.26380  -3.177 0.001531 ** 
+trust_Tsai                     NA         NA      NA       NA    
+partisanship_N泛藍陣營    0.54370    0.24890   2.184 0.029151 *  
+partisanship_N台灣民眾黨  0.51232    0.23031   2.225 0.026326 *  
+partisanship_N都不偏      0.56822    0.20017   2.839 0.004618 ** 
+identity中國人            1.68728    0.49478   3.410 0.000674 ***
+identity雙重認同          1.07302    0.16396   6.545 9.32e-11 ***
+region中臺灣              0.08100    0.16309   0.497 0.619528    
+region南臺灣             -0.20757    0.18246  -1.138 0.255519    
+region雲嘉南              0.05309    0.19718   0.269 0.787780    
+edu小學與未入學           0.08896    0.30779   0.289 0.772624    
+edu中學                   0.11794    0.15305   0.771 0.441133    
+edu碩博士                 0.10639    0.19828   0.537 0.591681    
+age_N20s                 -0.01480    0.24925  -0.059 0.952667    
+age_N30s                  0.06275    0.22200   0.283 0.777490    
+age_N40s                 -0.49892    0.19764  -2.524 0.011738 *  
+age_N50s                 -0.61546    0.19406  -3.172 0.001560 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.063 on 1048 degrees of freedom
+Multiple R-squared:  0.3147,	Adjusted R-squared:  0.3029 
+F-statistic: 26.73 on 18 and 1048 DF,  p-value: < 2.2e-16
+ 
+說明
+同時估計 trust_Tsai_sp1 + trust_Tsai_sp2 + trust_Tsai。
+在數學上，這三個變數不是獨立的，結果就「線性完全重疊」，
+所以 R 只好把 trust_Tsai 這一行丟掉 → 係數變成 NA。
+
+<span class="toc-banner">10.以「信任蔡英文」為中介，檢驗泛藍 vs 泛綠對「信任中國」的因果中介效果</span>
+
+<span class="btoc-banner">
+partisanship_N ───► trust_Tsai ───► trust_CN
+      │             （間接效果 ACME）        ▲
+      └──────────────────────┘
+                     （直接效果 ADE）
+</span>
+
+<span class="ctoc-banner">set.seed(9487)</span>
+<span class="ctoc-banner">result_blue <- mediate(med_model, out_model,
+                        treat = "partisanship_N",
+                        treat.value = "泛藍陣營",
+                        control.value = "泛綠陣營",
+                        mediator = "trust_Tsai",
+                        boot = TRUE, sims = 5000)</span>
+
+說明
+「如果把一個人從『泛綠陣營』換成『泛藍陣營』，
+他對『中國的信任』（trust_CN）改變，有多少是透過
+『信任蔡英文』（trust_Tsai）這個中介變項傳遞的？」
+
+也就是拆成兩條分析路徑：
+A.間接路徑（中介效果, ACME）
+泛綠/泛藍 → 影響 信任蔡英文 (trust_Tsai) → 再影響 信任中國 (trust_CN)
+B.直接路徑（直接效果, ADE）
+泛綠/泛藍 → 直接影響 信任中國（不透過 trust_Tsai）
+
+<span class="ctoc-banner">summary(result_blue)</span>
+Causal Mediation Analysis 
+
+Nonparametric Bootstrap Confidence Intervals with the Percentile Method
+
+                Estimate 95% CI Lower 95% CI Upper p-value  
+ACME            0.000000     0.000000     0.000000  1.0000  
+ADE             0.543699    -0.011386     1.104794  0.0536 .
+Total Effect    0.543699    -0.011386     1.104794  0.0536 .
+Prop. Mediated  0.000000     0.000000     0.000000  1.0000  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Sample Size Used: 1067 
+
+Simulations: 5000 
+
+說明
+1)間接影響 ACME（Average Causal Mediation Effect）
+    •   Estimate = 0
+    •   p-value = 1.000
+    •   95% CI = [0, 0]
+在這個設定下，泛藍 Vs. 泛綠 之間對「信任中國」的差異，
+幾乎沒有任何部分是透過「信任蔡英文」這條路徑傳遞出來的。
+
+2)直接影響 ADE（Average Direct Effect）
+    •   Estimate = 0.5437
+    •   p-value = 0.0536(邊緣)
+    •   95% CI = [-0.011386, 1.104794]
+在「把信任蔡英文固定住」的情況下，
+如果把一個人從「泛綠」換成「泛藍」，
+他對中國的信任（trust_CN）平均會上升約 0.54 分（ 0–10 分量表）。
+
+3) Total Effect 0.5437
+在這個設定下，都是直接影響 (0.5437 - 0.5437 = 0)。
+泛藍 Vs. 泛綠 之間對「信任中國」的差異，
+幾乎沒有任何部分是透過「信任蔡英文」這條路徑傳遞出來的。
+<span class="toc-banner">11.建立新變項 c_trust_Tsai</span>
+新變項
+在已經建好的 CX_complete 上，加一個中心化的 trust_Tsai。
+目的
+1)為了讓迴歸與中介效果的解讀更直觀，同時降低 trust_Tsai 與其變形項（例如 spline）的共線性，我們將「信任蔡英文」變數做中心化處理，建立 c_trust_Tsai。
+2)中心化後，c_trust_Tsai = 0 代表「信任蔡英文程度約為全體樣本平均」，因此迴歸截距與中介分析中的效果估計，都可以被解讀為「在平均信任水準下」的預測結果，而非建立在一個極端值（例如 trust_Tsai = 0）的假想情境上。
+3)建立新變項 c_trust_Tsai
+<span class="ctoc-banner">CX_complete$c_trust_Tsai <- 
+                          CX_complete$trust_Tsai - 
+                          mean(CX_complete$trust_Tsai, na.rm = TRUE)</span>
+<span class="ctoc-banner">mean(CX_complete$trust_Tsai, na.rm = TRUE)</span>
+[1] 5.833177
+
+<span class="toc-banner">11.建立第二個結果模型 out_modelR</span>
+<span class="ctoc-banner">out_modelR <- lm(
+  trust_CN ~ 
+    favor_Han +                     # 對韓國瑜好感
+    c_trust_Tsai +                  # 對蔡信任的線性效果（中介主體）
+    I(c_trust_Tsai^2) +             # 對蔡信任的彎曲效果（非線性控制）
+    partisanship_N + identity +     # 政黨認同、國族認同
+    region + edu + age_N,           # 地區、教育、年齡
+  data = CX_complete
+)</span>
+說明
+1)c_trust_Tsai 的係數 β1 可以被解讀為：
+  在「平均信任蔡程度附近」時，
+  信任蔡每增加一單位，對中國信任的「局部斜率」。
+2)I(c_trust_Tsai^2) 
+  β₂ 代表：當 trust_Tsai 增加 1 單位時，
+ 「斜率本身」會改變多少。
+  2.1) β₂ > 0：
+      斜率會隨著信任蔡英文的程度「越來越大」（曲線往上彎、U 型）。
+      信任蔡越高，每再多一點信任，對 trust_CN 的影響越強。
+  2.2) β₂ < 0：
+      斜率會隨著信任蔡英文的程度「越來越小，甚至變負」（曲線往下彎、倒 U 型）。
+      一開始信任蔡提高會讓 trust_CN 顯著變化，但到某個程度後，效果變弱，甚至反轉。
+  2.3)I(c_trust_Tsai^2) 的斜率不是直接對 trust_CN 的斜率，
+      而是「控制這條線有多彎」的係數。
+
+<span class="toc-banner">13.解讀第二個結果模型 out_modelR</span>
+<span class="ctoc-banner">summary(out_modelR)</span>
+Call:
+lm(formula = trust_CN ~ favor_Han + c_trust_Tsai + I(c_trust_Tsai^2) + 
+    partisanship_N + identity + region + edu + age_N, data = CX_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.2496 -1.3695 -0.1589  1.2040  9.8670 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               0.838389   0.247663   3.385 0.000738 ***
+favor_Han                 0.277614   0.027328  10.159  < 2e-16 ***
+c_trust_Tsai             -0.083111   0.032671  -2.544 0.011106 *  
+I(c_trust_Tsai^2)        -0.029213   0.007056  -4.140 3.75e-05 ***
+partisanship_N泛藍陣營     0.547752   0.249005   2.200 0.028041 *  
+partisanship_N台灣民眾黨   0.515406   0.230489   2.236 0.025552 *  
+partisanship_N都不偏      0.577136   0.200087   2.884 0.004001 ** 
+identity中國人            1.686899   0.495077   3.407 0.000681 ***
+identity雙重認同          1.070071   0.164056   6.523 1.07e-10 ***
+region中臺灣              0.082647   0.163167   0.507 0.612601    
+region南臺灣             -0.208594   0.182548  -1.143 0.253431    
+region雲嘉南              0.054406   0.197275   0.276 0.782766    
+edu小學與未入學            0.093701   0.307960   0.304 0.760987    
+edu中學                   0.118211   0.153133   0.772 0.440319    
+edu碩博士                 0.103355   0.198370   0.521 0.602463    
+age_N20s                 -0.008278   0.249305  -0.033 0.973518    
+age_N30s                  0.070645   0.221984   0.318 0.750363    
+age_N40s                 -0.495339   0.197718  -2.505 0.012386 *  
+age_N50s                 -0.611226   0.194111  -3.149 0.001686 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.064 on 1048 degrees of freedom
+Multiple R-squared:  0.314,	Adjusted R-squared:  0.3022 
+F-statistic: 26.65 on 18 and 1048 DF,  p-value: < 2.2e-16
+
+說明
+Coefficients:
+                          Estimate Std. Error t value Pr(>|t|)
+c_trust_Tsai             -0.083111   0.032671  -2.544 0.011106 *  
+I(c_trust_Tsai^2)        -0.029213   0.007056  -4.140 3.75e-05 ***
+
+1) c_trust_Tsai -0.083111
+   c_trust_Tsai 的係數 -0.08，代表「在平均附近」的局部斜率約為 -0.08。
+   對蔡英文信任對「信任中國」的影響並非一條直線，而是呈現倒 U 型。
+   在「其它變項不變」且「受訪者對蔡英文信任大約在樣本平均附近」的情況下，
+   在信任程度大約落在樣本平均附近時，信任蔡英文每提高 1 分，
+   對中國的信任約略下降 0.08 分；
+   不過，因為模型裡還有平方項，這個影響會隨著信任蔡英文的高低而改變。
+2) I(c_trust_Tsai^2) -0.029213
+   負號（-0.029） ⇒ 開口向下（倒 U 型）
+   在某個中間區域，對蔡的信任較高、對中國信任也較高；
+   但再往極端高或極端低走，對中國的信任反而下降。
+
+<span class="toc-banner">14.非線性控制下的第二次因果中介建模</span>
+<span class="btoc-banner">
+partisanship_N ───► trust_Tsai ───► trust_CN
+      │             （間接效果 ACME）        ▲
+      └──────────────────────┘
+                     （直接效果 ADE）
+</span>
+<span class="ctoc-banner">med_modelR <- lm(c_trust_Tsai ~
+                                          partisanship_N + 
+                                          favor_Han + 
+                                          identity +
+                                          region + 
+                                          edu + 
+                                          age_N,
+                                          data = CX_complete
+                                        )</span># 將中介變項重新設定為c_trust_Tsai 
+<span class="ctoc-banner">set.seed(9487)
+result_blue_R <- mediate(med_modelR, out_modelR,
+                         treat = "partisanship_N",
+                         treat.value = "泛藍陣營",
+                         control.value = "泛綠陣營",
+                         mediator = "c_trust_Tsai",
+                         boot = TRUE, sims = 5000 
+                        )</span> # 代表用非參數 bootstrap 跑 5,000 次抽樣。
+***Running nonparametric bootstrap*** 視電腦的CPU效能與RAM容量決定run的時間。
+
+<span class="toc-banner">15.非線性控制下的第二次因果中介建模分析</span>
+<span class="ctoc-banner">summary(result_blue_R)</span>
+Causal Mediation Analysis 
+
+Nonparametric Bootstrap Confidence Intervals with the Percentile Method
+
+                 Estimate 95% CI Lower 95% CI Upper p-value    
+ACME            0.3186028    0.0015647    0.6445340  0.0488 *  
+ADE             0.5477520   -0.0083788    1.1078673  0.0532 .  
+Total Effect    0.8663548    0.4113776    1.3442646  0.0004 ***
+Prop. Mediated  0.3677509    0.0017463    1.0140165  0.0492 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Sample Size Used: 1067 
+
+Simulations: 5000
+
+<span class="btoc-banner">說明
+mediate() 拆成兩條路徑：
+1)間接效果 ACME    
+    •   估計值：ACME = 0.3186
+    •   95% 信賴區間：約 [0.00, 0.64]
+    •   p 值：0.0488（< 0.05，達 5% 顯著水準）
+  解讀
+  當受訪者從「泛綠陣營」變成「泛藍陣營」時，透過「改變對蔡英文的信任程度」
+  這條路徑所帶來的間接效果，會讓他們對中國的信任平均多出約 0.32 分（0–10 分量表）。
+
+  換句話說
+    •   泛藍與泛綠的差異，有一部分是這樣產生的：
+        政黨認同改變 → 先影響「信任蔡英文」 → 再進一步影響「信任中國」。
+    •   這一段「繞道蔡英文」的效果是統計上顯著的。
+
+2)直接效果 ADE
+    估計值：ADE = 0.5478
+    •   95% 信賴區間：約 [-0.01, 1.10]
+    •   p 值：0.0532（略高於 0.05，但在95%的信心水準下仍不顯著）
+  解讀
+  在控制「信任蔡英文」這個中介變數的情況下，如果只改變政黨認同——
+  把一個人從「泛綠」換成「泛藍」——
+  那他對中國的信任（trust_CN）平均會多出約 0.55 分。
+  但由於
+    •   95% 信賴區間跨過 0（下限略為負值），
+    •   p = 0.0532 > 0.05，
+  在傳統 95% 的信心水準下，嚴格來說我們不能說這個直接效果「顯著不同於 0」。比較保守的說法是：這個直接效果呈現「邊緣顯著／有趨勢但未達傳統顯著門檻」。
+
+3)總體效果 Total Effect 
+  估計值 =  0.866
+    •   95% 信賴區間 ≈ [0.41, 1.34]
+    •   p 值 = 0.0004(<.001)
+  在控制韓好感、國族認同、地區、教育、年齡之後，
+  如果把一個受訪者從「泛綠陣營」換成「泛藍陣營」，
+  他對中國的信任（0–10 分量表）平均會 提高約 0.87 分，而且這個差異在 95% 信心水準下是高度顯著的。
+  總效果 0.87 分，可以拆成：
+    •   約 0.32 分 是走「政黨認同 → 信任蔡 → 信任中國」這條 間接路徑（ACME）；
+    •   約 0.55 分 是不經過 trust_Tsai 直接效果（ADE），
+        雖然這一部分只達到「邊緣顯著」。
+4)Prop. Mediated  
+  估計值 = 0.368
+    •   95% 信賴區間 ≈ [0.0017, 1.014]
+    •   p 值 = 0.0492(<.05)
+  整體政黨差異對信任中國的影響裡，大約 37% 是透過『對蔡英文的信任』所中介，剩下約 63% 來自其它的機制。</span>
+
+<span class="toc-banner">16.總結</span>
+1.本課程以 mediate() 進行因果中介分析，
+  將政黨認同（泛藍 vs 泛綠）視為處置變項，
+ 「對蔡英文的信任程度」視為中介變項，
+ 「對中國的信任程度」視為結果變項，
+  並控制對韓國瑜好感、國族認同、地區、
+  教育與年齡等背景因素。
+2.分析結果顯示，政黨認同對中國信任具有顯著的總效果(Total Effect ≈ 0.87，p < 0.001)，
+  泛藍支持者的對中國的信任顯著高於泛綠支持者。
+  其中，約 0.32 分的差異可透過「對蔡英文信任」間接解釋（ACME ≈ 0.32，p ≈ 0.049），
+  約佔總效果的三分之一（Prop. Mediated ≈ 0.37）。
+  換言之，藍綠陣營在「信任中國」上的分歧，不僅反映政黨立場本身的直接影響，
+  也有相當一部分是透過對蔡英文信任程度的差異所中介。
+
+<span class="toc-banner">17.存檔</span>
+write.csv(CX,"CX.csv")
+write.csv(CX_complete,"CXcomplete.csv")
+save.images("你的命名.RData")
+</code></pre>
+統計表格範例參見 "表_中介變項.docx"
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>

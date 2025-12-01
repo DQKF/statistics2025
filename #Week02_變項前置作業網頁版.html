@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+  <style>
+    body {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px;
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+      line-height: 1.8;
+      background: #fafafa;
+      color: #2c3e50;
+    }
+    /* 程式碼區塊基本樣式 */
+    pre code {
+      font-size: 18px !important;
+      line-height: 1.65 !important;
+      display: block;
+      padding: 20px;
+      background: #fff !important;
+      border: 1px solid #e1e8ed;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+    /* 頁首 */
+    .hero h1 { font-size: 2.5rem; text-align: center; margin: 20px 0; color: #2c3e50; }
+    .hero p { text-align: center; font-size: 1.3rem; margin: 8px 0; color: #34495e; }
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 22px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 16px !important;  /* 由 14px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week02-回歸統計變項前置作業 </strong></p>
+    <p>日期：2025年12月10日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>變項處理（data manipulation）
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=======================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week02 - 推論統計:回歸統計前的變項轉換前置作業  
+Date:2025-12-10
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=======================================
+
+目錄
+1. 合併已經存在的變項 1-6
+2. 建立 居住地點 的column
+3. 區域化各縣市單位
+4. 國族身份認同 的column
+5. 建立 教育程度/學歷 的column
+6. 建立 年齡 的column
+7. 合併
+8. 存檔
+
+---------------------------------------------------------------------------
+變項及其所在位置
+變項                  變項內容            所在位置             變項類型
+1.對中國的信任程度A      0-10            CA2$trust_CN          numeric
+2.對中國的信任程度B   不信任 普通 信任     CA2$trust_CN_N        ordinal
+3.對韓國瑜的好感度       0-10             CA3$favor_Han        numeric
+4.對蔡英文的信任度       0-10             CA3$trust_Tsai       numeric
+5.對蔡的國防政策滿意度  滿意、不滿意          CA1$Natl_Defence   binary/category
+6.政黨認同        泛綠、泛藍、民眾黨、不偏   CA2$partisanship_N   category
+7.國族身份認同     台灣人 雙重認同 中國人        C29$identity     category
+8.居住地點        北臺灣 中臺灣 雲嘉南 南臺灣    C37$region       category
+9.學歷           小學與未入學 中學 大專 研究所   C31#edu       ordinal/category
+10.年齡          20s,30s,40s,50s,60+        C30$age_N      ordinal/category
+---------------------------------------------------------------------------
+<span class="ttoc-banner">1. 合併已經存在的變項 1-6</span>
+
+<span class="ctoc-banner">df_NN <- data.frame(
+  trust_CN      = as.numeric(CA2$trust_CN),   # 0-10
+  trust_CN_N    = factor(CA2$trust_CN_N,
+                         levels = c("不信任","普通","信任"),
+                         ordered = TRUE),     # 有序因子
+  favor_Han     = as.numeric(CA3$favor_Han),  # 0-10
+  trust_Tsai    = as.numeric(CA3$trust_Tsai), # 0-10
+  Natl_Defence  = factor(CA1$Natl_Defence, levels = c("不滿意","滿意")),
+  partisanship_N= factor(CA2$partisanship_N)
+                   )
+View(dfNN)</span>
+
+<span class="ttoc-banner">2. 建立 居住地點 的column</span>  
+1) 建立新的居住地點df
+<span class="ctoc-banner">C37 <- C[c("q37")]</span>
+
+2) 從代碼中手動恢復固有的名稱 recode()，建立新column $q37_New
+<span class="ctoc-banner">C37$q37_New <- recode(C$q37,
+   "2"  = "宜蘭縣",
+   "4"  = "新竹縣",
+   "5"  = "苗栗縣",
+   "7"  = "彰化縣",
+   "8"  = "南投縣",
+   "9"  = "雲林縣",
+  "10"  = "嘉義縣",
+  "13"  = "屏東縣",
+  "14"  = "臺東縣",
+  "15"  = "花蓮縣",
+  "16"  = "澎湖縣",
+  "17"  = "基隆市",
+  "18"  = "新竹市",
+  "20"  = "嘉義市",
+  "28"  = "福建省",
+  "63"  = "臺北市",
+  "64"  = "高雄市",
+  "65"  = "新北市",
+  "66"  = "臺中市",
+  "67"  = "臺南市",
+  "68"  = "桃園市",
+  "95"  = NA_character_,
+  "98" = NA_character_
+)</span>
+
+<span class="ctoc-banner">frq(C37$q37_New)</span>
+x <categorical> 
+total N=1202 valid N=1188 mean=14.61 sd=6.11
+Value |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+宜蘭縣 |  25 |  2.08 |    2.10 |   2.10
+新竹縣 |  31 |  2.58 |    2.61 |   4.71
+苗栗縣 |  29 |  2.41 |    2.44 |   7.15
+彰化縣 |  73 |  6.07 |    6.14 |  13.30
+南投縣 |  29 |  2.41 |    2.44 |  15.74
+雲林縣 |  38 |  3.16 |    3.20 |  18.94
+嘉義縣 |  24 |  2.00 |    2.02 |  20.96
+屏東縣 |  33 |  2.75 |    2.78 |  23.74
+臺東縣 |   9 |  0.75 |    0.76 |  24.49
+花蓮縣 |  13 |  1.08 |    1.09 |  25.59
+澎湖縣 |   5 |  0.42 |    0.42 |  26.01
+基隆市 |  17 |  1.41 |    1.43 |  27.44
+新竹市 |  16 |  1.33 |    1.35 |  28.79
+嘉義市 |  12 |  1.00 |    1.01 |  29.80
+福建省 |   4 |  0.33 |    0.34 |  30.13
+臺北市 | 147 | 12.23 |   12.37 |  42.51
+高雄市 | 148 | 12.31 |   12.46 |  54.97
+新北市 | 191 | 15.89 |   16.08 |  71.04
+臺中市 | 127 | 10.57 |   10.69 |  81.73
+臺南市 |  95 |  7.90 |    8.00 |  89.73
+桃園市 | 122 | 10.15 |   10.27 | 100.00
+<NA>  |  14 |  1.16 |    <NA> |   <NA>
+
+<span class="ttoc-banner">3. 區域化各縣市單位</span>
+1) 建立新的column region
+-----------------------------------------------------
+依據：行政院各地區聯合服務中心設置要點
+merge 宜蘭縣,新竹縣,新竹市,桃園市,臺北市,新北市 into 北臺灣
+merge 苗栗縣,臺中市,彰化縣,南投縣 into 中臺灣
+merge 雲林縣,嘉義縣,嘉義市,臺南市 into 雲嘉南
+merge 高雄市、屏東縣, 澎湖縣 into 南臺灣
+merge 花蓮,台東 into 花東
+merge 福建省 金門 連江 into 福建省 
+NA == NA
+-----------------------------------------------------
+
+<span class="ctoc-banner">C37$region <- case_when(
+  C37$q37_New %in% c("基隆市","宜蘭縣","新竹縣","新竹市","桃園市","臺北市","新北市") ~ "北臺灣",
+  C37$q37_New  %in% c("苗栗縣","臺中市","彰化縣","南投縣") ~ "中臺灣",
+  C37$q37_New  %in% c("雲林縣","嘉義縣","嘉義市","臺南市") ~ "雲嘉南",
+  C37$q37_New  %in% c("高雄市","屏東縣", "澎湖縣") ~ "南臺灣",
+  C37$q37_New  %in% c("花蓮縣","臺東縣") ~ "東臺灣",
+  C37$q37_New  %in% "福建省" ~ "金門馬祖", 
+  is.na(C37$q37_New) ~ NA_character_,
+  TRUE ~ NA_character_  # 其他未分類的也設為 NA
+)</span>
+<span class="ctoc-banner">C37$region<-as.factor(C37$region)
+frq(C37$region)</span>
+# x <categorical> 
+total N=1202 valid N=1188 mean=2.56 sd=1.56
+Value    |   N | Raw % | Valid % | Cum. %
+-----------------------------------------
+中臺灣   | 258 | 21.46 |   21.72 |  21.72
+北臺灣   | 549 | 45.67 |   46.21 |  67.93
+南臺灣   | 186 | 15.47 |   15.66 |  83.59
+東臺灣   |  22 |  1.83 |    1.85 |  85.44
+金門馬祖 |   4 |  0.33 |    0.34 |  85.77
+雲嘉南   | 169 | 14.06 |   14.23 | 100.00
+<NA>    |  14 |  1.16 |    <NA> |   <NA>
+
+說明：在統計分析中，如果某一分類的樣本數太小（例如 n < 30，甚至 < 5），會造成：
+1.估計不穩定:回歸或平均比較中，該類別的估計值會有極大標準誤。
+2.假設檢定失真:卡方檢定 (Chi-square test) 要求各格期望值至少 >5；
+3.推論無代表性:只有極少數樣本，難以代表該地區群體特徵。
+4.綜合以上，金門馬祖的次數 < 5  必須 設定為NA，或是合併到其它區域。選擇後者。
+5.綜合以上，東台灣的次數 < 30，選擇合併到其它區域。花蓮合併到中臺灣、台東合併到南臺灣。
+
+2) recode "region"
+<span class="ctoc-banner">C37$region <- case_when(
+  C37$q37_New %in% c("基隆市","宜蘭縣","新竹縣","新竹市","桃園市","臺北市","新北市","福建省") ~ "北臺灣",
+  C37$q37_New  %in% c("苗栗縣","臺中市","彰化縣","南投縣","花蓮縣") ~ "中臺灣",
+  C37$q37_New  %in% c("雲林縣","嘉義縣","嘉義市","臺南市") ~ "雲嘉南",
+  C37$q37_New  %in% c("高雄市","屏東縣","臺東縣","澎湖縣") ~ "南臺灣",
+  is.na(C37$q37_New) ~ NA_character_,
+  TRUE ~ NA_character_  # 其他未分類的也設為 NA
+)</span>
+
+<span class="ctoc-banner">C37$region<-as.factor(C37$region)
+frq(C37$region)</span>
+x <character> 
+total N=1202 valid N=1188 mean=2.22 sd=0.96
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+中臺灣 | 271 | 22.55 |   22.81 |  22.81
+北臺灣 | 553 | 46.01 |   46.55 |  69.36
+南臺灣 | 195 | 16.22 |   16.41 |  85.77
+雲嘉南 | 169 | 14.06 |   14.23 | 100.00
+<NA>  |  14 |  1.16 |    <NA> |   <NA>
+
+<span class="ttoc-banner">4. 國族身份認同 的column</span>  
+1) 建立新的國族身份認同df
+<span class="ctoc-banner">C29 <- C[c("q29")]
+frq(C$q29)</span>
+21.我們社會上，有人說自己是「臺灣人」，也有人說自己是「中國人」，也有人說都是。您認為自己是「臺灣人」、「中國人」，或者都是? (x) <numeric> 
+total N=1202 valid N=1202 mean=3.84 sd=15.26
+Value |  Label |   N | Raw % | Valid % | Cum. %
+-----------------------------------------------
+   1 | 臺灣人 | 772 | 64.23 |   64.23 |  64.23
+   2 |   都是 | 376 | 31.28 |   31.28 |  95.51
+   3 | 中國人 |  23 |  1.91 |    1.91 |  97.42
+  95 |   拒答 |   3 |  0.25 |    0.25 |  97.67
+  96 | 看情形 |   1 |  0.08 |    0.08 |  97.75
+  97 | 無意見 |   4 |  0.33 |    0.33 |  98.09
+  98 | 不知道 |  23 |  1.91 |    1.91 | 100.00
+<NA> |   <NA> |   0 |  0.00 |    <NA> |   <NA>
+
+# 2) 資料整理
+建立新的column identity，恢復本來名稱於new column identity。
+將 95:98 設定為 NA
+recode in new column as “identity”
+<span class="ctoc-banner">C29$identity <- case_when(
+  C29$q29 %in% "1" ~ "臺灣人",
+  C29$q29 %in% "3" ~ "中國人",
+  C29$q29 %in% "2"  ~ "雙重認同",
+  C29$q29 %in% c("95","96", "97","98") ~ NA_character_,
+  is.na(C29$q29) ~ NA_character_, # 當原始資料就是NA時，轉化為NA
+  TRUE ~ NA_character_  # 其他未分類的也設為 NA(防呆機制)
+)</span>
+
+<span class="ctoc-banner">C29$identity <- as.factor(C29$identity)
+frq(C29$identity)</span>
+x <categorical> 
+total N=1202 valid N=1171 mean=2.30 sd=0.50
+Value    |   N | Raw % | Valid % | Cum. %
+-----------------------------------------
+中國人   |  23 |  1.91 |    1.96 |   1.96
+臺灣人   | 772 | 64.23 |   65.93 |  67.89
+雙重認同 | 376 | 31.28 |   32.11 | 100.00
+<NA>     |  31 |  2.58 |    <NA> |   <NA>
+
+<span class="ttoc-banner">5. 建立 教育程度/學歷 的column</span> 
+1)建立新的學歷 df
+<span class="ctoc-banner">C31 <- C[c(q31)]</span>
+
+2)查看資料
+<span class="ctoc-banner">install.packages("sjlabelled")
+library(sjlabelled)
+frq(as_factor(C31$q31, levels = "labels"))</span>
+23.您的最高學歷是什麼(讀到什麼學校)? (x) <categorical> 
+total N=1202 valid N=1202 mean=5.38 sd=6.52
+Value |          Label |   N | Raw % | Valid % | Cum. %
+-------------------------------------------------------
+   1 | 不識字及未入學 |  21 |  1.75 |    1.75 |   1.75
+   2 |         小學 |  70 |  5.82 |    5.82 |   7.57
+   3 |      國、初中 | 104 |  8.65 |    8.65 |  16.22
+   4 |      高中、職 | 284 | 23.63 |   23.63 |  39.85
+   5 |         專科 | 161 | 13.39 |   13.39 |  53.24
+   6 |         大學 | 404 | 33.61 |   33.61 |  86.86
+   7 |  研究所及以上 | 152 | 12.65 |   12.65 |  99.50
+  95 |         拒答 |   6 |  0.50 |    0.50 | 100.00
+<NA> |        <NA> |   0 |  0.00 |    <NA> |   <NA>
+
+3)合併資料
+<span class="ctoc-banner">frq(C$q31)
+C31 <- C31 %>%                
+  mutate(
+    q31 = as.character(q31),
+    edu = case_when(
+      q31 %in% c("1","2") ~ "小學與未入學",
+      q31 %in% c("3","4") ~ "中學",
+      q31 %in% c("5","6") ~ "大專",
+      q31 %in% c("7")     ~ "碩博士",
+      q31 %in% c("95") ~ NA_character_,
+      is.na(q31) ~ NA_character_,
+      TRUE ~ NA_character_
+    ),
+      edu = factor(edu, 
+    	          levels = c("小學與未入學","中學","大專","碩博士"), 
+    	           ordered = TRUE)
+        )</span>
+
+<span class="ctoc-banner">frq(C31$edu)</span>
+x <ordinal> 
+total N=1202 valid N=1196 mean=2.65 sd=0.80
+Value      |   N | Raw % | Valid % | Cum. %
+---------------------------------------------
+小學與未入學 |  91 |  7.57 |    7.61 |   7.61
+中學        | 388 | 32.28 |   32.44 |  40.05
+大專        | 565 | 47.00 |   47.24 |  87.29
+碩博士      | 152 | 12.65 |   12.71 | 100.00
+<NA>       |   6 |  0.50 |    <NA> |   <NA>
+
+<span class="ttoc-banner">6. 建立 年齡 的column</span>
+1) 建立新的國族身份認同df
+<span class="ctoc-banner">C30 <- C[c("q30")]</span>
+
+2) 年齡的整理
+資料框 C，民國出生年 位於 q30 欄位。
+C30$q30 必須是數值型態 (numeric)
+<span class="ctoc-banner">class(C30$q30)</span>
+[1] "haven_labelled" "vctrs_vctr" "double" 
+注意 double 即可：這是雙精度浮點數，即數值型資料。
+
+3) 從民國年轉化為年齡
+3.1) 定義調查年份
+<span class="ctoc-banner">survey_year <- 2024</span>
+3.2) 將民國年轉換為西元年 (AD year)
+民國元年 = 西元 1912 年，所以加上 1911
+
+<span class="ctoc-banner">C30$birth_year_AD <- C30$q30 + 1911</span>
+4) 計算年齡（虛歲/足歲的簡易計算）
+這裡計算的是「足歲」（即 2024 年 - 出生年份）。
+這種計算方式會略微高估，但對於問卷調查通常夠用。
+
+<span class="ctoc-banner">C30$age <- survey_year - C30$birth_year_AD
+frq(C30$age)</span>
+x <numeric> 
+total N=1202 valid N=1202 mean=50.29 sd=16.32
+Value |  N | Raw % | Valid % | Cum. %
+#-------------------------------------
+  18 | 13 |  1.08 |    1.08 |   1.08
+  20 |  5 |  0.42 |    0.42 |   1.50
+  21 | 11 |  0.92 |    0.92 |   2.41
+  22 | 15 |  1.25 |    1.25 |   3.66
+以上為節錄
+
+說明
+mean = 50.29，sd = 16.32 → 年齡和平均 50.29 歲相比，典型偏離約 16.3 歲
+約 68% 的值落在 正負1個sd，約34–67歲，約 95% 落在 正負2個sd左右，約17.7~83歲
+
+<span class="ctoc-banner">summary(C30$age)</span>
+Min.    1st Qu.  Median    Mean    3rd Qu.    Max. 
+ 18.00   38.00   50.00    50.29     63.00   89.00
+
+5) 建立新的年齡 column "age_N"
+<span class="ctoc-banner">C30 <- C30 %>%
+  mutate(                            # mutate() 新增或變更資料欄位的函數。
+    age = as.numeric(age),           # 求慎重，再處理一次age變項確立為numeric。
+    age_N = case_when(
+      age >= 18 & age <= 29 ~ "20s", # 為求便利，將18,19歲改列為 20s。
+      age >= 30 & age <= 39 ~ "30s", # 因 age 為 numeric，非character & factor，
+      age >= 40 & age <= 49 ~ "40s", # 可不加括號。但新成立的變項age_N，為factor
+      age >= 50 & age <= 59 ~ "50s", # 變項，引此需要加括號 " "。
+      age >= 60             ~ "60+",
+      TRUE                  ~ NA_character_
+    ),
+    age_N = factor(age_N, # 將 新的column age_N 設定為 factor。
+    levels = c("20s","30s","40s","50s","60+"), # levels()，從低到高，設定ordinal
+    ordered = TRUE) # 將age_N 設置為順序尺度 (Ordinal Scale)
+       )</span>
+
+<span class="ctoc-banner">frq(C30$age_N)</span>
+
+x <ordinal> 
+total N=1202 valid N=1202 mean=3.42 sd=1.38
+Value |   N | Raw % | Valid % | Cum. %
+#--------------------------------------
+20s   | 143 | 11.90 |   11.90 |  11.90
+30s   | 194 | 16.14 |   16.14 |  28.04
+40s   | 257 | 21.38 |   21.38 |  49.42
+50s   | 229 | 19.05 |   19.05 |  68.47
+60+   | 379 | 31.53 |   31.53 | 100.00
+<NA>  |   0 |  0.00 |    <NA> |   <NA>
+
+說明
+sjmisc 把等級編成 20s=1, 30s=2, 40s=3, 50s=4, 60+=5 後計算的加權平均。
+3.42 介於 40s(3) 與 50s(4) 之間>
+sd = 1.38：以「級距數」衡量的離散程度，表示觀測值相對平均大約 ±1.38 個等級的變動。
+因為已有先前原始資料，轉變為ordinal/factor後的資料無太大意義。
+
+<span class="ttoc-banner">7. 合併</span>
+1) 合併新增加的變項 7-10
+   變項                  變項內容            所在位置             變項類型
+7.國族身份認同     台灣人 雙重認同 中國人        C29$identity     category
+8.居住地點        北臺灣 中臺灣 雲嘉南 南臺灣    C37$region       category
+9.學歷           小學與未入學 中學 大專 研究所   C31#edu         ordinal/category
+10.年齡          20s,30s,40s,50s,60+        C30$age_N        ordinal/category
+
+<span class="ctoc-banner">df_N3 <- data.frame(
+  identity = factor(C29$identity),          # 
+  region   = factor(C37$region),          
+  edu  = factor(C31$edu,
+  	            levels = c("小學與未入學","中學","大專","碩博士"),
+                      ordered = TRUE),          # 有序因子
+  age_N  = factor(C30$age_N,
+  	            levels = c("20s","30s","40s","50s","60+"),
+                      ordered = TRUE)
+                    )</span>
+<span class="ctoc-banner">nrow(df_N3)</span>
+[1][1202]
+
+2) 合併 檔案
+<span class="ctoc-banner">CX <- cbind(df_NN, df_N3)</span>
+<span class="ctoc-banner">ncol(CX)</span>
+[1] 10
+<span class="ctoc-banner">nrow(CX)</span>
+[1][1202]
+
+3) 檢查 columns
+<span class="ctoc-banner">summary(CX)</span>
+trust_CN       trust_CN_N    favor_Han       trust_Tsai     Natl_Defence
+Min.   : 0.000   不信任:756   Min.   : 0.00   Min.   : 0.000   不滿意:411  
+1st Qu.: 0.000   普通  :317   1st Qu.: 3.00   1st Qu.: 4.000   滿意  :635  
+Median : 2.000   信任  : 62   Median : 5.00   Median : 6.000   NA's  :156  
+Mean   : 2.342   NA's  : 67   Mean   : 4.48   Mean   : 5.767               
+3rd Qu.: 5.000                3rd Qu.: 6.00   3rd Qu.: 8.000               
+Max.   :10.000                Max.   :10.00   Max.   :10.000               
+NA's   :67                    NA's   :42      NA's   :28                   
+
+partisanship_N       identity      region         edu            age_N    
+台灣民眾黨:209        中國人  : 23   中臺灣:271   小學與未入學  : 91   20s:143  
+泛綠陣營  :460        臺灣人  :772   北臺灣:553   中學        :388   30s:194  
+泛藍陣營  :233        雙重認同:376   南臺灣:195   大專        :565   40s:257  
+都不偏    :273       NA's    : 31   雲嘉南:169   碩博士      :152   50s:229  
+NA's     : 27                      NA's : 14   NA's       :  6   60+:379
+
+注意
+關機後，重新load 入CX.csv檔案後，變項的屬性需要重新設定。
+如load入的是 ".RData"e格式的檔案，不需要重新設定column的屬性。
+<span class="ttoc-banner">8. 存檔</span>
+<span class="ctoc-banner">write.csv(CX,"CX.csv")
+save.image("你的命名.RData")</span>
+</code></pre>
+
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>
+</html>

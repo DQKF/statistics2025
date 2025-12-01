@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week02 - R for Descriptive Statistics & Tests of Association</strong></p>
+    <p>日期：2025年12月11日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>t-test
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=============================================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week02- R for Descriptive Statistics & Tests of Association 
+Date:2025-12-11 
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=============================================================
+
+<span class="toc-banner">目錄</span>
+1.資料簡述與研究主旨
+2.變項及其所在位置
+3.檢定方法: t-test
+4.資料清理A:對蔡英文總統國防政策的滿意程度
+  Step 01 查看黨派因素
+  Step 02 data manipulation 對中國的信任程度
+  Step 03 合併資料
+  Step 04 t-test
+  Step 05 視覺化 提琴圖 violin
+5. Fisher檢定 （小樣本適用）
+6. t-test for Likert
+  Step 01 資料整理
+  Step 02 t.test
+  Step 03 Cohen’s d 
+  Step 04 Wilcoxon test
+7.ANOVA(Analysis of Variance)變異數分析
+  Step 01 資料查看
+  Step 02 單因子 ANOVA
+  Step 03 效果量說明（η² / 部分η²）
+  Step 04 事後比較 TukeyHSD test
+8.TukeyHSD(a1) 視覺化: Forest plot
+  Step 01 取得 Tukey 結果 → 整理成資料框
+  Step 02 森林圖
+  Step 03 save as .png file
+  Step04 視覺化 離散點圖Jittered dot/strip plot
+9.save as .png file
+10.存檔
+
+<span class="toc-banner">1.資料簡述與研究主旨</span>
+資料:TEDS2024-T_PAO3.sav
+原檔案TEDS2024-T_PAO35.sav 轉存為 C.csv.
+研究對象：[對蔡英文總統的國防政策的滿意度] 與 
+        [民眾的政黨支持狀態] 之間的關聯性。
+
+<span class="toc-banner">2.變項及其所在位置</span>
+       變項                變項內容          所在位置      變項類型
+ 1.對中國的信任程度          0-10             C$q17       numeric
+ 2.對韓國瑜的好感度          0-10             C$q19       numeric
+ 3.對蔡英文的信任度          0-10             C$q13       numeric
+ 4.政黨支持對象             政黨類別          C$q26:28   categorical
+
+<span class="toc-banner">3.檢定方法: t-test</span>
+numeric Vs. categorical variables
+獨立樣本T-檢定：「兩個」不同群體的平均數是否相同？
+T-test 類別資料：黨派二分法 Vs. 數值型資料
+       黨派--泛綠 ＆ 藍白陣營 Vs. 對中國的信任度 （0 == 極度不信任, 10 == 非常信任）
+虛無假設：泛綠陣營 與 藍白陣營 對中國的信任程度平均分數 之間沒有差異。
+對立假設：泛綠陣營 與 藍白陣營 對中國的信任程度平均分數 之間有顯著的差異。 
+注意：cell 的期望值次數須 >= 5。
+
+<span class="btoc-banner">Step 01 查看黨派因素</span>
+黨派二分類
+<span class="ctoc-banner">frq(C2628$partisanship_N3)</span>
+x <categorical> 
+total N=1202 valid N=902 mean=1.49 sd=0.50
+Value    |   N | Raw % | Valid % | Cum. %
+-----------------------------------------
+泛綠陣營 | 460 | 38.27 |      51 |     51
+藍白陣營 | 442 | 36.77 |      49 |    100
+<NA>    | 300 | 24.96 |    <NA> |   <NA>
+
+<span class="btoc-banner">Step 02 data manipulation 對中國的信任程度</span>
+<span class="ctoc-banner">C17<-C[c("q17")]</span>
+<span class="ctoc-banner">frq(C17$q17)</span>
+13.您認為中國大陸政府可不可以信任，如果0代表非常不可信，10代表非常可信，從0到10請問您會給多少? (x) <numeric> 
+total N=1202 valid N=1202 mean=7.61 sd=21.84
+Value |      Label |   N | Raw % | Valid % | Cum. %
+---------------------------------------------------
+   0 | 非常不可信 | 482 | 40.10 |   40.10 |  40.10
+   1 |          1 |  69 |  5.74 |    5.74 |  45.84
+   2 |          2 |  74 |  6.16 |    6.16 |  52.00
+   3 |          3 | 131 | 10.90 |   10.90 |  62.90
+   4 |          4 |  82 |  6.82 |    6.82 |  69.72
+   5 |          5 | 185 | 15.39 |   15.39 |  85.11
+   6 |          6 |  50 |  4.16 |    4.16 |  89.27
+   7 |          7 |  23 |  1.91 |    1.91 |  91.18
+   8 |          8 |  25 |  2.08 |    2.08 |  93.26
+   9 |          9 |   6 |  0.50 |    0.50 |  93.76
+  10 |   非常可信  |   8 |  0.67 |    0.67 |  94.43
+  95 |       拒答 |  25 |  2.08 |    2.08 |  96.51
+  98 |     不知道 |  42 |  3.49 |    3.49 | 100.00
+  NA |        NA |   0 |  0.00 |      NA |    NA
+將 95, 98, NA 設定為 NA
+<span class="ctoc-banner">C17 <- C17 %>%
+  mutate(
+         q17 = as.numeric(q17),   # 0–10 分 or 95/98
+         trust_CN = case_when(
+         q17 %in% c(95, 98) ~ NA_real_,  # 缺漏值
+         TRUE              ~ q17   # 其他照原分數
+                             )
+        )</span>
+<span class="ctoc-banner">frq(C17$trust_CN)</span>
+x <numeric> 
+total N=1202 valid N=1135 mean=2.34 sd=2.50
+Value |   N | Raw % | Valid % | Cum. %
+--------------------------------------
+   0 | 482 | 40.10 |   42.47 |  42.47
+   1 |  69 |  5.74 |    6.08 |  48.55
+   2 |  74 |  6.16 |    6.52 |  55.07
+   3 | 131 | 10.90 |   11.54 |  66.61
+   4 |  82 |  6.82 |    7.22 |  73.83
+   5 | 185 | 15.39 |   16.30 |  90.13
+   6 |  50 |  4.16 |    4.41 |  94.54
+   7 |  23 |  1.91 |    2.03 |  96.56
+   8 |  25 |  2.08 |    2.20 |  98.77
+   9 |   6 |  0.50 |    0.53 |  99.30
+  10 |   8 |  0.67 |    0.70 | 100.00
+ NA  |  67 |  5.57 |     NA  |    NA
+
+<span class="ctoc-banner">C17 <- C17 %>%
+  mutate(
+    q17 = parse_number(as.character(q17)),        # 或 as.numeric(q17)
+    q17 = ifelse(q17 %in% c(95, 98), NA_real_, q17),
+
+    trust_CN_N = case_when(
+      !is.na(q17) & q17 >= 0  & q17 <= 3  ~ "不信任",
+      !is.na(q17) & q17 >= 4  & q17 <= 6  ~ "普通",
+      !is.na(q17) & q17 >= 7  & q17 <= 10 ~ "信任",
+      TRUE                                ~ NA_character_
+    ),
+
+    trust_CN_N = factor(trust_CN_N,
+                        levels = c("不信任","普通","信任"),
+                        ordered = TRUE)
+  )</span>
+
+<span class="ctoc-banner">frq(C17$trust_CN_N)</span>
+x <ordinal> 
+total N=1202 valid N=1135 mean=1.39 sd=0.59
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+ 不信任 | 756 | 62.90 |   66.61 |  66.61
+ 普通   | 317 | 26.37 |   27.93 |  94.54
+ 信任   |  62 |  5.16 |    5.46 | 100.00
+ NA    |  67 |  5.57 |     NA  |    NA
+
+<span class="btoc-banner">Step03 合併資料</span>
+<span class="ctoc-banner">CA2$trust_CN <- as.numeric(CA2$trust_CN)</span>
+<span class="ctoc-banner">CA2$partisanship_N3 <- as.factor(CA2$partisanship_N3)</span>
+<span class="ctoc-banner">CA2 <- cbind(C17, C2628)</span>
+
+<span class="btoc-banner">Step04 t-test</span>
+<span class="ctoc-banner">t.test(trust_CN ~ partisanship_NN, data = CA2)</span>
+Welch Two Sample t-test
+data:  trust_CN by partisanship_NN
+t = -9.1714, df = 373.49, p-value < 2.2e-16
+alternative hypothesis: true difference in means between groups 
+泛綠陣營 and group 藍白陣營 is not equal to 0
+95 percent confidence interval:
+-1.977082 -1.278988
+sample estimates:
+mean in group 泛綠陣營 mean in group 藍白陣營 
+           1.205298               2.833333 
+
+ 核心統計量
+ 統計量           數值              說明 
+ t 統計量      -9.1714       衡量兩組平均數差異的大小（以標準誤為單位）。
+                            負值表示第一個組別（泛綠陣營）的平均數低於第二個組別（藍白陣營）。
+                            表明泛綠和藍白陣營支持者在對中國信任程度的平均差異，是隨機變異的9倍以上。
+ 自由度(df)    373.49        由於採用 Welch 檢定（不假設變異數相等），自由度通常不是整數。
+ p-value      < 2.2e-16     < 0.05
+
+
+平均數與差異估計
+項目               數值             說明
+泛綠陣營平均        1.205
+藍白陣營平均        2.833
+95% CI$       [-1.977, -1.279]  兩組平均數的真實差異有 95% 
+                                的信心落在此區間內。由於整個區間都是負值，
+                                確認泛綠陣營的平均數顯著低於藍白陣營。
+
+結果，拒絕虛無假設。在對中國的信任度上，泛綠陣營顯著低於藍白陣營的支持者。
+
+<span class="btoc-banner">Step 05 視覺化 提琴圖 violin</span>
+<span class="ctoc-banner">ggplot(CA2, aes(x = partisanship_NN, y = trust_CN)) +
+  geom_violin(trim = FALSE, alpha = .2) +
+  geom_boxplot(width = .15, outlier.alpha = .2) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
+  labs(x = "政黨陣營", y = "對中國信任（0–10）",
+       title = "不同陣營墮中國信任度的平均數差異及分布（含95%CI）")</span>
+
+fun.data = mean_cl_normal:  ggplot2::stat_summary() 
+指定如何同時計算「平均數＋信賴區間」的函數。
+
+mean_cl_normal 會對每個分組的 y 值計算：
+  • y = 平均數
+  • ymin / ymax = 平均數 ± （1.96 × 標準差），也就是以常態近似（z）計算的 95% 信賴區間
+  #（標準差 = sd(x)/sqrt(n)）
+
+🎈注意！ cell value < 5
+
+<span class="toc-banner">5. Fisher檢定 （小樣本適用)</span>
+改採用Fisher檢定。（小樣本＆稀疏矩陣處理）
+列聯表
+<span class="ctoc-banner">CA2_Fisher <- table(CA2$partisanship_NN, CA2$trust_CN)</span>
+Fisher 精確檢定（小樣本或稀疏cell）
+<span class="ctoc-banner">fisher.test(CA2_Fisher, 
+                                      simulate.p.value = TRUE, 
+# R改用 Monte Carlo 模擬 的方式，用隨機抽樣來「估計」 p-value，而不是精算。
+                                      B = 2000
+# B 就是 模擬的次數（replicates / simulations）
+                                    )</span>
+Fisher's Exact Test for Count Data
+with simulated p-value (based on 2000 replicates)
+data: CA2_Fisher
+p-value = 0.0004998
+alternative hypothesis: two.sided 
+（雙尾：排除方向性）
+說明，本資料集由於樣本數過大，並不直接適用fisher.test(CA2_Fisher)
+
+<span class="toc-banner">6.t-test for Likert</span>
+測量黨派認同與對蔡英文總統國防政策滿意度之間的關聯性。
+<span class="btoc-banner">Step 01 資料整理</span>
+T-test 用來檢驗「兩個平均數是不是不一樣」，
+或者「一個平均數跟某個理論值是不是不一樣」。
+也可以將Likert量表轉化為numeric的概念進行t-test運算。
+1)load R package
+<span class="ctoc-banner">install.packages("effectsize")</span>
+<span class="ctoc-banner">library(effectsize)
+library(dplyr)</span>
+2)刪除NA
+CA1$q9, 保留 1,2,3,4, else = NA == new column CA1$Natil_Defence4, 
+as numeric form.
+<span class="ctoc-banner">
+CA1 <- CA1 |>
+  mutate(
+    Natil_Defence4 = if_else(q9 %in% 1:4,  # 只保留 1,2,3,4
+                             as.numeric(q9),
+                             NA_real_)     # 其他通通設為 NA（含95,98）
+  )</span>
+|> 與 %>% 是一樣的功能。
+提示
+1 == 非常滿意
+2 == 滿意
+3 == 不滿意
+4 == 非常不滿意
+
+<span class="ctoc-banner">levels(CA1$partisanship_N3)</span>
+[1] "泛綠陣營" "藍白陣營"
+
+<span class="btoc-banner">Step 02 t.test</span>
+<span class="ctoc-banner">t.test(Natil_Defence4  ~ partisanship_N3, 
+                           data = CA1,
+                           na.rm = TRUE)</span>
+Welch Two Sample t-test
+
+data:  Natil_Defence4 by partisanship_N3
+t = -26.988, df = 722.16, p-value < 2.2e-16
+alternative hypothesis: true difference in means between group 泛綠陣營 and group 藍白陣營 is not equal to 0
+95 percent confidence interval:
+ -1.532709 -1.324833
+sample estimates:
+mean in group 泛綠陣營 mean in group 藍白陣營 
+              1.530516               2.959288 
+
+說明
+1)泛綠陣營在 Natil_Defence4 的平均 ≈ 1.53
+  藍白陣營平均 ≈ 2.96
+  差異（泛綠 - 藍白） ≈ -1.43 分
+  代表「泛綠陣營」在這個題目上的平均分數，比「藍白陣營」大約低 1.4 分。
+  泛綠陣營比藍白陣營支持者，更滿意於蔡總統的國防政策。
+2)t 值與 p 值
+  t = -26.99 的絕對值非常大，代表「樣本平均差異 / 標準誤」超大。
+  p < 2.2e-16 幾乎就是「在虛無假設為真的情況下，
+  觀察到這麼極端差異的機率幾乎是 0」。
+  表示可以安心拒絕 兩組平均數相同的虛無假設。
+3)95% 信賴區間
+  信賴區間 [-1.53, -1.32] 完全在 0 以下，
+  真實母體的平均差異（泛綠 − 藍白）是負的，
+  而且大概在 -1.5 到 -1.3 之間，相當狹窄。
+
+<span class="btoc-banner">Step 03 Cohen’s d</span>
+差異的大小占幾個標準差？
+<span class="ctoc-banner">cohens_d(Natil_Defence4  ~ partisanship_N3, 
+                           data = CA1,
+                           na.rm = TRUE)</span>
+Cohen's d |         95% CI
+--------------------------
+-1.91     | [-2.07, -1.74]
+
+- Estimated using pooled SD.
+Warning message:
+Missing values detected. NAs dropped.
+
+說明
+1)泛綠陣營與藍白陣營支持者在蔡總統國防政策的滿意度差異佔了 |-1.91| == 1.91個標準差。
+  Jacob Cohen 常用門檻：0.2 小、0.5 中、0.8 大
+  1.91 已經是「超大效果量」，代表兩組幾乎是明顯分開的兩群人口。
+2)Cohen’s d 的 95% CI: [-2.07, -1.74]
+  整個區間都遠離 0，代表即便考慮抽樣誤差，「真的效果量」
+  也幾乎肯定是非常大的負向差異。
+
+<span class="btoc-banner">Step 04 Wilcoxon test</span>
+<span class="ctoc-banner">wilcox.test(Natil_Defence4 ~ partisanship_N3,
+            data   = CA1,
+            exact  = FALSE,  # 樣本數大時建議關掉 exact
+            conf.int = TRUE)</span>
+Wilcoxon rank sum test with continuity correction
+
+data:  Natil_Defence4 by partisanship_N3
+W = 19026, p-value < 2.2e-16
+alternative hypothesis: true location shift is not equal to 0
+95 percent confidence interval:
+ -1.999995 -1.000064
+sample estimates:
+difference in location 
+             -1.000017 
+
+說明
+1)Wilcoxon test 可理解為兩組中位數之差
+2)為何需要補做Wilcoxon test？
+  • 不要求常態分配。
+  • 只利用 排序（rank），而不是原始分數。
+  • 適合等級尺度，如Likert。
+  • 對極端值、不對稱分布比較不敏感，較為穩健。
+  • 在本次教學示範中，即使資料未呈現常態分佈、
+    Likert未必是連續而只有排序，結論還成立嗎？
+3) difference in location -1.000017   
+   泛藍與泛綠支持者在本議題上平均約差了一個級距。
+   p-value < 2.2e-16 具有統計上的顯著性。
+4)• t-test：「兩組平均數是不是『有差』？」（假設檢定、p 值）
+  • Cohen’s d：差異到底有多大？（效果量）
+  • Wilcoxon：不假裝常態 & 間距，看看「排序/分佈」是不是也有差？。
+
+<span class="ttoc-banner">總結
+由於 Natil_Defence4 為 1–4 的 Likert 等級資料，
+本研究首先以 Welch t 檢定比較泛綠與藍白兩組在國防政策滿意度的平均數差異，
+結果顯示兩組差異高度顯著（t = -26.99, p < .001）。
+進一步以 Cohen’s d 評估效果量，得到 d = -1.91，95% CI [-2.07, -1.74]，
+屬於遠超過 Cohen 所定義的「大效果」（|0.8|）的差異，
+顯示兩組在滿意度上的區別不僅統計顯著，且具實質上的極大效果。
+
+考量 Natil_Defence4 僅為等級尺度，本研究同時補做
+Mann–Whitney Wilcoxon 非參數檢定，以降低常態分配與間距尺度假設可能帶來的偏誤。
+Wilcoxon 檢定同樣得到極顯著結果（p < .001），
+其估計的「位置差異」（泛綠 − 藍白）約為 -1.00，95% CI [−2.00, −1.00]，
+表示在 1–4 的等級尺度上，泛綠支持者的典型評分約比藍白支持者低 1 個等級以上。整體而言，
+t 檢定、Cohen’s d 與 Wilcoxon 檢定三者結果一致，
+顯示政黨認同對國防政策滿意度具有強烈且穩健的區別效果。</span>
+
+<span class="toc-banner">7.ANOVA(Analysis of Variance)變異數分析</span>
+說明
+1)與t-test的差別
+• t-test:組別=2
+• ANOVA:組別 >2
+2)通常採用雙尾檢定。只有在一個方向性時才具有意義時才使用單尾。
+
+以下檢測 政黨身份認同 與 對中國信任程度之間的關係檢測
+
+<span class="btoc-banner">Step 01 資料查看</span>
+政黨認同：CA2$partisanship_N
+<span class="ctoc-banner">7frq(CA2$partisanship_N)</span>
+x <categorical> 
+total N=1202 valid N=1175 mean=2.49 sd=1.03
+
+Value      |   N | Raw % | Valid % | Cum. %
+-------------------------------------------
+台灣民眾黨 | 209 | 17.39 |   17.79 |  17.79
+泛綠陣營   | 460 | 38.27 |   39.15 |  56.94
+泛藍陣營   | 233 | 19.38 |   19.83 |  76.77
+都不偏     | 273 | 22.71 |   23.23 | 100.00
+  NA      |  27 |  2.25 |     NA  |    NA
+
+對中國信任分數： CA2$trust_CN (0-10)
+
+確保分組是 factor
+CA2$partisanship_N <- factor(CA2$partisanship_N)
+
+<span class="btoc-banner">Step 02 單因子 ANOVA</span>
+<span class="ctoc-banner">a1 <- aov(trust_CN ~ 
+                                    partisanship_N, 
+                                    data = CA2)</span>
+<span class="ctoc-banner">summary(a1)</span>
+
+                 Df Sum Sq Mean Sq F value Pr(>F)    
+partisanship_N    3   1107   369.0   70.04 <2e-16 ***
+Residuals      1113   5863     5.3                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+說明
+平方和 Sum Sq = 1107 代表組間變異，即不同政治傾向組別的平均數之間差異的總和。
+均方 Mean Sq 369  = 1107 / 3 (df)，代表組間的平均變異量。
+F 值越大，表示組間差異（政治傾向的效應）相對於組內差異（誤差）就越大。
+
+
+<span class="btoc-banner">Step 03 效果量說明（η² / 部分η²）</span>
+<span class="ctoc-banner">install.packages("effectsize")</span>
+<span class="ctoc-banner">library(effectsize)</span>
+<span class="ctoc-banner">eta_squared(a1, partial = TRUE)</span>
+
+Effect Size for ANOVA
+
+Parameter      | Eta2 |       95% CI
+------------------------------------
+partisanship_N | 0.16 | [0.13, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+
+# 說明：
+單因子變異數分析結果顯示，政黨認同對ㄧ致變項（Y）的影響達高度顯著，
+F(3, 1113) = 70.04, p < .001，效果量 η² ≈ .16，
+表示約 16% 的總變異可由政黨認同解釋。
+
+<span class="btoc-banner">Step 04 事後比較 Tukey test</span>
+ANOVA 只會告訴你：「四組平均至少有一組不一樣」。
+但它不會告訴你：哪兩組跟哪兩組不一樣？
+所以我們會做事後比較（post-hoc tests），逐組配對去比。
+
+<span class="ctoc-banner">TukeyHSD(a1)</span>
+Fit: aov(formula = trust_CN ~ partisanship_N, data = CA2)
+$partisanship_N
+                    diff        lwr        upr     p adj
+泛綠陣營-台灣民眾黨 -1.62803532 -2.1259462 -1.1301245 0.0000000   😀    
+泛藍陣營-台灣民眾黨  0.89760837  0.3254984  1.4697183 0.0003370   😀
+都不偏-台灣民眾黨   -0.06962025 -0.6335995  0.4943590 0.9889111
+泛藍陣營-泛綠陣營    2.52564369  2.0425794  3.0087079 0.0000000   😀
+都不偏-泛綠陣營      1.55841507  1.0850084  2.0318217 0.0000000   😀 
+都不偏-泛藍陣營     -0.96722862 -1.5181446 -0.4163126 0.0000410   😀 
+
+說明
+1)誰比較信任中國？」
+Tukey 的對比是「前者 − 後者」，所以：
+  • 泛綠陣營 − 台灣民眾黨 = -1.63（p < .001）
+    台灣民眾黨支持者比泛綠支持者大約高 1.63 分的中國信任度，而且差異顯著。
+  • 泛藍陣營 − 泛綠陣營 = 2.53（p < .001）
+    泛藍支持者比泛綠支持者高約 2.53 分，是所有對比裡差距最大的組合之一。
+  • 都不偏 − 泛綠陣營 = 1.56（p < .001）
+    自認「都不偏」的選民，也比泛綠支持者多出約 1.56 分的中國信任度。
+所以，泛綠明顯是四組裡「最不信任中國」的一群。
+⸻
+  泛藍、民眾黨、「都不偏」之間怎麼排？
+  • 泛藍陣營 − 台灣民眾黨 = 0.90（p ≈ 0.0003）
+    泛藍支持者比台灣民眾黨支持者再高將近 1 分，顯著更信任中國。
+  • 都不偏 − 泛藍陣營 = -0.97（p < .001）
+    這是反過來看：都不偏比泛藍低將近 1 分，也顯著不同。
+  • 都不偏 − 台灣民眾黨 = -0.07（p ≈ 0.99）
+    差異非常小而且完全不顯著，都不偏 ≈ 台灣民眾黨，可以視為同一個信任水準。
+<span class="ttoc-banner">總結
+Tukey 事後比較顯示，在對中國的信任度上，各政黨認同群體之間存在明顯層級差異。
+相較於泛綠支持者，台灣民眾黨支持者與自認「都不偏」的選民分別高出約 1.63 分與 1.56 分，
+而泛藍支持者則高出約 2.53 分，差異均達到高度顯著水準（p < .001）。
+進一步比較泛藍與其他非綠營群體，
+可以看到泛藍支持者的中國信任度亦顯著高於台灣民眾黨（約 0.90 分）與
+「都不偏」選民（約 0.97 分），
+而台灣民眾黨與「都不偏」兩者之間則無顯著差異。
+整體而言，四組受訪者在「信任中國」上的排序大致為：
+泛藍最高，其次為台灣民眾黨與「都不偏」大致相當，泛綠則明顯最低。
+
+平均信任中國程度由高到低依序為：泛藍 ＞ 台灣民眾黨 ≈ 都不偏 ＞ 泛綠。</span>
+
+<span class="toc-banner">8.TukeyHSD(a1) 視覺化: Forest plot</span>
+<span class="ctoc-banner">install.packages("tibble")</span>
+<span class="ctoc-banner">library(dplyr)
+library(tibble)
+library(ggplot2)</span>
+
+<span class="btoc-banner">Step 01 取得 Tukey 結果 → 整理成資料框</span>
+<span class="ctoc-banner">tk <- TukeyHSD(a1)$partisanship_N %>%
+                                as.data.frame() %>%
+                                rownames_to_column("contrast") %>%
+                                as_tibble() %>%
+        rename(diff = diff, lwr = lwr, upr = upr, p_adj = `p adj`)</span>
+
+<span class="ctoc-banner">tk</span>
+# A tibble: 6 × 5
+  contrast               diff    lwr    upr    p_adj
+  <chr>                 <dbl>  <dbl>  <dbl>    <dbl>
+1 泛綠陣營-台灣民眾黨 -1.63   -2.13  -1.13  5.51e-13
+2 泛藍陣營-台灣民眾黨  0.898   0.325  1.47  3.37e- 4
+3 都不偏-台灣民眾黨   -0.0696 -0.634  0.494 9.89e- 1
+4 泛藍陣營-泛綠陣營    2.53    2.04   3.01  5.10e-13
+5 都不偏-泛綠陣營      1.56    1.09   2.03  5.49e-13
+6 都不偏-泛藍陣營     -0.967  -1.52  -0.416 4.10e- 5
+
+<span class="btoc-banner">Step 02 森林圖</span>
+<span class="ctoc-banner">p_中國信任度_成對比較 <- ggplot(tk, aes(x = diff, y = reorder(contrast, diff))) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+  geom_errorbarh(aes(xmin = lwr, xmax = upr), height = 0.18) +
+  geom_point(size = 2.8) +
+  geom_text(aes(label = sprintf("p = %.3g", p_adj)),
+            nudge_y = 0.25, size = 3.2) +
+  labs(
+    title = "Tukey HSD：兩兩差異與95% CI",
+    x = "平均差（前者 − 後者）", y = "對比（A − B）"
+  ) +
+  theme_minimal(base_size = 13)</span>
+<span class="ctoc-banner">p_中國信任度_成對比較</span>
+<span class="btoc-banner">Step 03 save as .png file</span>
+<span class="ctoc-banner">ggsave(
+       filename = "中國信任度_成對比較.png",
+       plot     = p_中國信任度_成對比較,
+       device   = "png",
+       width    = 8,      # 寬度（英吋）
+       height   = 5,      # 高度（英吋）
+       dpi      = 300,    # 解析度
+       bg       = "white" # 背景（避免透明背景）
+      )</span>
+
+<span class="btoc-banner">Step04 視覺化 離散點圖Jittered dot/strip plot</span>
+
+先解決 NA
+<span class="ctoc-banner">CA2c <- CA2 %>%
+  mutate(
+    # 先把 "NA"（字面）轉成真 NA，再轉數值
+    trust_CN       = as.numeric(na_if(as.character(trust_CN), "NA")),
+    partisanship_N = factor(na_if(as.character(partisanship_N), "NA"))
+  ) %>%
+  drop_na(trust_CN, partisanship_N) %>%
+  mutate(
+    # 依你的假說設定順序（可調整）
+    partisanship_N = fct_relevel(partisanship_N,
+                                 "台灣民眾黨","泛綠陣營","泛藍陣營","都不偏")
+  ) %>%
+  droplevels()</span>
+<span class="ctoc-banner">frq(CA2c$trust_CN)</span>
+x <numeric> 
+# total N=880 valid N=880 mean=2.22 sd=2.46
+
+Value |   N | Raw % | Valid % | Cum. %
+--------------------------------------
+    0 | 391 | 44.43 |   44.43 |  44.43
+    1 |  52 |  5.91 |    5.91 |  50.34
+    2 |  61 |  6.93 |    6.93 |  57.27
+    3 | 103 | 11.70 |   11.70 |  68.98
+    4 |  61 |  6.93 |    6.93 |  75.91
+    5 | 130 | 14.77 |   14.77 |  90.68
+    6 |  39 |  4.43 |    4.43 |  95.11
+    7 |  15 |  1.70 |    1.70 |  96.82
+    8 |  19 |  2.16 |    2.16 |  98.98
+    9 |   2 |  0.23 |    0.23 |  99.20
+   10 |   7 |  0.80 |    0.80 | 100.00
+   NA |   0 |  0.00 |     NA  |    NA
+<span class="ctoc-banner">frq(CA2c$partisanship_N)</span>
+x <categorical> 
+# total N=880 valid N=880 mean=2.02 sd=0.70
+
+Value      |   N | Raw % | Valid % | Cum. %
+-------------------------------------------
+台灣民眾黨 | 204 | 23.18 |   23.18 |  23.18
+泛綠陣營   | 453 | 51.48 |   51.48 |  74.66
+泛藍陣營   | 223 | 25.34 |   25.34 | 100.00
+都不偏     |   0 |  0.00 |    0.00 | 100.00
+ NA       |   0 |  0.00 |     NA  |   NA
+<span class="ctoc-banner">p_中國滿意度 <- ggplot(CA2c, aes(partisanship_N, trust_CN)) +
+  geom_jitter(width = .15, alpha = .25, shape = 16) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun.data = \(y) ggplot2::mean_cl_normal(y),
+               geom = "errorbar", width = .12) +
+  stat_summary(fun = mean, aes(group = 1), geom = "line", linetype = 2) +
+  labs(x = "政黨認同", y = "對中國信任（0–10）") + showtext_auto()</span>
+<span class="ctoc-banner">p_中國滿意度</span>
+
+<span class="toc-banner">9.save as .png file</span>
+<span class="ctoc-banner">ggsave(
+  filename = "各政黨_中國滿意度.png",
+  plot     = p_中國滿意度,
+  device   = "png",
+  width    = 8,      # 寬度（英吋）
+  height   = 5,      # 高度（英吋）
+  dpi      = 300,    # 解析度
+  bg       = "white" # 背景（避免透明背景）
+)</span>
+<span class="toc-banner">10.存檔</span>
+<span class="ctoc-banner">write.csv(CA1,"CA2.csv")</span>
+<span class="ctoc-banner">write.csv(CA1,"CA1.csv")</span>
+<span class="ctoc-banner">save.image("你的命名.RData")</span>
+</code></pre>
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>
+</html>

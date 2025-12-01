@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week02 - Pearson 積差相關分析</strong></p>
+    <p>日期：2025年12月11日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>Pearson 積差相關分析
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=============================================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week02C- R for Descriptive Statistics & Tests of Association 
+Date:2025-12-11 
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=============================================================
+<span class="toc-banner">目錄</span>
+1.資料簡述與研究主旨
+2.變項其所在位置
+3.檢視與清理資料
+  Step 01 查看資料:對蔡英文總統的信任程度
+  Step 02 轉化蔡英文總統信任度的 ordinal variable
+  Step 03 查看資料：對韓國瑜的喜好程度
+  Step 04 轉化韓國瑜喜好度的 ordinal variable
+  Step 05 查看對中國的信任程度
+  Step 06 順道轉化對中國信任度的 ordinal variable
+  Step 07 合併資料
+  Step 08 視覺化：了解兩個變項之間的關係：線性 or 非線性
+4.[對蔡英文總統的信任度]與[對中國的信任程度]之間的關聯性: Pearson's r 
+5.[對蔡英文總統的信任度]與[對中國的信任程度]之間的關聯性: Spearman's rho(ρ)
+6.線性迴歸與診斷（是否接近線性？）
+  Step 01 建立線性回歸模型
+  Step 02 從視覺化分析兩變項是否呈現線性關係
+7.診斷圖：殘差 ＆ 擬合
+8.替代選擇方案：自然樣條（natural splines）
+9.兩個模型比較AIC, BIC & ANOVA
+  Step 01 AIC方法
+  Step 02 BIC方法
+  Step 03 兩模型綜合比較
+  Step 04 變異數分析(ANOVA)
+10.存檔
+
+<span class="toc-banner">1.資料簡述與研究主旨</span>
+採用資料：原檔案為TEDS2024-T_PAO3.sav,
+        原檔案TEDS2024-T_PAO35.sav 轉存為 C.csv.
+研究對象：對蔡英文總統的信任程度 Vs. 對中國的信任程度。
+        喜歡韓國瑜的程度 Vs. 對中國的信任程度。
+
+<span class="toc-banner">2.變項及其所在位置</span>
+       變項            變項內容            所在位置             變項類型
+ 1.對中國的信任度         0-10              C$q17              numeric
+ 2.對韓國瑜的好感度       0-10              C$q19              numeric
+ 3.對蔡英文的信任度       0-10              C$q13              numeric
+<span class="toc-banner">3.檢視與清理資料</span>
+1) 資料類型：數值型資料 Vs. 數值型資料
+2) 採用資料  9. 對蔡英文總統的信任程度 (q13) Vs. 對中國的信任程度 （q17)
+          14.b 喜歡韓國瑜的程度（q19）Vs. 對中國的信任程度 （q17)
+<span class="btoc-banner">Step 01 查看資料:對蔡英文總統的信任程度</span>
+<span class="ctoc-banner">C13<-C[c("q13")]</span> 
+<span class="ctoc-banner">frq(C13$q13)</span>
+9.在您對蔡英文總統的信任方面，如果0代表非常不信任，10代表非常信任，0到10您會給她多少?
+(x) <numeric> 
+total N=1202 valid N=1202 mean=7.90 sd=14.13
+Value |      Label |   N | Raw % | Valid % | Cum. %
+---------------------------------------------------
+   0 |   非常不信任 | 123 | 10.23 |   10.23 |  10.23
+   1 |          1 |  31 |  2.58 |    2.58 |  12.81
+   2 |          2 |  37 |  3.08 |    3.08 |  15.89
+   3 |          3 |  94 |  7.82 |    7.82 |  23.71
+   4 |          4 |  74 |  6.16 |    6.16 |  29.87
+   5 |          5 | 189 | 15.72 |   15.72 |  45.59
+   6 |          6 |  90 |  7.49 |    7.49 |  53.08
+   7 |          7 | 109 |  9.07 |    9.07 |  62.15
+   8 |          8 | 163 | 13.56 |   13.56 |  75.71
+   9 |          9 | 104 |  8.65 |    8.65 |  84.36
+  10 |    非常信任 | 160 | 13.31 |   13.31 |  97.67
+  95 |       拒答 |   8  |  0.67|     0.67|  98.34
+  98 |     不知道  |  20  | 1.66 |   1.66  | 100.00
+  NA |       NA   |   0  | 0.00 |   NA    |   NA
+
+<span class="ctoc-banner">C13 <- C13 %>%
+  mutate(
+    q13 = as.numeric(q13),   # 0–10 分 or 95/98
+    trust_Tsai = case_when(
+      q13 %in% c(95, 98) ~ NA_real_,  # 缺漏值
+      TRUE              ~ q13   # 其他照原分數
+    )
+  )</span>
+<span class="ctoc-banner">frq(C13$trust_Tsai)</span>
+x <numeric> 
+total N=1202 valid N=1174 mean=5.77 sd=3.11
+
+Value |   N | Raw % | Valid % | Cum. %
+--------------------------------------
+   0 | 123 | 10.23 |   10.48 |  10.48
+   1 |  31 |  2.58 |    2.64 |  13.12
+   2 |  37 |  3.08 |    3.15 |  16.27
+   3 |  94 |  7.82 |    8.01 |  24.28
+   4 |  74 |  6.16 |    6.30 |  30.58
+   5 | 189 | 15.72 |   16.10 |  46.68
+   6 |  90 |  7.49 |    7.67 |  54.34
+   7 | 109 |  9.07 |    9.28 |  63.63
+   8 | 163 | 13.56 |   13.88 |  77.51
+   9 | 104 |  8.65 |    8.86 |  86.37
+  10 | 160 | 13.31 |   13.63 | 100.00
+  NA |  28 |  2.33 |      NA |   NA
+
+<span class="btoc-banner">Step 02 轉化蔡英文總統信任度的 ordinal variable</span>
+<span class="ctoc-banner">C13 <- C13 %>%
+  mutate(
+    trust_Tsai_N = case_when(
+      q13 %in% c(95, 98)      ~ NA_character_,   # 缺漏碼先設 NA
+      q13 >= 0 & q13 <= 3     ~ "不信任",
+      q13 >= 4 & q13 <= 6     ~ "普通",
+      q13 >= 7 & q13 <= 10    ~ "信任",
+      TRUE                    ~ NA_character_
+    )
+  ) %>%
+  mutate(
+    trust_Tsai_N = factor(trust_Tsai_N,
+                        levels = c("不信任","普通","信任"),
+                        ordered = TRUE)
+  )</span>
+  在 R 中，當你建立一個有序變項（ordered）而沒有另外設定 reference group 時，
+  低階（第一個）會被視為「最小／最低」的層級，後面的層級依照你設定的順序逐步上升。
+  同時，第一個自動指定為reference group。在本例中即 不信任 。
+
+查看轉化的資料
+<span class="ctoc-banner">frq(C13$trust_Tsai_N)</span>
+ <ordinal> 
+total N=1202 valid N=1174 mean=2.21 sd=0.81
+
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+不信任 | 285 | 23.71 |   24.28 |  24.28
+普通   | 353 | 29.37 |   30.07 |  54.34
+信任   | 536 | 44.59 |   45.66 | 100.00
+NA    |  28 |  2.33 |      NA |   NA
+
+<span class="btoc-banner">Step 03 查看資料：對韓國瑜的喜好程度</span>
+
+<span class="ctoc-banner">C19<-C[c("q19")]</span>
+<span class="ctoc-banner">frq(C19$q19)</span>
+14b.0代表您很不喜歡韓國瑜，10代表您非常喜歡韓國瑜，您會給韓國瑜多少? (x) <numeric> 
+total N=1202 valid N=1202 mean=7.72 sd=17.25
+
+Value |      Label |   N | Raw % | Valid % | Cum. %
+---------------------------------------------------
+   0 | 很不喜歡他 | 175 | 14.56 |   14.56 |  14.56
+   1 |          1 |  38 |  3.16 |    3.16 |  17.72
+   2 |          2 |  74 |  6.16 |    6.16 |  23.88
+   3 |          3 | 142 | 11.81 |   11.81 |  35.69
+   4 |          4 |  78 |  6.49 |    6.49 |  42.18
+   5 |          5 | 238 | 19.80 |   19.80 |  61.98
+   6 |          6 | 135 | 11.23 |   11.23 |  73.21
+   7 |          7 | 102 |  8.49 |    8.49 |  81.70
+   8 |          8 |  88 |  7.32 |    7.32 |  89.02
+   9 |          9 |  45 |  3.74 |    3.74 |  92.76
+  10 |   非常喜歡他 |  45 |  3.74 |    3.74 |  96.51
+  95 |        拒答 |  12 |  1.00 |    1.00 |  97.50
+  98 |      不知道 |  30 |  2.50 |    2.50 | 100.00
+  NA |         NA |   0 |  0.00 |      NA |   NA
+
+將 95, 98, NA 設定為 NA
+
+<span class="ctoc-banner">C19 <- C19 %>%
+  mutate(
+    q19 = as.numeric(q19),   # 0–10 分 or 95/98
+    trust_Tsai = case_when(
+      q19 %in% c(95, 98) ~ NA_real_,  # 缺漏值
+      TRUE              ~ q19   # 其他照原分數
+    )
+  )</span>
+<span class="ctoc-banner">frq(C19$trust_Han)</span>
+x <numeric> 
+total N=1202 valid N=1160 mean=4.48 sd=2.81
+
+Value |   N | Raw % | Valid % | Cum. %
+--------------------------------------
+   0 | 175 | 14.56 |   15.09 |  15.09
+   1 |  38 |  3.16 |    3.28 |  18.36
+   2 |  74 |  6.16 |    6.38 |  24.74
+   3 | 142 | 11.81 |   12.24 |  36.98
+   4 |  78 |  6.49 |    6.72 |  43.71
+   5 | 238 | 19.80 |   20.52 |  64.22
+   6 | 135 | 11.23 |   11.64 |  75.86
+   7 | 102 |  8.49 |    8.79 |  84.66
+   8 |  88 |  7.32 |    7.59 |  92.24
+   9 |  45 |  3.74 |    3.88 |  96.12
+  10 |  45 |  3.74 |    3.88 | 100.00
+  NA |  42 |  3.49 |      NA |   NA
+
+<span class="btoc-banner">Step 04 轉化韓國瑜喜好度的 ordinal variable</span>
+<span class="ctoc-banner">C19 <- C19 %>%
+  mutate(
+    q19 = na_if(q19, 95),
+    q19 = na_if(q19, 98),
+    trust_Han_N = case_when(
+      q19 >= 0  & q19 <= 3  ~ "不喜歡",
+      q19 >= 4  & q19 <= 6  ~ "普通",
+      q19 >= 7  & q19 <= 10 ~ "喜歡",
+      TRUE ~ NA_character_
+    ),
+    trust_Han_N = factor(trust_Han_N,
+                         levels = c("不喜歡","普通","喜歡"),
+                         ordered = TRUE)
+  )</span>
+說明
+1)na_if()
+  na_if(x, y)
+  把向量 x 中 等於 y 的值改成 NA，其他維持原樣。
+2)levels = c("不喜歡","普通","喜歡") ＝＝ 不喜歡 < 普通 < 喜歡
+3) ordered = TRUE：把它變成以上「有順序的類別」。
+
+<span class="ctoc-banner">frq(C19$trust_Han_N)</span>
+# x <ordinal> 
+# total N=1202 valid N=1160 mean=1.87 sd=0.77
+# Value  |   N | Raw % | Valid % | Cum. %
+# ---------------------------------------
+# 不信任 | 429 | 35.69 |   36.98 |  36.98
+# 普通   | 451 | 37.52 |   38.88 |  75.86
+# 信任   | 280 | 23.29 |   24.14 | 100.00
+# NA    |  42 |  3.49 |      NA |   NA
+
+
+<span class="btoc-banner">Step 05 查看對中國的信任程度</span>
+<span class="ctoc-banner">C17<-C[c("q17")]</span>
+<span class="ctoc-banner">frq(C17$q17)</span>
+# 13.您認為中國大陸政府可不可以信任，如果0代表非常不可信，10代表非常可信，從0到10請問您會給多少? (x) <numeric> 
+total N=1202 valid N=1202 mean=7.61 sd=21.84
+
+Value |      Label |   N | Raw % | Valid % | Cum. %
+---------------------------------------------------
+   0 |   非常不可信 | 482 | 40.10 |   40.10 |  40.10
+   1 |          1 |  69 |  5.74 |    5.74 |  45.84
+   2 |          2 |  74 |  6.16 |    6.16 |  52.00
+   3 |          3 | 131 | 10.90 |   10.90 |  62.90
+   4 |          4 |  82 |  6.82 |    6.82 |  69.72
+   5 |          5 | 185 | 15.39 |   15.39 |  85.11
+   6 |          6 |  50 |  4.16 |    4.16 |  89.27
+   7 |          7 |  23 |  1.91 |    1.91 |  91.18
+   8 |          8 |  25 |  2.08 |    2.08 |  93.26
+   9 |          9 |   6 |  0.50 |    0.50 |  93.76
+  10 |    非常可信 |   8 |  0.67 |    0.67 |  94.43
+  95 |       拒答 |  25 |  2.08 |    2.08 |  96.51
+  98 |      不知道 |  42 |  3.49 |    3.49 | 100.00
+  NA |        NA |    0 |  0.00 |      NA |   NA
+
+將 95, 98, NA 設定為 NA
+<span class="ctoc-banner">C17 <- C17 %>%
+  mutate(
+    q17 = as.numeric(q17),   # 0–10 分 and 95/98
+    trust_CN = case_when(
+      q17 %in% c(95, 98) ~ NA_real_,  # 95, 98設定為遺漏值
+      TRUE              ~ q17   # 其他照原分數
+    )
+  )</span>
+
+<span class="ctoc-banner">frq(C17$trust_CN)</span>
+x <numeric> 
+total N=1202 valid N=1135 mean=2.34 sd=2.50
+
+Value |   N | Raw % | Valid % | Cum. %
+--------------------------------------
+   0 | 482 | 40.10 |   42.47 |  42.47
+   1 |  69 |  5.74 |    6.08 |  48.55
+   2 |  74 |  6.16 |    6.52 |  55.07
+   3 | 131 | 10.90 |   11.54 |  66.61
+   4 |  82 |  6.82 |    7.22 |  73.83
+   5 | 185 | 15.39 |   16.30 |  90.13
+   6 |  50 |  4.16 |    4.41 |  94.54
+   7 |  23 |  1.91 |    2.03 |  96.56
+   8 |  25 |  2.08 |    2.20 |  98.77
+   9 |   6 |  0.50 |    0.53 |  99.30
+  10 |   8 |  0.67 |    0.70 | 100.00
+  NA |  67 |  5.57 |      NA |   NA
+
+
+<span class="btoc-banner">Step 06 轉化對中國信任度的 ordinal variable</span>
+data manipulation
+<span class="ctoc-banner">C17 <- C17 %>%
+  mutate(
+    q17 = parse_number(as.character(q17)),        # 或 as.numeric(q17)
+    q17 = ifelse(q17 %in% c(95, 98), NA_real_, q17),
+
+    trust_CN_N = case_when(
+      !is.na(q17) & q17 >= 0  & q17 <= 3  ~ "不信任",
+      !is.na(q17) & q17 >= 4  & q17 <= 6  ~ "普通",
+      !is.na(q17) & q17 >= 7  & q17 <= 10 ~ "信任",
+      TRUE                                ~ NA_character_
+    ),
+
+    trust_CN_N = factor(trust_CN_N,
+                        levels = c("不信任","普通","信任"),
+                        ordered = TRUE)
+  )</span>
+
+查看資料
+<span class="ctoc-banner">frq(C17$trust_CN_N)</span>
+x <ordinal> 
+total N=1202 valid N=1135 mean=1.39 sd=0.59
+
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+不信任 | 756 | 62.90 |   66.61 |  66.61
+普通   | 317 | 26.37 |   27.93 |  94.54
+信任   |  62 |  5.16 |    5.46 | 100.00
+NA    |  67 |  5.57 |    NA   |   NA
+
+<span class="btoc-banner">Step 07 合併資料</span>
+<span class="ctoc-banner">CA3 <- cbind(C13,C19,C17)</span>
+
+<span class="btoc-banner">Step 08 視覺化：了解兩個變項之間的關係：線性 or 非線性？</span>
+   散點圖 + 兩種線：
+   - 虛線：線性回歸線（regression line, lm）
+   - 實線：LOESS 平滑趨勢線（trend line, loess）
+
+<span class="ctoc-banner">p_蔡中國信任度<- ggplot(CA3, aes(trust_Tsai, trust_CN)) +
+  geom_jitter(alpha = 0.3, shape = 16, size = 2, 
+              width = 0.2, height = 0.2) +  # 加入抖動
+  geom_smooth(method = "lm", se = TRUE, linetype = 2, 
+              color = "red", linewidth = 1.2) +
+  geom_smooth(method = "loess", se = FALSE, 
+              color = "blue", linewidth = 1.2) +
+  labs(
+    x = "對蔡英文總統信任（0–10）",
+    y = "對中國信任（0–10）",
+    title = "對蔡英文總統的信任 Vs. 對中國的信任 \n 散點圖、回歸線與趨勢線"
+  ) +
+  scale_x_continuous(breaks = 0:10) +
+  scale_y_continuous(breaks = 0:10) +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0, 10)) +
+  theme_minimal(base_size = 13)</span>
+<span class="ctoc-banner">ggsave(
+  filename = "蔡英文中國信任度交叉分析.png",
+  plot     = p_蔡中國信任度,
+  device   = "png",
+  width    = 8,      # 寬度（英吋）
+  height   = 5,      # 高度（英吋）
+  dpi      = 300,    # 解析度
+  bg       = "white" # 背景（避免透明背景）
+)</span>
+
+<span class="toc-banner">4.[對蔡英文總統的信任度]與[對中國的信任程度]之間的關聯性: Pearson's r</span>
+1)Pearson’s r
+• Pearson’s r 用來衡量兩個連續變數之間的「線性關係」強度與方向，
+  介於 -1 ~ +1 之間：
+• r > 0：一個變數愈高，另一個也傾向愈高，即正相關。
+• r < 0：一個變數愈高，另一個傾向愈低，即負相關。
+• r 接近 0：幾乎沒有線性關係。
+• 以｜r｜的大小測量關聯性
+｜r｜大小         中文           英文
+0 ～ 0.10.     幾乎無相關 (virtually) none
+0.10 ～ 0.30    低度相關     small / weak
+0.30 ～ 0.50    中度相關   moderate / medium
+0.50 以上       高度相關   strong / large
+
+2)假設檢定
+虛無假設：對蔡英文總統的信任度（trust_Tsai）與對中國的信任程度（trust_CN）之間 沒有線性關聯性。
+對立假設：兩者之間具有線性關聯性（雙尾）。
+
+3)測量
+<span class="ctoc-banner">pearson  <- cor.test(CA3$trust_Tsai, 
+                     CA3$trust_CN,
+                     use   = "pairwise.complete.obs",
+                     method = "pearson")</span>
+use   = "pairwise.complete.obs"
+對每一對變數，各自挑出「沒有 NA 的那幾筆」來算相關。                     
+<span class="ctoc-banner">pearson</span> 
+Pearson's r 
+Pearson's product-moment correlation
+data:  CA3$trust_Tsai and CA3$trust_CN
+t = -12.257, df = 1126, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.3935827 -0.2905462
+sample estimates:
+      cor 
+-0.3430962 
+
+說明
+統計量          數值                 說明
+相關係數cor  -0.3430962        衡量線性關係的強度和方向。
+                              兩者為負向。
+                              Jacob Cohen |0.1| 弱 |0.3| 中等 |0.5|強
+                              .343 == 中等以上強度
+t 統計量     -12.257           用於檢驗相關係數是否顯著異於0。 
+自由度          1126           檢定的自由度。
+p-value     < 2.2e-16         檢定結果的顯著性。
+95% CI   [-0.3936, -0.2905]   母體真實相關係數 95% 信賴區間。
+                              都位於負數，兩個變數之間存在顯著的負相關關係。
+
+結論：對蔡英文的信任度與對中國的信任度之間存在高度顯著且中等強度的負相關關係。
+     拒絕虛無假設。
+     對蔡英文的信任程度上升１個單位，對中國的信任程度降低0.343個單位。
+
+<span class="toc-banner">5.[對蔡英文總統的信任度]與[對中國的信任程度]之間的關聯性: Spearman rho</span>
+1)檢定方法：Spearman rho
+spearman rho 能夠測量 numeric and ordinal variable.
+Spearman rho 通常用於小樣本數。
+
+<span class="ctoc-banner">spearman <- cor.test(CA3$trust_Tsai, 
+                     CA3$trust_CN,
+                     use   = "pairwise.complete.obs", 
+                     method = "spearman",
+                     exact = FALSE)</span>
+"exact = FALSE" 不要算精確 p 值，改用大樣本近似法。
+
+<span class="ctoc-banner">spearman</span>
+Spearman's rank correlation rho
+
+data:  CA3$trust_Tsai and CA3$trust_CN
+S = 330826163, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+-0.3830062 
+
+說明
+統計量          數值                 說明
+相關係數cor  -0.3830062        衡量線性關係的強度和方向。
+                              兩者為負向。
+                              Jacob Cohen |0.1| 弱 |0.3| 中等 |0.5|強
+                              .383 == 中等以上強度
+t 統計量     -12.257           用於檢驗相關係數是否顯著異於0。 
+p-value     < 2.2e-16        檢定結果的顯著性。
+
+1)在統計學和數學中，「單調關係」 (monotonic relationship)」
+  是一個用來描述兩個變數之間趨勢方向穩定性的核心概念。
+2)Spearman 等級相關係數 (rho) 專門用來測量這種單調關係的強度。
+  與線性關係的差別是，單調關係允許關係是彎曲的，但不能有轉折點。如 J-surve。
+3)|-.383| > |-.343|，表示 Spearman rho 比 Perason's r 較大一些，
+  有一些單調的曲線趨勢，並非直線。
+4)說明兩者之間的等級順序關係，比嚴格的直線關係更為緊密，存在輕微的非線性--曲線趨勢。
+5)結論：對蔡英文的信任度與對中國的信任度之間存在高度顯著且中等強度的負相關關係。
+
+<span class="toc-banner">6.線性迴歸與診斷（是否接近線性？）</span>
+<span class="btoc-banner">Step 01 建立線性回歸模型</span>
+<span class="ctoc-banner">m_lin <- lm(trust_CN ~ trust_Tsai, 
+                                                 data = CA3)</span>
+<span class="ctoc-banner">summary(m_lin)</span> # m_lin 是線性回歸模型, lm() == linear model.
+
+Call:
+lm(formula = trust_CN ~ trust_Tsai, data = CA3)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9446 -1.7366 -0.7366  1.7114  8.8154 
+
+Coefficients:
+           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.94461    0.14799   26.66   <2e-16 ***
+trust_Tsai  -0.27601    0.02252  -12.26   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.342 on 1126 degrees of freedom
+Multiple R-squared:  0.1177,  Adjusted R-squared:  0.1169 
+F-statistic: 150.2 on 1 and 1126 DF,  p-value: < 2.2e-16
+
+說明
+1)模型公式： trust_CN = beta_0 + beta_1*trust_Tsai + epsilon（error term)
+  beta_0 ==  3.944(截距), 當beta_1 == 0，即對蔡英文總統信任度為 0 的情況下，
+  對中國的信任度為3.944分。
+2)beta_1 == -0.276, 蔡英文總統的信任度係數。方向為負向。表示，
+  在其它條件不變的情況下，（本回歸並不存在其它自變項），
+  對蔡英文總統的信任度增加1個單位，對中國的信任度降低0.276個單位 。
+  本模型顯著性 p-value ==  <2e-16, 達到統計上的顯著水準，
+  顯示這種負向關聯性是相當顯著的。
+
+3)模型整體表現
+統計量             數值                        說明
+R 平方 (R^2)     0.1177     trust_Tsai解釋 trust_CN 總變異的 11.77%。
+調整後 R 平方     0.1169     考慮到樣本數和變數數量的修正R^2，但仍有 88% 的變異
+                           是由其他因素（如黨派性、年齡、教育、地區等）所解釋的。
+F 統計量         150.2      檢驗整個模型的顯著性。
+p-value         2.2e-16    整個迴歸模型是高度顯著的。
+殘差標準誤        2.342      衡量模型預測值與實際觀測值之間的平均誤差，以trust_CN分數單位計。
+在公式中代表未被 trust_Tsai 解釋的所有變異。
+
+However, 我們還是需要確定，trust_CN 與 trust_Tsai 之間，是否具有線性關係。
+[視覺化]能夠幫助吾人判斷兩變數之間是否存在線性關係。
+
+<span class="btoc-banner">Step 02 從視覺化分析兩變項是否呈現線性關係</span>
+<span class="ctoc-banner">install.packages("broom")</span>
+<span class="ctoc-banner">install.packages("tidyverse")</span>
+<span class="ctoc-banner">install.packages("tidyr")</span>
+<span class="ctoc-banner">library(broom)
+library(tidyverse)
+library(tidyr)</span>
+1)輸出回歸結果
+<span class="ctoc-banner">broom::tidy(m_lin, conf.int = TRUE) </span>
+ A tibble: 2 × 7
+ term        estimate std.error statistic   p.value
+ <chr>          <dbl>     <dbl>     <dbl>     <dbl>
+1 (Intercept)    3.94     0.148       26.7 9.31e-122
+2 trust_Tsai    -0.276    0.0225     -12.3 1.64e- 32
+ℹ 2 more variables: conf.low <dbl>,
+  conf.high <dbl>
+
+2)說明
+  term：係數項名稱。(Intercept) 是截距；trust_Tsai 是自變數的斜率。
+  estimate：估計值
+  截距 (Intercept) = 3.94：當 trust_Tsai = 0 時，預測的 trust_CN ≈ 3.94。
+  斜率 trust_Tsai = -0.276：trust_Tsai 每增加 1 單位，trust_CN 平均下降 0.276 單位（線性關係，其它條件不變）。
+  
+  std.error：標準誤
+  截距 0.148、斜率 0.0225。標準誤越小，估計越精確。
+  
+  statistic：t 值 = 估計值 / 標準誤
+  截距 26.7、斜率 -12.3。|t| 很大 → 強烈反對係數為 0 的虛無假設。
+  
+  p.value：p 值
+  截距 9.31e-122、斜率 1.64e-32，皆 p < .001，顯示截距與斜率都顯著。
+  conf.low / conf.high：95% 信賴區間（預設 conf.level = 0.95）
+  斜率約為 [-0.320, -0.232]（用 -0.276 ± 1.96×0.0225 計算），全為負值 → 負向關聯穩定存在。
+  截距約為 [3.650, 4.230]（用 3.94 ± 1.96 * 0.148 計算）。
+
+  結論：對蔡英文越信任，對中國的信任分數越低；效果量（斜率）顯著且 95% CI 完整落在負值。
+
+<span class="toc-banner">7.診斷圖：殘差 ＆ 擬合</span>
+殘差 
+<span class="ctoc-banner">png("p_殘差M1.png", width = 12, height = 8, units = "in", res = 300, bg = "white")</span>
+<span class="ctoc-banner">plot(m_lin, which = 1)</span>
+<span class="ctoc-banner">dev.off()</span>
+擬合
+## Q-Q plot
+<span class="ctoc-banner">png("p_QQ_M2.png", width = 12, height = 8, units = "in", res = 300, bg = "white")</span>
+<span class="ctoc-banner">plot(m_lin, which = 2)</span>
+<span class="ctoc-banner">dev.off()</span>
+
+說明
+M1 (Residuals Vs. Fitted)
+用途 
+檢查模型是否足夠線性？與變異是否均一？
+理想狀態
+點雲隨機散在 0 附近，紅色 loess 幾乎水平。
+線性關係大致合理，但有輕微彎曲與少數高殘差點；等變異性沒有明顯問題。
+   明顯彎曲（紅線上彎/下彎）→ 可能非線性：加二次/樣條、變數轉換、交互作用。
+   漏斗形（左右或高低兩端殘差變大）→ 異質變異：用 穩健標準誤 HC3、加權最小平方法、或變換 y。
+   條帶/結構性圖樣 → 模型缺變數或錯誤型式。
+
+M2 Q–Q（常態機率）圖
+把標準化殘差的分位數（縱軸）對上理想常態分配的分位數（橫軸）。
+理想情況下，點應大致落在灰色對角線上 → 殘差近似常態。
+右上尾的點明顯高於對角線，出現厚尾/右偏（實際 trust_CN 高於模型預測很多）。
+線性關係依舊存在。
+
+<span class="toc-banner">8.替代選擇方案：自然樣條（natural splines）</span>
+<span class="ctoc-banner">install.packages("splines")</span>
+<span class="ctoc-banner">library(splines)</span>
+<span class="ctoc-banner">m_spline <- lm(trust_CN ~ ns(trust_Tsai, df = 3), data = CA3)</span>
+說明
+ns()}$ 是 natural spline的縮寫。
+df = 3。 模型使用了 2 個內部節點劃分 trust_Tsai 的數據範圍。
+
+df值        曲線複雜度                           風險
+df == 1     最簡單（即直線）               擬合不足(underfitting)
+df == 3     適中（常見的起始值）               平衡了彈性與平滑度。
+df >= 5        複雜             曲線會過度擬合雜訊(overfitting)，結果難以解釋。
+
+功能
+通過使用這組基函數，模型能夠擬合平滑的非線性曲線，描述 trust_Tsai 與 trust_CN 之間的關係。
+<span class="ctoc-banner">summary(m_spline)</span>
+Call:
+lm(formula = trust_CN ~ ns(trust_Tsai, df = 3), data = CA3)
+Residuals:
+   Min      1Q  Median      3Q     Max 
+-3.3910 -1.6747 -0.6747  1.7085  9.1730 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               3.2915     0.1962   16.78  < 2e-16 ***
+ns(trust_Tsai, df = 3)1  -1.5938     0.2729   -5.84 6.81e-09 ***
+ns(trust_Tsai, df = 3)2  -1.9359     0.4780   -4.05 5.47e-05 ***
+ns(trust_Tsai, df = 3)3  -2.6494     0.2053  -12.90  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.318 on 1124 degrees of freedom
+ (74 observations deleted due to missingness)
+Multiple R-squared:  0.1378,    Adjusted R-squared:  0.1355 
+F-statistic: 59.86 on 3 and 1124 DF,  p-value: < 2.2e-16
+
+<span class="toc-banner">9.兩個模型比較AIC, BIC & ANOVA</span>
+比較方法： AIC, BIC & ANOVA 
+<span class="btoc-banner">Step 01 AIC方法</span>
+AIC (Akaike Information Criterion)：赤池資訊量準則。
+模型選擇：衡量一組模型中，哪個模型在擬合優化與複雜度之間取得最佳平衡。
+AIC值：AIC越小，就代表該模型越能在「準確性」和「低複雜度」之間取得較佳的平衡。
+ΔAIC 經驗法則（大－小）：
+  0–2：同等
+  2–4：中等
+  6–10：較強
+  >10：非常強（支持 AIC 較小者）
+
+<span class="ctoc-banner">AIC(m_lin, m_spline)</span>
+         df      AIC
+m_lin     3 5125.437
+m_spline  5 5103.510
+
+ΔAIC == m_lin(5125) - m_splinr(5104) == 22, > 10 。大於10這個臨界值，
+表示非線性的spline模型取得較佳的解釋力。
+
+<span class="btoc-banner">Step02 BIC方法</span>
+貝葉斯資訊量準則(Bayesian Information Criterion)
+ ΔBIC 經驗法則（大－小）：
+  0–2：證據弱／可忽略
+  2–6：有些證據
+  6–10：強證據
+  >10：非常強（支持 BIC 較小者）
+
+<span class="ctoc-banner">BIC(m_lin, m_spline)</span>
+         df      BIC
+m_lin     3 5140.522
+m_spline  5 5128.651
+
+ΔBIC ＝＝ m_lin(5140) - m_spline(5128) == 12 > 10
+支持m_spline取得更好的統計效果。
+
+<span class="btoc-banner">Step 03 兩模型綜合比較</span>
+ 指標          線性 m_lin    樣條 m_spline (df=3)     差異  
+  R²            0.1177             0.1378         +0.0201
+調整後 R²        0.1169             0.1355         +0.0186
+殘差標準誤 RSE    2.342              2.318           –0.024
+殘差變異 (≈RSE²)  5.485              5.373           –2.04%
+
+說明
+ΔR²（總變異的增加）：0.1378 − 0.1177 = 0.0201 → 多（提升）解釋總變異2.01%。
+Δadjusted-R²（調整後總變異的增加）：多解釋總變異1.86%。
+
+RSE:殘差標準誤代表了實際觀測值與模型預測值之間典型誤差的大小。
+RSE的單位與dependent variable的單位相同。m_spline的 RSE 值 比較小，
+表示模型預測值與實際觀測值之間的誤差更小，因此解釋力更好。
+
+RSE²:殘差變異(平均平方誤差)代表dependent variable無法被模型解釋的變異量。
+同樣地，m_spline的解釋力較佳。。
+dependent variable中仍未被解釋的殘差變異從 線性模型 m_lin的 5.485，
+下降到 monotonic 模型 m_spline的 5.373，相對減少了 2.04%。
+
+<span class="btoc-banner">Step 04 變異數分析(ANOVA)</span>
+目的
+對兩個迴歸模型進行變異數分析 (ANOVA)，檢驗在模型中加入非線性項
+ns(trust_Tsai, df = 3）是否帶來了統計上顯著的改善。
+
+虛無假設： Model 2 (m_spline) 增加的非線性項並未比線性模型 Model 1(m_lin) 
+帶來顯著的擬合改善。
+對立假設： m_spline 增加的非線性項顯著改善了擬合。
+
+<span class="ctoc-banner">anova(m_lin, m_spline)</span> 
+Analysis of Variance Table
+Model 1: trust_CN ~ trust_Tsai
+Model 2: trust_CN ~ ns(trust_Tsai, df = 3)
+ Res.Df    RSS     Df Sum of Sq      F    Pr(>F)    
+1   1126   6178.5                                  
+2   1124   6038.1  2    140.39.   13.067 2.455e-06 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+說明
+項目         數值            實質意義
+殘差自由度  Model 1: 1126
+(Res.Df)  Model 2: 1124
+
+殘差平方和  Model 1: 6178.5
+(RSS)    Model 2: 6038.1   m_spline 較小。  
+
+差異平方和
+Sum of Sq  140.39         這是 Model 1 與 Model 2之間的RSS減少量 
+                          (6178.5 - 6038.1 = 140.4)
+                         代表樣m_spline較能解釋新變異量。
+F 統計量    13.067         用於檢驗減少的140.4是否顯著。
+p-value  2.455e-06***     p-value 極小，顯示以上差異具有顯著性。
+
+結果：拒絕虛無假設。m_spline 增加的非線性項顯著改善了擬合。</span>
+
+<span class="toc-banner">10.存檔</span>
+<span class="ctoc-banner">write.csv(CA3,"CA3.csv")</span>
+<span class="ctoc-banner">save.image("你的命名.RData")</span>
+</code></pre>
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>
+</html>

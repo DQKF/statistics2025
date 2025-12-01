@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week02 - R for Descriptive Statistics & Tests of Association</strong></p>
+    <p>日期：2025年12月11日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+
+  <details open>
+    <summary>學習目標</summary>
+
+  <div class="tips-block">
+    <p>Spearman rho + Kendall's Tau b
+  </div>
+</details></p> </summary>
+    <pre><code class="language-r">=============================================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week02A- R for Descriptive Statistics & Tests of Association 
+Date:2025-12-11 
+講員:倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=============================================================
+<span class="toc-banner">目錄</span>
+1.資料簡述與研究主旨
+2.變項其所在位置
+3.檢定方法：Spearman rho
+  Step 01 資料檢視
+  Step 02 資料轉換
+  Step 03 Spearman rho 相關系數
+4.檢定方法：Kendall's Tau b
+5.視覺化：散點趨勢圖
+6.save as .png file
+6.視覺化:長條圖
+7.save as .png file
+8.補充說明：參數型Vs.非參數型相關性檢測
+10.儲存檔案
+
+<span class="toc-banner">1.資料簡述與研究主旨</span>
+資料:TEDS2024-T_PAO3.sav
+原檔案TEDS2024-T_PAO35.sav 轉存為 C.csv.
+研究對象：對蔡英文總統的國防政策的滿意度 與 
+民眾的政黨支持狀況 之間的關聯性。
+
+<span class="toc-banner">2.變項及其所在位置</span>
+       變項              變項內容          所在位置      變項類型
+ 1.對蔡英文的信任度     不信任 普通 信任 CA3$trust_Tsai_N  ordinal
+ 2.對韓國瑜的好感度     不信任 普通 信任 CA3$favor_THan_N  ordinal
+
+<span class="toc-banner">3.檢定方法：Spearman rho</span>
+等級尺度變項 Vs. 等級尺度變項
+Spearman rho 看「順序」關係（單調），不在乎間距是否均等。
+非參數型相關係數 (Non-parametric Correlation Coefficient):
+不需要假設常態分佈。
+
+對蔡英文總統的信任度 與 對韓國瑜的喜好度 之間的關聯性為何？
+
+<span class="btoc-banner">Step 01 資料檢視</span>
+1)對蔡英文總統的信任程度改為有序多分三分類:
+0:3== 不信任
+4:6==普通
+7:10==信任。
+即 CA3$trust_Tsai_N。
+
+<span class="ctoc-banner">frq(CA3$trust_Tsai_N)</span>
+x <ordinal> 
+total N=1202 valid N=1174 mean=2.21 sd=0.81
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+不信任 | 285 | 23.71 |   24.28 |  24.28
+普通   | 353 | 29.37 |   30.07 |  54.34
+信任   | 536 | 44.59 |   45.66 | 100.00
+NA    |  28 |  2.33 |    NA   |  NA
+
+2)對韓國瑜的喜好程度改為有序多分三分類:
+0:3== 不信任
+4:6==普通
+7:10==信任。
+即 CA3$favor_Han_N。
+<span class="ctoc-banner">frq(CA3$favor_Han_N)</span>
+x <ordinal> 
+total N=1202 valid N=1160 mean=1.87 sd=0.77
+Value  |   N | Raw % | Valid % | Cum. %
+---------------------------------------
+不喜歡 | 429 | 35.69 |   36.98 |  36.98
+普通   | 451 | 37.52 |   38.88 |  75.86
+喜歡   | 280 | 23.29 |   24.14 | 100.00
+NA    |  42 |  3.49 |      NA |   NA
+
+<span class="btoc-banner">Step 02 資料轉換</span>
+1)需先將有序多分的 factor 格式 改為 numeric格式。
+把 有序 factor → numeric（1,2,3,…），
+讓這個「順序」能被 cor() 用來排 rank。 
+<span class="ctoc-banner">CA3$trust_Tsai_numeric <- as.numeric(CA3$trust_Tsai_N)</span>
+<span class="ctoc-banner">CA3$favor_Han_numeric <- as.numeric(CA3$favor_Han_N)</span>
+<span class="btoc-banner">Step 03 Spearman rho 相關系數</span>
+Spearman rho相關係數
+<span class="ctoc-banner">cor.test(CA3$trust_Tsai_numeric, 
+                                   CA3$trust_CN, 
+                                   method = "spearman",
+                                   exact = FALSE)</span>
+
+Spearman's rank correlation rho
+data:  CA3c$trust_Tsai_numeric and CA3c$trust_CN
+S = 325699052, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.3615725
+
+說明
+估計值 ρ（rho） = −0.362。
+對蔡英文的信任度與對韓國瑜的喜好度存在中等程度的負向單調關係。
+對蔡英文越信任，對中國的信任傾向越低。
+Spearman 用的是ordinal，
+反映的是「單調」(monotonic)而非「線性」關係，對離群值較不敏感。
+Spearman’s ρ range： -1 to 1。
+|ρ|(rho) ≈ < 0.1       極小（可忽略）
+             0.1 - 0.3 小
+             0.3 - 0.5 中
+             > 0.5 大
+
+<span class="toc-banner">4.檢定方法：Kendall's Tau b</span>
+同屬非參數型相關係數。
+適合順序尺度 / 等級資料（ordinal），而且有很多同分（ties）
+<span class="ctoc-banner">cor.test(CA3$trust_Tsai_numeric, 
+                                   CA3$trust_CN,
+                                   method = "kendall")</span>
+
+Kendall's rank correlation tau
+data:  CA3$trust_Tsai_numeric and CA3$trust_CN
+z = -12.233, p-value < 2.2e-16
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau τ
+  -0.3086087 
+
+說明：τ = −0.309
+兩變數存在中等程度的負向單調關係：對蔡英文越信任，對中國的信任傾向越低。
+Kendall 的 τ 以「成對觀測」的次序一致/不一致為基礎，量尺本來就比 Pearson/Spearman 小，
+因此 |τ|≈0.31 已是頗明顯的關聯。
+Kendall’s tau-b range： -1 to 1。
+|τ|(tau) ≈ < 0.07 - 0.10  小
+             0.10 - 0.2   中
+             0.30 - 0.35  大
+
+<span class="toc-banner">5.視覺化：散點趨勢圖</span>
+<span class="ctoc-banner">p_散點趨勢圖 <- ggplot(CA3, aes(trust_Tsai_numeric, trust_CN)) +
+  # 繪製點 (使用 geom_jitter)
+  geom_jitter(alpha=.25, width=.1, height=.1) +
+  
+  # 繪製線性趨勢線 (藍色虛線)
+  geom_smooth(method="lm", se=FALSE, linetype=2, colour= "blue") + 
+  
+  # 繪製非線性/局部趨勢線 (紅色實線)
+  geom_smooth(method="loess", se=FALSE, colour ="red") + 
+  
+  # 設定 Y 軸 (信任中國程度)
+  scale_y_continuous(
+    limits = c(0, 10), 
+    breaks = seq(0, 10, by = 1),
+    name = "信任中國程度（0-10）" # ylab
+  ) +
+  
+  # 設定 X 軸 (蔡英文總統的信任程度)
+  scale_x_continuous(
+    limits = c(0.5, 3.5), # 調整範圍以涵蓋 1, 2, 3
+    breaks = c(1, 2, 3), # 指定 X 軸的刻度點為 1, 2, 3
+    labels = c("不信任", "普通", "信任"), # 將 1, 2, 3 替換為分類標籤
+    name = "蔡英文總統的信任程度（三分法）" # xlab
+  ) +
+  
+  #  新增圖表標題
+  ggtitle("蔡英文總統信任度(三分法)與民眾對中國信任度(0-10)的關係") +
+  
+  #  放大字體大小 (透過 theme 函數)
+  theme_minimal() + # 使用簡潔主題作為基礎
+  theme(
+    # 放大主標題字體
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5), 
+    
+    # 放大軸標題字體 (xlab, ylab)
+    axis.title = element_text(size = 14, face = "bold"),
+    
+    # 放大軸刻度標籤字體 (axis_text_x, axis_text_y)
+    axis.text = element_text(size = 14) 
+  ) +
+  # 設定圖表主題 (可選，但讓圖表更美觀)
+  theme_minimal()</span>
+
+<span class="ctoc-banner">p_散點趨勢圖</span>
+
+<span class="toc-banner">6.save as .png file</span>
+<span class="ctoc-banner">ggsave(
+  filename = "spearman_散點趨勢圖.png",
+  plot     = p_散點趨勢圖,
+  device   = "png",
+  width    = 8,      # 寬度（英吋）
+  height   = 5,      # 高度（英吋）
+  dpi      = 300,    # 解析度
+  bg       = "white" # 背景（避免透明背景）
+)</span>
+
+<span class="toc-banner">7.視覺化:長條圖</span>
+
+需要在資料框中移除X軸（對蔡英文總統信任度三分類）中的NA，否則，NA也會顯示。
+<span class="ctoc-banner">CA3c <- CA3 %>% tidyr::drop_na(trust_Tsai_N, favor_Han_numeric)</span>
+
+<span class="ctoc-banner">summary_data <- CA3c %>%
+  group_by(trust_Tsai_N) %>%
+  summarise(
+    n = sum(!is.na(favor_Han_numeric)),
+    mean = mean(favor_Han_numeric, na.rm = TRUE),
+    se = sd(favor_Han_numeric, na.rm = TRUE) / sqrt(n),
+    ci_lower = mean - 1.96 * se,
+    ci_upper = mean + 1.96 * se
+  )</span>
+<span class="ctoc-banner">summary_data</span>
+# A tibble: 3 × 6
+  trust_Tsai_N     n  mean     se ci_lower ci_upper
+  <ord>        <int> <dbl>  <dbl>    <dbl>    <dbl>
+1 不信任         283  2.30 0.0441     2.21     2.38
+2 普通           345  1.93 0.0391     1.85     2.00
+3 信任           521  1.60 0.0307     1.54     1.66
+
+<span class="ctoc-banner">p_直方圖_韓國瑜好感度 <- ggplot(summary_data, aes(x = trust_Tsai_N, y = mean, fill = trust_Tsai_N)) +
+  geom_col(alpha = 0.8, width = 0.6) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2, linewidth = 1.2) +
+  
+  # 平均值放柱外上方
+  geom_text(aes(y = mean + 0.18, label = round(mean, 2)),
+            size = 6, fontface = "bold") +
+  
+  # n 放柱內較低處（以柱高的 35% 位置顯示）
+  geom_text(aes(y = mean * 0.35, label = paste0("n = ", n)),
+            size = 4.8, fontface = "bold", color = "white") +
+  
+  # 設定標題與軸名稱
+  labs(title = "對蔡英文總統信任度與對韓國瑜好感度比較", subtitle = "誤差線為 95% 信賴區間",
+       x = "對蔡英文總統的信任程度", 
+       y = "對韓國瑜好感度平均值",
+       fill = "對蔡英文總統\n信任程度（三分法）")+ # <-圖例標題) 
+  
+  # 設定顏色
+  scale_fill_manual(values = c("不信任" = "#e74c3c", "普通" = "#95a5a6", "信任" = "#3498db")) +
+  
+  # 設定 Y 軸範圍
+  scale_y_continuous(limits = c(0, max(summary_data$ci_upper) + 1.5)) +
+  
+  # 設定主題
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none", plot.title = element_text(face = "bold", size = 16),
+        panel.grid.major.x = element_blank()) +
+  #  放大字體大小 (透過 theme 函數)
+  theme_minimal() + # 使用簡潔主題作為基礎
+  theme(
+    # 放大主標題字體
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5), 
+    
+    # 放大軸標題字體 (xlab, ylab)
+    axis.title = element_text(size = 16, face = "bold"),
+    
+    # 放大軸刻度標籤字體 (axis_text_x, axis_text_y)
+    axis.text = element_text(size = 16) 
+  ) +
+  # 設定圖表主題 (可選，但讓圖表更美觀)
+  theme_minimal()</span>
+<span class="ctoc-banner">print(p_直方圖_韓國瑜好感度)</span>
+
+<span class="toc-banner">8.save as .png file</span>
+<span class="ctoc-banner">6.ggsave(
+  filename = "直方圖_蔡信任度韓好感度.png",
+  plot     = p_直方圖_韓國瑜好感度,
+  device   = "png",
+  width    = 8,      # 寬度（英吋）
+  height   = 5,      # 高度（英吋）
+  dpi      = 300,    # 解析度
+  bg       = "white" # 背景（避免透明背景）
+)</span>
+
+<span class="toc-banner">9.補充說明：參數型Vs.非參數型相關性檢測</span>
+  類型        代表指標       資料    關係型態          適用情境
+參數型相關  Pearson’s r     原始數值   線性       連續變數、接近直線線性
+非參數相關 Spearman’s rho  名次 / 排名 單調（可彎）Likert、等級、非線性、outlier多
+非參數相關 Kendall’s tau   名次 / 排名 單調       小樣本、需要穩健排序關係
+
+<span class="toc-banner">10.儲存檔案</span>
+<span class="ctoc-banner">write.csv(C2628,"C2628.csv")</span>
+<span class="ctoc-banner">write.csv(CA1,"CA1.csv")</span>
+<span class="ctoc-banner">write.csv(CA2,"CA2.csv")</span>
+<span class="ctoc-banner">write.csv(CA3c,"CA3c.csv")</span>
+<span class="ctoc-banner">save.image("你的命名.RData")</span>
+</code></pre>
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+
+</body>
+</html>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教學講義 | 陳陸輝教授社會科學統計實作</title>
+ <style>
+  body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  line-height: 1.8;
+  background: #fafafa;
+  color: #2c3e50;
+  font-size: 24px !important;  /* 建議用 22px，28px 可能太大 */
+}
+
+ /* 程式碼區塊基本樣式 */
+pre code {
+  font-size: 22px !important;  /* 從 18px 改成 22px */
+  line-height: 1.65 !important;
+  display: block;
+  padding: 12px;
+  background: #fff !important;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 5px 0; 
+}
+/* 可折疊區塊 */
+details {
+  margin: 20px 0;
+}
+
+summary {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+  border-radius: 8px;
+  border-left: 6px solid #3498db;
+  transition: all 0.3s;
+}
+
+summary:hover {
+  background: #d6eaff;
+}
+
+/* 這一段只控制 details 裡的內文行距與段落間距 */
+details .tips-block p {
+  line-height: 1.4 !important;
+  margin: 0.2em  !important;
+}
+
+ /* 頁首 */
+.hero h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #2c3e50;
+  line-height: 1.2;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', sans-serif;
+}
+
+.hero p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 4px 0;      /* 比原本 8px 再貼一點 */
+  color: #34495e;
+  line-height: 1.3;   /* 縮減行距 */
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+    /* 圖表容器（可保留） */
+    .chart-container {
+      margin: 40px auto;
+      text-align: center;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 1100px;
+    }
+
+    /* 頁尾 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 30px;
+      color: #7f8c8d;
+      border-top: 2px solid #ecf0f1;
+      font-size: 1.1rem;
+    }
+
+    /* 目錄：淺藍底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .toc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e6f2ff;         /* 淺藍底 */
+      color: #2c3e50;
+      font-size: 26px !important;  /* 由 18px 放大到 22px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺綠底＋放大字（套用在 <pre><code> 內的指定行） */
+    pre code .btoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #bffff3;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 24px !important;  /* 由 18px 放大到 28px */
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 6px 0;           /* 行距 */
+    }
+
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ctoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9e9e9;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 18px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 0 0 3px 0;           /* 行距 */
+    }
+/* Step：淺灰底＋一般大小字形（套用在 <pre><code> 內的指定行） */
+    pre code .ttoc-banner {
+      display: block;              /* 每行各自一列 */
+      background: #e9fade;         /* 淺綠底 */
+      color: #2c3e50;
+      font-size: 28px !important;  /* 由 18px */
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 6px;
+      margin: 0 0 0px 0;           /* 行距 */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>國立政治大學選舉研究中心 陳陸輝教授<br>社會科學統計實作</h1>
+    <p><strong>Week01 - R for Basics</strong></p>
+    <p>日期：2025年12月04日</p>
+    <p>講員：倪世傑 博士</p>
+    <p>E-mail：georgenee0502@gmail.com</p>
+  </div>
+<details open>
+  <summary>學習目標</summary>
+  <div class="tips-block">
+    <p>R for Basics</p>
+  </div>
+</details>
+
+<pre><code class="language-r">=============================================================
+國立政治大學選研中心陳陸輝教授社會科學統計實作
+Week01 R for Basics 
+Date: 2025-12-04
+講員: 倪世傑 博士
+E-mail:georgenee0502@gmail.com
+=============================================================
+<span class="toc-banner">目錄</span>
+1.建立dataframe
+2.column 的屬性
+3.變更 columns 的屬性
+4.次數分配
+5.修改 cell value
+6.合併兩筆資料夾 rbind() & cbind()
+  Step 01 合併兩筆資料夾 rbind() 
+  Step 02 加入新的column: cbind() 
+  Step 03 排序
+7.消除 rows & columns
+8.擷取 grepl()
+9.取代 gsub()
+10.變項排序 ordinal
+11.設定reference group
+12.簡易計算
+13.工作階段結束 ＆ 存檔
+
+<span class="toc-banner">1.建立dataframe</span>
+建立dataframe，列聯表是我們進行分析的基礎。
+column name 以英文顯示，較為便捷，不建議使用中文。
+以下是dataframe，跟你在Excel(for Windows)/numbers(for Mac)看到的一樣。
+
+<span class="ctoc-banner"> df <- data.frame(
+  height   = c(167, 199, 212, 193, 175, 180, 172),
+  name      = c("陳一","王二","張三","趙四","廖五","孫六","洪七"),
+  position  = c("左外野手","中外野手","右外野手","游擊手","三壘手","二壘手","一壘手"),
+  edu       = c("二專","高中","大學","碩士","碩士","大學","高中"),
+birth_place = c("新北市新莊區","台北市士林區","新北市五股區","雲林縣四湖鄉","嘉義市東區","桃園市大溪區","新竹市"),
+birth_day   = c("2002-12-23","1998-07-02","2001-02-27","1999-03-23","1997-10-05", "1979-08-28","1999-12-23"),     
+birth_year  = c(2002,1998,2001,1999,1997,1979,1999),
+     gender = c("男","女","男","女","男","男","女")
+                )</span>
+<span class="ctoc-banner">View(df)</span> # View() == 檢視。
+
+說明
+1) <- 就是 “等號”
+2)左邊的df 是一個暫存值，其目的是要將右邊的各種功能，處理完畢之後，輸出到左邊。
+  你可以想像為:
+  拿鐵   <- 混合{[磨豆機研磨（咖啡豆）+ 
+                打開瓦斯爐（水）] + 
+                冰箱中取出（牛奶)]}
+  暫存值 <- 功能 fun(資料)
+3)data.frame()就是一種功能。我們稱之為function。
+4)c() == 執行composite的功能，將 values 放在一個column裡面。
+5)View() == 檢視的功能，檢視屬於dataframe等型態的資料。
+6)半型的"#"，在語法中之後的慣例是接續說明性文字，# 之後的文字不會執行(not Run)。
+
+<span class="ctoc-banner">df</span>
+  height name position  edu  birth_place  birth_day birth_year gender
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999    女
+<span class="ctoc-banner">View(df)</span>
+
+<span class="toc-banner">2.column 的屬性</span>
+class() & sapply() 檢查變項屬性
+
+<span class="ctoc-banner">class(df)</span>
+[1] "data.frame"
+
+<span class="ctoc-banner">class(df$height)</span>
+[1] "numeric"
+ 
+<span class="ctoc-banner">class(df$gender)</span>
+[1] "character"
+ 
+<span class="ctoc-banner">class(df$birth_day)</span>
+[1] "character"
+
+一次處理查看各columns的屬性
+<span class="ctoc-banner">sapply(df, typeof)</span>
+     height        name    position 
+   "double" "character" "character" 
+        edu birth_place   birth_day 
+"character" "character" "character" 
+ birth_year      gender 
+   "double" "character" 
+
+說明
+double == "double" 
+「雙精度浮點數（double-precision floating-point number）」。
+是一種用來儲存小數或連續數值的基本「數值型」資料。
+
+<span class="toc-banner">3.變更 columns 的屬性</span>
+$ 為一種連接符號，df $ column name == 我們要進行工作的 column。
+1)任務1：將 name 更改為 factor 格式
+<span class="ctoc-banner">df$name <- as.factor(df$name)</span>
+2)任務2：將 birth_year 更改為 integer 格式
+<span class="ctoc-banner">df$birth_year <- as.integer(df$birth_year)</span>
+3)任務3：將 gender 更改為 factor 格式
+<span class="ctoc-banner">df$gender <- as.factor(df$gender)</span>
+4)任務4：將 birth_day 更改為 date 格式
+<span class="ctoc-banner">df$birth_day <- as.Date(df$birth_day)</span>
+5)任務5：將 position 更改為 factor 格式
+<span class="ctoc-banner">df$position<- as.factor(df$position)</span>
+同理，如欲改為數值型資料，as.numeric().
+字串型資料 as.character()   
+6)再一次查看df,使用summary()。本功能提供資料的摘要。
+<span class="ctoc-banner">summary(df)</span>
+------------------------------------------
+     height        name     position        
+Min.   :167.0   孫六:1   Length:7          
+1st Qu.:173.5   廖五:1   Class :character  
+Median :180.0   張三:1   Mode  :character  
+Mean   :185.4   洪七:1                     
+3rd Qu.:196.0   王二:1                     
+Max.   :212.0   趙四:1                     
+                陳一:1                     
+    edu            birth_place       
+Length:7           Length:7          
+Class :character   Class :character  
+Mode  :character   Mode  :character  
+                                                                                            
+  birth_day            birth_year   gender
+Min.   :1979-08-28   Min.   :1979   女:3  
+1st Qu.:1998-02-17   1st Qu.:1998   男:4  
+Median :1999-03-23   Median :1999         
+Mean   :1997-01-13   Mean   :1996         
+3rd Qu.:2000-07-26   3rd Qu.:2000         
+Max.   :2002-12-23   Max.   :2002  
+
+<span class="toc-banner">4.次數分配</span>
+1)freq() in R Package sjmisc
+利用 sjmisc 中的 frq()功能，查看gender的次數分配及比率。
+<span class="ctoc-banner">install.packages(c("sjmisc","dplyr","pacman"))</span>
+<span class="ctoc-banner">pacman::p_load(sjmisc, dplyr, pacman)</span>
+  或者 
+<span class="ctoc-banner">library(sjmisc)
+library(dplyr)
+library(pacman)</span>
+<span class="ctoc-banner">frq(df$gender)</span>
+Value | N | Raw % | Valid % | Cum. %
+ 女    | 3 | 42.86 |   42.86 |  42.86
+ 男    | 4 | 57.14 |   57.14 | 100.00
+ nA   |  0 |  0.00 |     nA |   nA
+2) convert to dataframe frq(df$gender)
+<span class="ctoc-banner">df_gender <- data.frame(frq(df$gender))</span>
+<span class="ctoc-banner">df_gender</span>
+  variable  val  label frq raw.prc cum.prc
+1        x   女   none   3   42.86   42.86
+2        x   男   none   4   57.14  100.00
+3        x  nA    nA     0    0.00    nA
+<span class="ctoc-banner">View(df_gender)</span>
+3)交叉表（contingency table）, table()
+<span class="ctoc-banner">table(df$gender, df$birth_year)</span>
+    1979 1997 1998 1999 2001 2002
+女    0    0    1    2    0    0
+男    1    1    0    0    1    1
+
+<span class="toc-banner">5.修改 cell value</span>
+1)建立新的df1
+<span class="ctoc-banner">df1 <- data.frame(
+                  height      = as.numeric(c(201, 189)),
+                  name        = c("洪八","廖九"),
+                  position    = c("教練","總教練"),
+                  edu         = c("大學","大學"),
+                  birth_place = as.character(c("台東縣池上鄉","南投縣市信義鄉區")),
+                  birth_day   = as.Date(c("1986-01-30","1977-08-21")),     
+                  birth_year  = as.integer(c(1986,1977)),
+                  gender      = as.factor(c("男","男"))
+                )</span>
+<span class="ctoc-banner">df1</span>
+  height name position  edu      birth_place  birth_day birth_year gender
+1    201 洪八     教練 大學     台東縣池上鄉 1986-01-30       1986     男
+2    189 廖九   總教練 大學  南投縣市信義鄉區 1977-08-21       1977     男
+2)抓錯：df1 有 兩個 cell 輸入錯誤
+  🏹情況一
+  洪八 的 birth_day
+  方程式：df(row_number,變項名稱)<- "new cell value"
+  <span class="ctoc-banner">df1[1,"birth_day"] <- as.Date("1986-01-31")</span>
+  注意
+  替換的cell value，只有在 numeric 的情況下，不需要 " "，其餘者屬性皆要 " "。
+  
+  🏹情況二
+  廖九 的 birth_place
+  <span class="ctoc-banner">df1[2,"birth_place"] <- as.character("南投縣信義鄉")</span>
+3)檢查是否修改成功
+<span class="ctoc-banner">df1</span>
+  height name position  edu  birth_place  birth_day birth_year gender
+1    201 洪八     教練 大學 台東縣池上鄉    1986-01-31       1986     男
+2    189 廖九   總教練 大學 南投縣信義鄉    1977-08-21       1977     男
+<span class="toc-banner">6.合併兩筆資料夾 rbind() & cbind()</span>
+<span class="btoc-banner">Step 01 合併兩筆資料夾 rbind() </span>
+rbind == row bind
+在合併資料集之前，要先將 columns 的屬性一致化
+<span class="ctoc-banner">df1$name <- as.factor(df1$name)</span>
+<span class="ctoc-banner">df1$birth_year <- as.integer(df1$birth_year)</span>
+<span class="ctoc-banner">df1$gender <- as.factor(df1$gender)</span>
+<span class="ctoc-banner">df1$position<- as.factor(df1$position)</span>
+🎈注意，進行rbind()之前，務必確認兩個資料框 每一個 column的「排列順序」必須一致。
+<span class="ctoc-banner">sapply(df, typeof)</span>
+     height        name    position         edu birth_place   birth_day  birth_year 
+   "double" "character" "character" "character" "character" "character"    "double" 
+     gender 
+"character" 
+<span class="ctoc-banner">sapply(df1, typeof)</span>
+     height        name    position         edu birth_place   birth_day  birth_year 
+   "double"   "integer"   "integer" "character" "character"    "double"   "integer" 
+     gender 
+  "integer" 
+合併兩筆資料 rbind()
+<span class="ctoc-banner">df2 <- rbind(df,df1) </span>
+<span class="ctoc-banner">df2</span>
+🎈🎈🎈注 意🎈🎈🎈
+以下是🥵錯誤示範
+如果你疏忽了，並未將birth_day 改為 as.Date格式，檔案合併後將會出現錯誤的輸出。
+  height name position  edu  birth_place  birth_day birth_year gender
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女
+8    201 洪八     教練 大學 台東縣池上鄉  💀💀  5874       1986     男
+9    189 廖九   總教練 大學 南投縣信義鄉  💀💀  2789       1977     男
+
+🌏正確版
+<span class="ctoc-banner">df2</span>
+  height name position  edu  birth_place  birth_day birth_year gender
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女
+8    201 洪八     教練 大學 台東縣池上鄉 1986-01-31       1986     男
+9    189 廖九   總教練 大學 南投縣信義鄉 1977-08-21       1977     男
+<span class="btoc-banner">Step 02 加入新的column: cbind()</span>
+cbind = columns bind
+建立一個新的 "weight" column
+<span class="ctoc-banner">df_weight <- data.frame(
+             weight  = as.numeric(c(67, 99, 91, 73, 75, 80, 72, 87, 96)
+                       ))</span>
+<span class="ctoc-banner">df3 <- cbind(df2, df_weight)</span>
+<span class="ctoc-banner">df3</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男     67
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女     99
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男     91
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男     75
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男     80
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女     72
+8    201 洪八     教練 大學 台東縣池上鄉 1986-01-31       1986     男     87
+9    189 廖九   總教練 大學 南投縣信義鄉 1977-08-21       1977     男     96
+ 
+<span class="btoc-banner">Step 03 排序 </span>
+根據身高，重新排列。
+1)數字由少（上）到 多（下）
+<span class="ctoc-banner">df4 <- df3[order(df3$height),]</span>
+<span class="ctoc-banner">df4</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男     67
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女     72
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男     75
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男     80
+9    189 廖九   總教練 大學 南投縣信義鄉 1977-08-21       1977     男     96
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女     99
+8    201 洪八     教練 大學 台東縣池上鄉 1986-01-31       1986     男     87
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男     91
+
+2)數字 由多（上）到 少（下）
+<span class="ctoc-banner">df5 <- df3[rev(order(df3$height)),]</span>
+<span class="ctoc-banner">df5</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+3    212 張三 右外野手 大學 新北市五股區 2001-02-27       2001     男     91
+8    201 洪八     教練 大學 台東縣池上鄉 1986-01-31       1986     男     87
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女     99
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+9    189 廖九   總教練 大學 南投縣信義鄉 1977-08-21       1977     男     96
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男     80
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男     75
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女     72
+1    167 陳一 左外野手 二專 新北市新莊區  2002-12-23       2002     男     67
+
+<span class="toc-banner">7.消除 rows & columns</span>
+1)消除 rows. 消除 rows 1,3,4,5
+<span class="ctoc-banner">df6 <- df5[-c(1,3:5),] # "," 在後</span>
+<span class="ctoc-banner">df6</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+8    201 洪八     教練 大學 台東縣池上鄉 1986-01-31       1986     男     87
+6    180 孫六   二壘手 大學 桃園市大溪區 1979-08-28       1979     男     80
+5    175 廖五   三壘手 碩士   嘉義市東區 1997-10-05       1997     男     75
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女     72
+1    167 陳一 左外野手 二專 新北市新莊區 2002-12-23       2002     男     67
+
+2)消除 columns. 消除 column 5
+<span class="ctoc-banner">df7 <- df5[,-c(5)]  #"," 在前</span>
+<span class="ctoc-banner">df7</span>
+  height name position  edu  birth_day birth_year gender weight
+3    212 張三 右外野手 大學 2001-02-27       2001     男     91
+8    201 洪八     教練 大學 1986-01-31       1986     男     87
+2    199 王二 中外野手 高中 1998-07-02       1998     女     99
+4    193 趙四   游擊手 碩士 1999-03-23       1999     女     73
+9    189 廖九   總教練 大學 1977-08-21       1977     男     96
+6    180 孫六   二壘手 大學 1979-08-28       1979     男     80
+5    175 廖五   三壘手 碩士 1997-10-05       1997     男     75
+7    172 洪七   一壘手 高中 1999-12-23       1999     女     72
+1    167 陳一 左外野手 二專 2002-12-23       2002     男     67
+
+3)消除重複的 rows, duplicated()
+<span class="ctoc-banner">df8  <- rbind(df5,df4) #先製造一個具有重複檔案的 暫存值 df8</span>
+<span class="ctoc-banner">df8</span>
+   height name position  edu  birth_place  birth_day birth_year gender weight
+3     212 張三 右外野手    大學 新北市五股區 2001-02-27      2001    男     91
+8     201 洪八     教練   大學 台東縣池上鄉 1986-01-31       1986    男     87
+2     199 王二 中外野手   高中 台北市士林區 1998-07-02       1998     女     99
+4     193 趙四   游擊手   碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+9     189 廖九   總教練   大學 南投縣信義鄉 1977-08-21       1977     男     96
+6     180 孫六   二壘手   大學 桃園市大溪區 1979-08-28       1979     男     80
+5     175 廖五   三壘手   碩士   嘉義市東區 1997-10-05       1997     男     75
+7     172 洪七   一壘手   高中      新竹市 1999-12-23       1999     女     72
+1     167 陳一 左外野手   二專 新北市新莊區 2002-12-23       2002      男     67
+11    167 陳一 左外野手   二專 新北市新莊區 2002-12-23       2002      男     67
+71    172 洪七   一壘手   高中     新竹市 1999-12-23       1999      女     72
+51    175 廖五   三壘手   碩士   嘉義市東區 1997-10-05      1997      男     75
+61    180 孫六   二壘手   大學 桃園市大溪區 1979-08-28       1979     男     80
+91    189 廖九   總教練   大學 南投縣信義鄉 1977-08-21       1977     男     96
+41    193 趙四   游擊手   碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+21    199 王二 中外野手   高中 台北市士林區 1998-07-02       1998     女     99
+81    201 洪八    教練   大學 台東縣池上鄉 1986-01-31       1986     男     87
+31    212 張三 右外野手   大學 新北市五股區 2001-02-27       2001     男     91
+
+再以 name 為指標，刪除重複出現的 row。 
+<span class="ctoc-banner">df9 <- df8[!duplicated(df8$name),] # "!" 刪除</span>
+<span class="ctoc-banner">df9</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+3    212 張三 右外野手    大學 新北市五股區 2001-02-27       2001     男     91
+8    201 洪八     教練   大學 台東縣池上鄉 1986-01-31       1986     男     87
+2    199 王二 中外野手    高中 台北市士林區 1998-07-02       1998     女     99
+4    193 趙四   游擊手    碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+9    189 廖九   總教練    大學 南投縣信義鄉 1977-08-21       1977     男     96
+6    180 孫六   二壘手    大學 桃園市大溪區 1979-08-28       1979     男     80
+5    175 廖五   三壘手    碩士   嘉義市東區 1997-10-05       1997     男     75
+7    172 洪七   一壘手    高中      新竹市 1999-12-23       1999     女     72
+1    167 陳一 左外野手    二專 新北市新莊區 2002-12-23       2002     男     67
+
+<span class="toc-banner">8.字串</span>
+任務
+1)將 姓 抽取出來，放到new column “last_name“。
+2)將 大行政區 抽取出來，放到new column “district“。
+<span class="ctoc-banner">install.packages("stringr")</span>
+<span class="ctoc-banner">library(stringr)</span>
+<span class="ctoc-banner">df5$name <- as.character(df5$name)</span>
+<span class="ctoc-banner">df5$last_name <- str_sub(df5$name, 1, 1)</span>
+<span class="ctoc-banner">df5$district <- str_sub(df5$birth_place, 1, 3)</span>
+數字： from 第幾個字 to第幾個字。
+
+<span class="toc-banner">8.擷取 grepl()</span>
+1)擷取 gender 為 女 的 rows
+<span class="ctoc-banner">df_女 <- df5[grepl("女", df5$gender),]</span>
+<span class="ctoc-banner">df_女</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女     99
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+7    172 洪七   一壘手 高中       新竹市 1999-12-23       1999     女     72
+
+2)加入條件檢索：擷取 gender 為 女 的 ， 且 length 在  > 190 & < 200 
+<span class="ctoc-banner">df_女_身高 <- df5[
+                  grepl("女", df5$gender) & 
+                  df5$height > 190 & 
+                  df5$height < 200, 
+                ]</span>
+<span class="ctoc-banner">df_女_身高</span>
+  height name position  edu  birth_place  birth_day birth_year gender weight
+2    199 王二 中外野手 高中 台北市士林區 1998-07-02       1998     女     99
+4    193 趙四   游擊手 碩士 雲林縣四湖鄉 1999-03-23       1999     女     73
+
+<span class="toc-banner">9.取代 gsub()</span>
+將 gender 為 女 的 rows，取代為 男
+<span class="ctoc-banner">df5$gender <- df5[gsub("女","男",df5$gender),]
+                # gsub("替換掉的","替換為")</span>
+
+<span class="toc-banner">10.變項排序 ordinal</span>
+將學歷改編為 ordinal variable。
+設定在第一位者，就是reference group，在regression中會自動指名。
+<span class="ctoc-banner">df5$edu <- factor(
+  df5$edu,
+  levels  = c("高中", "二專", "大學", "碩士"),
+  ordered = TRUE
+)</span>
+<span class="ctoc-banner">levels(df5$edu)</span>
+[1] "高中" "二專" "大學" "碩士" # 依照所設定的順序排列
+
+插播
+未來在進行regression時，這部分我們在進行regression分析時再詳述。
+
+<span class="toc-banner">11.設定reference group</span>
+如果不要自動指名為reference group，就需要重新指名reference group。
+我們現在改「大學」為reference group。
+但必須要注意的是，一但更動為 大學，這項edu變數，就不會再是有序 ordinal的了。
+<span class="ctoc-banner">df5$edu <- factor(
+  df5$edu,
+  levels  = c("大學", "高中", "二專", "碩士"),
+  ordered = TRUE
+)</span>
+<span class="ctoc-banner">levels(df5$edu)</span>
+[1] "大學" "高中" "二專" "碩士"
+
+<span class="toc-banner">12.簡易計算</span>
+1) 總身高多高？
+<span class="ctoc-banner">sum(df5$height,na.rm = TRUE)</span>
+[1] 1688
+2) 平均身高？
+<span class="ctoc-banner">mean(df$height,na.rm = TRUE)</span>
+[1] 185.4286
+
+<span class="toc-banner">13.工作階段結束 ＆ 存檔</span>
+1)清理不需要的暫存檔 rm()
+<span class="ctoc-banner">rm(df6,df7)</span>
+2)儲存需要的暫存檔 write.csv()
+<span class="ctoc-banner">write.csv(df5,"df5.csv")</span>
+3)儲存資料檔
+<span class="ctoc-banner">save.image("社會科學統計2025.RData")</span>
+4)儲存先前run過的syntax
+  savehistory("1103統計.Rhistory") #可以直接在Rstudio & Sublime Text開啟。
+🌸注意！當你重新開啟RStudio後進行下一個階段作業前，務必先loading過去的資料，
+如未重新loading而以同一檔名儲存，將會覆蓋掉之前的資料。
+<span class="ctoc-banner">load("~/Documents/社會科學統計2025/社會科學統計2025.RData")#這是我的路徑，不是你的路徑 working directory</span>
+🚑找回自己的路徑🚑
+getwd()
+[1] "/Users/mac/Documents/社會科學統計2025/社會科學統計2025.RData"
+</code></pre>
+  <div class="footer">
+    <p>倪世傑 George S. J. Nee © 2025</p>
+  </div>
+</body>
+</html>
+</html>
